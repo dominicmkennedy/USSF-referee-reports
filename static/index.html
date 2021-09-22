@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="en"> 
+        <head>
+                <meta charset="utf-8">
+                <title> US Soccer Referee Report </title>
+        </head>
+        <body>
+                <form action="/" method="post" autocomplete="off">
+                        <div class="container-lg pt-2 pb-2">
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="HomeTeamName" name="HomeTeamName">
+                                                <label for="HomeTeamName">Home Team</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="number" class="form-control" id="HomeTeamScore" name="HomeTeamScore">
+                                                <label for="HomeTeamScore">Score</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="AwayTeamName" name="AwayTeamName">
+                                                <label for="AwayTeamName">Away Team</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="number" class="form-control" id="AwayTeamScore" name="AwayTeamScore">
+                                                <label for="AwayTeamScore">Score</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <select class="form-select" id="PlayerSex" name="PlayerSex">
+                                                        <option selected> </option>
+                                                        <option value="Men">Men</option>
+                                                        <option value="Women">Women</option>
+                                                        <option value="Co-ed">Co-ed</option>
+                                                </select>
+                                                <label for="PlayerSex">Sex</label>
+                                        </div>
+                                </div>
+                                
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <select class="form-select" id="PlayerAgeOverUnder" name="PlayerAgeOverUnder">
+                                                        <option selected> </option>
+                                                        <option value="Over">Over</option>
+                                                        <option value="Under">Under</option>
+                                                        <option value="Open">Open</option>
+                                                </select>
+                                                <label for="PlayerAgeOverUnder">Over or under</label>
+                                        </div>
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="PlayerAgeNumber" name="PlayerAgeNumber">
+                                                <label for="PlayerAgeNumber">Age Number</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <select class="form-select" id="GameLeague" name="GameLeague">
+                                                        <option value=" " selected> </option>
+                                                        <option value="Youth recreational">Youth recreational</option>
+                                                        <option value="Youth competitive">Youth competitive</option>
+                                                        <option value="Youth tournament">Youth tournament</option>
+                                                        <option value="Tennessee State League">Tennessee State League</option>
+                                                        <option value="Amateur adult">Amateur adult</option>
+                                                </select>
+                                                <label for="GameLeague">League</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="GameDivision" name="GameDivision">
+                                                <label for="GameDivision">Division</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="GameNumber" name="GameNumber">
+                                                <label for="GameNumber">Game Number</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="date" class="form-control" id="GameDate" name="GameDate">
+                                                <label for="GameDate">Game Date</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="RefereeName" name="RefereeName">
+                                                <label for="RefereeName">Referee</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <select class="form-select" id="RefereeGrade" name="RefereeGrade">
+                                                        <option selected> </option>
+                                                        <option value="Grassroots">Grassroots</option>
+                                                        <option value="Regional">Regional</option>
+                                                        <option value="Regional Emeritus">Regional Emeritus</option>
+                                                        <option value="National">National</option>
+                                                        <option value="National Emeritus">National Emeritus</option>
+                                                        <option value="PRO">PRO</option>
+                                                        <option value="FIFA">FIFA</option>
+                                                </select>
+                                                <label for="RefereeGrade">Grade</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="AssistantReferee1Name" name="AssistantReferee1Name">
+                                                <label for="AssistantReferee1Name">Assistant Referee 1</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <select class="form-select" id="AssistantReferee1Grade" name="AssistantReferee1Grade">
+                                                        <option selected> </option>
+                                                        <option value="Grassroots">Grassroots</option>
+                                                        <option value="Regional">Regional</option>
+                                                        <option value="Regional Emeritus">Regional Emeritus</option>
+                                                        <option value="National">National</option>
+                                                        <option value="National Emeritus">National Emeritus</option>
+                                                        <option value="PRO">PRO</option>
+                                                        <option value="FIFA">FIFA</option>
+                                                </select>
+                                                <label for="AssistantReferee1Grade">Grade</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="AssistantReferee2Name" name="AssistantReferee2Name">
+                                                <label for="AssistantReferee2Name">Assistant Referee 2</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <select class="form-select" id="AssistantReferee2Grade" name="AssistantReferee2Grade">
+                                                        <option selected> </option>
+                                                        <option value="Grassroots">Grassroots</option>
+                                                        <option value="Regional">Regional</option>
+                                                        <option value="Regional Emeritus">Regional Emeritus</option>
+                                                        <option value="National">National</option>
+                                                        <option value="National Emeritus">National Emeritus</option>
+                                                        <option value="PRO">PRO</option>
+                                                        <option value="FIFA">FIFA</option>
+                                                </select>
+                                                <label for="AssistantReferee2Grade">Grade</label>
+                                        </div>
+                                </div>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="FourthOfficialName" name="FourthOfficialName">
+                                                <label for="FourthOfficialName">Fourth Official</label>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <select class="form-select" id="FourthOfficialGrade" name="FourthOfficialGrade">
+                                                        <option selected> </option>
+                                                        <option value="Grassroots">Grassroots</option>
+                                                        <option value="Regional">Regional</option>
+                                                        <option value="Regional Emeritus">Regional Emeritus</option>
+                                                        <option value="National">National</option>
+                                                        <option value="National Emeritus">National Emeritus</option>
+                                                        <option value="PRO">PRO</option>
+                                                        <option value="FIFA">FIFA</option>
+                                                </select>
+                                                <label for="FourthOfficialGrade">Grade</label>
+                                        </div>
+                                </div>
+
+                                <hr>
+
+
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="CautionCode">
+                                                                <option selected> </option>
+                                                                <option value="Unsporting Behavior">Unsporting Behavior</option>
+                                                                <option value="Dissent">Dissent</option>
+                                                                <option value="Persistant Offenses">Persistant Offenses</option>
+                                                                <option value="Delaying the Restart">Delaying the Restart</option>
+                                                                <option value="Failure to Respect Distance">Failure to Respect Distance</option>
+                                                                <option value="Entering Re-entering or Leaving">Entering Re-entering or Leaving</option>
+                                                                <option value="Entering the referee review area">Entering the referee review area</option>
+                                                                <option value="Excessively using the 'review' signal">Excessively using the 'review' signal</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+
+                                <hr>
+
+
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="RedCode">
+                                                                <option selected> </option>
+                                                                <option value="Serious Foul Play">Serious Foul Play</option>
+                                                                <option value="Violent Conduct">Violent Conduct</option>
+                                                                <option value="Spitting or Biting">Spitting or Biting</option>
+                                                                <option value="Denying a goal by handling">Denying a goal by handling</option>
+                                                                <option value="DOGSO">Denying an obvious goal-scoring opportunity</option>
+                                                                <option value="Abusive Language/Gestures">Abusive Language/Gestures</option>
+                                                                <option value="Receiving a Second Caution">Receiving a Second Caution</option>
+                                                                <option value="Entering the video operation room">Entering the video operation room</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="RedCode">
+                                                                <option selected> </option>
+                                                                <option value="Serious Foul Play">Serious Foul Play</option>
+                                                                <option value="Violent Conduct">Violent Conduct</option>
+                                                                <option value="Spitting or Biting">Spitting or Biting</option>
+                                                                <option value="Denying a goal by handling">Denying a goal by handling</option>
+                                                                <option value="DOGSO">Denying an obvious goal-scoring opportunity</option>
+                                                                <option value="Abusive Language/Gestures">Abusive Language/Gestures</option>
+                                                                <option value="Receiving a Second Caution">Receiving a Second Caution</option>
+                                                                <option value="Entering the video operation room">Entering the video operation room</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="RedCode">
+                                                                <option selected> </option>
+                                                                <option value="Serious Foul Play">Serious Foul Play</option>
+                                                                <option value="Violent Conduct">Violent Conduct</option>
+                                                                <option value="Spitting or Biting">Spitting or Biting</option>
+                                                                <option value="Denying a goal by handling">Denying a goal by handling</option>
+                                                                <option value="DOGSO">Denying an obvious goal-scoring opportunity</option>
+                                                                <option value="Abusive Language/Gestures">Abusive Language/Gestures</option>
+                                                                <option value="Receiving a Second Caution">Receiving a Second Caution</option>
+                                                                <option value="Entering the video operation room">Entering the video operation room</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="RedCode">
+                                                                <option selected> </option>
+                                                                <option value="Serious Foul Play">Serious Foul Play</option>
+                                                                <option value="Violent Conduct">Violent Conduct</option>
+                                                                <option value="Spitting or Biting">Spitting or Biting</option>
+                                                                <option value="Denying a goal by handling">Denying a goal by handling</option>
+                                                                <option value="DOGSO">Denying an obvious goal-scoring opportunity</option>
+                                                                <option value="Abusive Language/Gestures">Abusive Language/Gestures</option>
+                                                                <option value="Receiving a Second Caution">Receiving a Second Caution</option>
+                                                                <option value="Entering the video operation room">Entering the video operation room</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedPlayerName"><label>Name</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedPlayerID"><label>Player ID</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <input type="text" class="form-control" name="RedTeam"><label>Team</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-3">
+                                                <div class="form-floating">
+                                                        <select class="form-select" name="RedCode">
+                                                                <option selected> </option>
+                                                                <option value="Serious Foul Play">Serious Foul Play</option>
+                                                                <option value="Violent Conduct">Violent Conduct</option>
+                                                                <option value="Spitting or Biting">Spitting or Biting</option>
+                                                                <option value="Denying a goal by handling">Denying a goal by handling</option>
+                                                                <option value="DOGSO">Denying an obvious goal-scoring opportunity</option>
+                                                                <option value="Abusive Language/Gestures">Abusive Language/Gestures</option>
+                                                                <option value="Receiving a Second Caution">Receiving a Second Caution</option>
+                                                                <option value="Entering the video operation room">Entering the video operation room</option>
+                                                        </select>
+                                                        <label>Misconduct Code</label>
+                                                </div>
+                                        </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row"> 
+                                        <div class="col-6"> 
+                                                <div class="form-floating"> 
+                                                        <textarea class="form-control" maxlength="1500" type="text" name="SupplementalStatement" style="height:250px;" ></textarea>
+                                                        <label>Statement:</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-5">
+
+                                                <div style="position:relative">
+                                                        <img id="fieldIMG" class="img-fluid" alt="" src="field.jpg" onmousedown="GetCoordinates(this);" />
+                                                        <div id="box"></div>
+                                                        <p><small>Please click the location where the incident took place.</small></p>
+                                                </div>
+                                                <input type="text" id="xcord" name="SupplementalLocationX">
+                                                <input type="text" id="ycord" name="SupplementalLocationY">
+                                        </div>
+
+                                </div>
+                                <div class="row"> 
+                                        <div class="col-6"> 
+                                                <div class="form-floating"> 
+                                                        <textarea class="form-control" maxlength="1500" type="text" name="SupplementalStatement" style="height:250px;" ></textarea>
+                                                        <label>Statement:</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-5">
+
+                                                <div style="position:relative">
+                                                        <img id="fieldIMG" class="img-fluid" alt="" src="field.jpg" onmousedown="GetCoordinates(this);" />
+                                                        <div id="box"></div>
+                                                        <p><small>Please click the location where the incident took place.</small></p>
+                                                </div>
+                                                <input type="text" id="xcord" name="SupplementalLocationX">
+                                                <input type="text" id="ycord" name="SupplementalLocationY">
+                                        </div>
+
+                                </div>
+                                <div class="row"> 
+                                        <div class="col-6"> 
+                                                <div class="form-floating"> 
+                                                        <textarea class="form-control" maxlength="1500" type="text" name="SupplementalStatement" style="height:250px;" ></textarea>
+                                                        <label>Statement:</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-5">
+
+                                                <div style="position:relative">
+                                                        <img id="fieldIMG" class="img-fluid" alt="" src="field.jpg" onmousedown="GetCoordinates(this);" />
+                                                        <div id="box"></div>
+                                                        <p><small>Please click the location where the incident took place.</small></p>
+                                                </div>
+                                                <input type="text" id="xcord" name="SupplementalLocationX">
+                                                <input type="text" id="ycord" name="SupplementalLocationY">
+                                        </div>
+
+                                </div>
+                                <div class="row"> 
+                                        <div class="col-6"> 
+                                                <div class="form-floating"> 
+                                                        <textarea class="form-control" maxlength="1500" type="text" name="SupplementalStatement" style="height:250px;" ></textarea>
+                                                        <label>Statement:</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-5">
+
+                                                <div style="position:relative">
+                                                        <img id="fieldIMG" class="img-fluid" alt="" src="field.jpg" onmousedown="GetCoordinates(this);" />
+                                                        <div id="box"></div>
+                                                        <p><small>Please click the location where the incident took place.</small></p>
+                                                </div>
+                                                <input type="text" id="xcord" name="SupplementalLocationX">
+                                                <input type="text" id="ycord" name="SupplementalLocationY">
+                                        </div>
+
+                                </div>
+                                <div class="row"> 
+                                        <div class="col-6"> 
+                                                <div class="form-floating"> 
+                                                        <textarea class="form-control" maxlength="1500" type="text" name="SupplementalStatement" style="height:250px;" ></textarea>
+                                                        <label>Statement:</label>
+                                                </div>
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-5">
+
+                                                <div style="position:relative">
+                                                        <img id="fieldIMG" class="img-fluid" alt="" src="field.jpg" onmousedown="GetCoordinates(this);" />
+                                                        <div id="box"></div>
+                                                        <p><small>Please click the location where the incident took place.</small></p>
+                                                </div>
+                                                <input type="text" id="xcord" name="SupplementalLocationX">
+                                                <input type="text" id="ycord" name="SupplementalLocationY">
+                                        </div>
+
+                                </div>
+
+                                <hr>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="email" class="form-control" id="SendToEmail" name="SendToEmail">
+                                                <label for="SendToEmail">Email Address</label>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="email" class="form-control" id="SendToEmail" name="SendToEmail">
+                                                <label for="SendToEmail">Email Address</label>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="email" class="form-control" id="SendToEmail" name="SendToEmail">
+                                                <label for="SendToEmail">Email Address</label>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="email" class="form-control" id="SendToEmail" name="SendToEmail">
+                                                <label for="SendToEmail">Email Address</label>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="email" class="form-control" id="SendToEmail" name="SendToEmail">
+                                                <label for="SendToEmail">Email Address</label>
+                                        </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="Name" name="Name">
+                                                <label for="Name">Name</label>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="USSFID" name="USSFID">
+                                                <label for="USSFID">USSF ID Number</label>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="phone" class="form-control" id="ContactNumber" name="ContactNumber">
+                                                <label for="ContactNumber">Phone Number</label>
+                                        </div>
+                                </div>
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="ContactEmail" name="ContactEmail">
+                                                <label for="ContactEmail">Contact Email</label>
+                                        </div>
+                                </div>
+
+
+                                <div class="container-lg pt-3 pb-4">
+                                        <input value="Submit Report" class="btn btn-primary btn-lg" type="submit">
+                                </div>
+                </form>
+
+
+        </body>
+</html>
