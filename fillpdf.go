@@ -4,7 +4,7 @@ import (
     "os"
     "bytes"
     "strconv"
-    "fmt"
+    "log"
 
     "github.com/patiek/go-pdftools/pdftk"
     "github.com/patiek/go-pdftools/fdf"
@@ -15,15 +15,16 @@ func fillPg1(form refereeReport, page int) {
         var b bytes.Buffer
         fdf.Write(&b, fdf.Inputs{
 
-
                 "HomeTeamName":                 form.HomeTeamName,
                 "HomeTeamScore":                form.HomeTeamScore,
                 "AwayTeamName":                 form.AwayTeamName,
                 "AwayTeamScore":                form.AwayTeamScore,
+                
                 "GameNumber":                   form.GameNumber,
                 "GameDivision":                 form.GameDivisionAgeGroup,
                 "GameAssociation":              form.GameAssociationLeague,
                 "GameDate":                     form.GameDate,
+                
                 "RefereeName":                  form.RefereeName,
                 "RefereeGrade":                 form.RefereeGrade,
                 "AssistantReferee1Name":        form.AssistantReferee1Name,
@@ -73,6 +74,7 @@ func fillPg1(form refereeReport, page int) {
                 "CautionCode7":                 form.CautionCode[page*10+7],
                 "CautionCode8":                 form.CautionCode[page*10+8],
                 "CautionCode9":                 form.CautionCode[page*10+9],
+                
                 "RedPlayerName0":               form.RedPlayerName[page*5+0],
                 "RedPlayerName1":               form.RedPlayerName[page*5+1],
                 "RedPlayerName2":               form.RedPlayerName[page*5+2],
@@ -93,6 +95,7 @@ func fillPg1(form refereeReport, page int) {
                 "RedCode2":                     form.RedCode[page*5+2],
                 "RedCode3":                     form.RedCode[page*5+3],
                 "RedCode4":                     form.RedCode[page*5+4],
+                
                 "Name":                         form.Name,
                 "USSFID":                       form.USSFID,
                 "ContactNumber":                form.ContactNumber,
@@ -102,13 +105,14 @@ func fillPg1(form refereeReport, page int) {
 
         output, err := os.Create("tmp/" + form.ReportID + "-pg1-" + strconv.Itoa(page) + ".pdf")
         if err != nil {
-                fmt.Println("err")
+                log.Fatal(err)
                 os.Exit(1)
         }
         defer output.Close()
 
         err = pdftk.FillForm(output, "templates/pg1.pdf", &b)
         if err != nil {
+                log.Fatal(err)
                 os.Exit(1)
         }
 
@@ -119,36 +123,36 @@ func fillPg2(form refereeReport, page int) {
         var b bytes.Buffer
         fdf.Write(&b, fdf.Inputs{
 
-                "HomeTeamName":             form.HomeTeamName,
-                "HomeTeamScore":            form.HomeTeamScore,
-                "AwayTeamName":             form.AwayTeamName,
-                "AwayTeamScore":            form.AwayTeamScore,
-                "GameDivision":             form.GameDivisionAgeGroup,
-                "GameAssociation":          form.GameAssociationLeague,
-                "GameNumber":               form.GameNumber,
-                "GameDate":                 form.GameDate,
+                "HomeTeamName":                 form.HomeTeamName,
+                "HomeTeamScore":                form.HomeTeamScore,
+                "AwayTeamName":                 form.AwayTeamName,
+                "AwayTeamScore":                form.AwayTeamScore,
+                
+                "GameDivision":                 form.GameDivisionAgeGroup,
+                "GameAssociation":              form.GameAssociationLeague,
+                "GameNumber":                   form.GameNumber,
+                "GameDate":                     form.GameDate,
 
-                "SupplementalStatement":    form.SupplementalStatement[page],
-                "SupplementalLocation":     form.SupplementalLocation[page],
+                "SupplementalStatement":        form.SupplementalStatement[page],
+                "SupplementalLocation":         form.SupplementalLocation[page],
 
-                "Name":                     form.Name,
-                "USSFID":                   form.USSFID,
-                "ContactNumber":            form.ContactNumber,
-                "ContactEmail":             form.ContactEmail,
-                "SubmittedDate":            form.SubmittedTimeString,
-
+                "Name":                         form.Name,
+                "USSFID":                       form.USSFID,
+                "ContactNumber":                form.ContactNumber,
+                "ContactEmail":                 form.ContactEmail,
+                "SubmittedDate":                form.SubmittedTimeString,
         });
 
         output, err := os.Create("tmp/" + form.ReportID + "-pg2-" + strconv.Itoa(page) + ".pdf")
         if err != nil {
-                fmt.Println("err")
+                log.Fatal(err)
                 os.Exit(1)
         }
         defer output.Close()
 
         err = pdftk.FillForm(output, "templates/pg2.pdf", &b)
         if err != nil {
-                fmt.Println("er2r")
+                log.Fatal(err)
                 os.Exit(1)
         }
 }
@@ -156,6 +160,7 @@ func fillPg2(form refereeReport, page int) {
 func writePDF(form *refereeReport) {
 
         outfiles := pdftk.NewInputFileMap()
+        
         for i := 0; i<form.pageA; i++ {
             fillPg1(*form, i)
             outfiles[pdftk.InputHandleNameFromInt(i)] = ("tmp/" + form.ReportID + "-pg1-" + strconv.Itoa(i) + ".pdf")
@@ -170,15 +175,14 @@ func writePDF(form *refereeReport) {
  
         output, err := os.Create("reports/" + form.ReportID + ".pdf")
         if err != nil {
-                fmt.Println("err")
+                log.Fatal(err)
                 os.Exit(1)
         }
         defer output.Close()
 
         err = pdftk.Cat(output, outfiles, []pdftk.PageRange{}, pdftk.OptionFlatten())
         if err != nil {
-                fmt.Println("err cat: %s", err)
+                log.Fatal(err)
                 os.Exit(1)
         }
-
 }
