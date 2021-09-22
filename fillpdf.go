@@ -171,8 +171,6 @@ func writePDF(form *refereeReport) {
             outfiles[pdftk.InputHandleNameFromInt(i+form.pageA)] = ("tmp/" + form.ReportID + "-pg2-" + strconv.Itoa(i) + ".pdf")
         }
         
-        fmt.Printf("\n\nReportID: %s\n", form.ReportID)
- 
         output, err := os.Create("reports/" + form.ReportID + ".pdf")
         if err != nil {
                 log.Fatal(err)
