@@ -5,33 +5,30 @@ import (
         "net/mail"
         "time"
         "crypto/md5"
-
+        "net"
 )
 
-//  maybe break it up into a user report struct, and a metadatastruct
-//  either switch to go-sanitize use both go-san and lee-conform
-//  maybe this is a first pass of data clean up
-//  then I concattonate fields and trim slices etc
 type refereeReport struct {
 
-        HomeTeamName            string      `conform:"name"`            //  team names can have nums so may need to fix that
-        HomeTeamScore           string      `conform:"num"`             //  used a string bc easy to operate on, if bugs arise, I will change this
-        AwayTeamName            string      `cotform:"name"`
+        HomeTeamName            string                                  //  needs san
+        HomeTeamScore           string      `conform:"num"`             
+        AwayTeamName            string                                  //  needs san
         AwayTeamScore           string      `conform:"num"`
 
-        PlayerSex               string      `conform:"name"`            //  maybe a struct or enum to force it
-        PlayerAgeOverUnder      string      `conform:"name"`            //  TODO front end redo to add over/under, then I'll concat in san pt2.
-        PlayerAgeNumber         string      `conform:"num"`             //  TODO front end redo to add over/under, then I'll concat in san pt2.
+        PlayerSex               string      `conform:"alpha"`
+        PlayerAgeOverUnder      string      `conform:"name"`            //  front end redo
+        PlayerAgeNumber         string      `conform:"num"`             //  front end redo
         GameLeague              string      `conform:"name"`
-        GameDivision            string      `conform:"!js!html"`        
-        GameNumber              string      `conform:"!js!html"`
-        GameDate                string      `conform:"!js!html"`        //  change frontend, then jam into a go default type
+        GameDivision            string                                  //  needs san        
+        GameNumber              string                                  //  needs san
+        GameDate                string      `schema:"-"`                //  frontend redo
+        GameTime                time.Time   `schema:"-"`                
         GameAssociationLeague   string      `schema:"-"`
         GameDivisionAgeGroup    string      `schema:"-"`
-        PlayerAge               string      `schema:"-"`                //  TODO front end redo to add over/under, then I'll concat in san pt2.
+        PlayerAge               string      `schema:"-"`                //  front end redo
 
-        RefereeName             string      `conform:"name"`            //  referees struct good for DB?? I'll worry about that when I get to the DB 
-        RefereeGrade            string      `conform:"name"`            //  struct or enum??
+        RefereeName             string      `conform:"name"`            
+        RefereeGrade            string      `conform:"name"`
         AssistantReferee1Name   string      `conform:"name"`
         AssistantReferee1Grade  string      `conform:"name"`
         AssistantReferee2Name   string      `conform:"name"`
@@ -41,27 +38,26 @@ type refereeReport struct {
 
         CautionPlayerName       []string    `conform:"name"`            //  struct for YC/RC too?? same as with refs we'll see
         CautionPlayerID         []string    `conform:"num"`             //  I belive that coaches and players are just ints but unsure tbh
-        CautionTeam             []string    `conform:"name`             //  bool? or js func to set name?
-        CautionCode             []string    `conform:"name"`            //  struct or enum??
+        CautionTeam             []string    `conform:"name`             //  frontend redo
+        CautionCode             []string    `conform:"name"`            
 
-        RedPlayerName           []string    `conform:"name"`            //  same considerations as before but also maybe bundle supplamentals
-        RedPlayerID             []string    `conform:"num"`             //  also consider putting a tag for bench personel vs player
+        RedPlayerName           []string    `conform:"name"`            //  link to supps??
+        RedPlayerID             []string    `conform:"num"`             //  tag for bench personel vs player
         RedTeam                 []string    `conform:"name"`
         RedCode                 []string    `conform:"name"`
 
-        SupplementalStatement   []string    `conform:"!js,!html"`       //  frontend redo statement maybe char limit&& remove '\n' ++bundle into a struct??
+        SupplementalStatement   []string                                //  needs san
         SupplementalLocationX   []string    `conform:"num"`
         SupplementalLocationY   []string    `conform:"num"`
         SupplementalLocation    []string    `schema:"-"`
 
-        SendToEmail             []string                                //  builtin email struct?? ++best way to sanitize it
+        SendToEmail             []string                                
         Name                    string      `conform:"name"`
         USSFID                  string      `conform:"num"`             //  frontend redo
-        ContactNumber           string      `conform:"num"`             //  frontend redo (int'nl numbers, extensions)
+        ContactNumber           string      `conform:"num"`             //  frontend redo 
         ContactEmail            string      
 
-        //  data that goes into the report without referee input
-        //  ip address
+        ipaddr                  net.IP      `schema:"-"`          
         SubmittedTime           time.Time   `schema:"-"`
         SubmittedTimeString     string      `schema:"-"`
         ReportID                string      `schema:"-"`
@@ -70,33 +66,29 @@ type refereeReport struct {
         pageB                   int         `schema:"-"`
 }
 
+func (r *refereeReport) SanitizePostData() {
+        
+        //  sanitize with regexp
+        //HomeTeamName            string                                  //  needs san
+        //AwayTeamName            string                                  //  needs san
+        //GameDivision            string                                  //  needs san        
+        //GameNumber              string                                  //  needs san
+        //SupplementalStatement   []string                                //  needs san
+        
+        SanitizeSupplementals(r)
+        SanitizeSanctions(r)
+        CreateReportID(r)
+        FormatSubmittedTime(r)
+        FormatPlayerAge(r)
+        SanitizeContactEmail(r)
+        SanitizeSendToEmail(r)
+        FormatAssociationLeague(r)
+        FormatDivisionAgeGroup(r)
 
-func SanitizeSlice(slice *[]string, size int) () {
-        if size > len(*slice) {
-                padding := make([]string, size-len(*slice))
-                *slice = append(*slice, padding...)
-        } else
-        if size < len(*slice) {
-                *slice = (*slice)[:size]
-        }
+        //  GameDate       
 }
 
-//  break this out into many funcs
-func (r *refereeReport) SanitizePostData() {
-        fmt.Printf("\ndata is being operated on\n")
-
-        r.SubmittedTime = time.Now()
-        r.SubmittedTimeString = fmt.Sprintf("%s, %d %d %d:%d %s", 
-        r.SubmittedTime.Month(),
-        r.SubmittedTime.Day(),
-        r.SubmittedTime.Year(),
-        r.SubmittedTime.Hour(),
-        r.SubmittedTime.Minute(), 
-        r.SubmittedTime.Location())
-
-
-        //  subject to change
-        r.ReportID = fmt.Sprintf("%x", md5.Sum([]byte(r.SubmittedTime.String())))
+func SanitizeSanctions (r *refereeReport) {
 
         Max := func (x, y int) int {
                 if x < y {
@@ -104,6 +96,17 @@ func (r *refereeReport) SanitizePostData() {
                 }
                 return x
         }
+
+        SanitizeSlice := func (slice *[]string, size int) {
+                if size > len(*slice) {
+                        padding := make([]string, size-len(*slice))
+                        *slice = append(*slice, padding...)
+                } else
+                if size < len(*slice) {
+                        *slice = (*slice)[:size]
+                }
+        }
+
         //  enforce num of reds yellows and supps
         //  and set nil//empty strings as needed
         size := 5
@@ -140,58 +143,111 @@ func (r *refereeReport) SanitizePostData() {
         SanitizeSlice(&r.RedTeam, size/2)                    
         SanitizeSlice(&r.RedCode, size/2)                    
 
+}
 
-        //  do somthing with the date :/
-        //  switch san libs
-        //  add association??
+func SanitizeSupplementals (r *refereeReport) {
 
-        //  sanitize email
+        Max := func (x, y int) int {
+                if x < y {
+                        return y
+                }
+                return x
+        }
+
+        SanitizeSlice := func (slice *[]string, size int) {
+                if size > len(*slice) {
+                        padding := make([]string, size-len(*slice))
+                        *slice = append(*slice, padding...)
+                } else
+                if size < len(*slice) {
+                        *slice = (*slice)[:size]
+                }
+        }
+
+        //  make sure location = satement and the slice size < 25
+        //  prfile to make sure that doesnt take too long to load
+        size := 0
+        size = Max(len(r.SupplementalStatement), size)
+        size = Max(len(r.SupplementalLocationX), size)
+        size = Max(len(r.SupplementalLocationY), size)
+        if size > 25 {
+                size = 25
+        }
+
+        r.pageB = size
+
+        SanitizeSlice(&r.SupplementalStatement, size)
+        SanitizeSlice(&r.SupplementalLocationX, size)
+        SanitizeSlice(&r.SupplementalLocationY, size)
+
+        r.SupplementalLocation = make([]string, len(r.SupplementalLocationX))
+        for i, _ := range r.SupplementalLocation {
+                r.SupplementalLocation[i] = r.SupplementalLocationX[i] + " + " + r.SupplementalLocationY[i]
+        }
+}
+
+func CreateReportID (r *refereeReport) {
+        //  subject to change
+        r.ReportID = fmt.Sprintf("%x", md5.Sum([]byte(r.SubmittedTime.String())))
+}
+
+func FormatSubmittedTime (r *refereeReport) {
+        r.SubmittedTime = time.Now()
+        r.SubmittedTimeString = fmt.Sprintf("%s, %d %d %d:%d %s", 
+        r.SubmittedTime.Month(),
+        r.SubmittedTime.Day(),
+        r.SubmittedTime.Year(),
+        r.SubmittedTime.Hour(),
+        r.SubmittedTime.Minute(), 
+        r.SubmittedTime.Location())
+}
+
+func FormatPlayerAge (r *refereeReport) {
+        r.PlayerAge = r.PlayerAgeOverUnder + " " + r.PlayerAgeNumber
+}
+
+func SanitizeContactEmail (r *refereeReport) {
         e, err := mail.ParseAddress(r.ContactEmail);
-        if err != nil { r.ContactEmail = "not a valid email"
-} else { r.ContactEmail = e.Address }
+        if err != nil { 
+                r.ContactEmail = ""
+        } else { 
+                r.ContactEmail = e.Address 
+        }
+}
 
-for i, _ := range r.SendToEmail {
-        e, err := mail.ParseAddress(r.SendToEmail[i]);
-        if err != nil { r.SendToEmail[i] = "not a valid email"
-} else { r.SendToEmail[i] = e.Address }
-    }
+func SanitizeSendToEmail (r *refereeReport) {
+        
+        SanitizeSlice := func (slice *[]string, size int) {
+                if size < len(*slice) {
+                        *slice = (*slice)[:size]
+                }
+        }
 
-    //  pack up age
-    r.PlayerAge = r.PlayerAgeOverUnder + " " + r.PlayerAgeNumber
+        SanitizeSlice(&r.SendToEmail, 25)
 
+        for i, _ := range r.SendToEmail {
+                e, err := mail.ParseAddress(r.SendToEmail[i]);
+                if err != nil { 
+                        r.SendToEmail[i] = ""
+                } else { 
+                        r.SendToEmail[i] = e.Address 
+                }
+        }
+}
 
-    //  pack up division, leauge, assoc, etc
-    r.GameAssociationLeague = r.GameLeague
-    if len(r.GameDivision) != 0 {
-            r.GameDivision = "Division: " + r.GameDivision + "   "
-    }
-    if len(r.PlayerSex) != 0 {
-            r.PlayerSex = "Sex: " + r.PlayerSex + "   "
-    }
-    if len(r.PlayerAge) != 0 {
-            r.PlayerAge = "Age: " + r.PlayerAge
-    }
-    r.GameDivisionAgeGroup = r.GameDivision + r.PlayerSex + r.PlayerAge 
+func FormatAssociationLeague(r *refereeReport) {
+        r.GameAssociationLeague = r.GameLeague
+}
 
-
-    //  make sure location = satement and the slice size < 25
-    //  prfile to make sure that doesnt take too long to load
-    size = 0
-    size = Max(len(r.SupplementalStatement), size)
-    size = Max(len(r.SupplementalLocationX), size)
-    size = Max(len(r.SupplementalLocationY), size)
-    if size > 25 {
-            size = 25
-    }
-
-    r.pageB = size
-
-    SanitizeSlice(&r.SupplementalStatement, size)
-    SanitizeSlice(&r.SupplementalLocationX, size)
-    SanitizeSlice(&r.SupplementalLocationY, size)
-    //  pack up x and y loc and do the math
-    r.SupplementalLocation = make([]string, len(r.SupplementalLocationX))
-    for i, _ := range r.SupplementalLocation {
-            r.SupplementalLocation[i] = r.SupplementalLocationX[i] + " + " + r.SupplementalLocationY[i]
-    }
+func FormatDivisionAgeGroup(r *refereeReport) {
+        if len(r.GameDivision) != 0 {
+                r.GameDivision = "Division: " + r.GameDivision + "   "
+        }
+        if len(r.PlayerSex) != 0 {
+                r.PlayerSex = "Sex: " + r.PlayerSex + "   "
+        }
+        if len(r.PlayerAge) != 0 {
+                r.PlayerAge = "Age: " + r.PlayerAge
+        }
+        r.GameDivisionAgeGroup = r.GameDivision + r.PlayerSex + r.PlayerAge 
 }
