@@ -36,8 +36,8 @@ func site(w http.ResponseWriter, r *http.Request) {
 
         form.SanitizePostData()
 
-        writePDF(form)
         addtoDB(form)
+        writePDF(form)
 
         fmt.Fprintf(w, "report: %T\n", form)
 		fmt.Fprintf(w, "report: %s\n", form)
