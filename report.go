@@ -4,7 +4,6 @@ import (
         "fmt"
         "net/mail"
         "time"
-        "crypto/md5"
         "net"
 )
 
@@ -77,7 +76,6 @@ func (r *refereeReport) SanitizePostData() {
         
         SanitizeSupplementals(r)
         SanitizeSanctions(r)
-        CreateReportID(r)
         FormatSubmittedTime(r)
         FormatPlayerAge(r)
         SanitizeContactEmail(r)
@@ -184,11 +182,6 @@ func SanitizeSupplementals (r *refereeReport) {
         for i, _ := range r.SupplementalLocation {
                 r.SupplementalLocation[i] = r.SupplementalLocationX[i] + " + " + r.SupplementalLocationY[i]
         }
-}
-
-func CreateReportID (r *refereeReport) {
-        //  subject to change
-        r.ReportID = fmt.Sprintf("%x", md5.Sum([]byte(r.SubmittedTime.String())))
 }
 
 func FormatSubmittedTime (r *refereeReport) {
