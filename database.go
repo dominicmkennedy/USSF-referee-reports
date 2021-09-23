@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -26,15 +25,17 @@ func addtoDB(form *refereeReport) {
 
 
         DocRef, _, err := client.Collection("reports").Add(ctx, map[string]interface{}{
-        //_, err = client.Collection("reports").Doc(form.ReportID).Set(ctx, map[string]interface{}{
+
                 "HomeTeamName":                 form.HomeTeamName,
                 "HomeTeamScore":                form.HomeTeamScore,
                 "AwayTeamName":                 form.AwayTeamName,
                 "AwayTeamScore":                form.AwayTeamScore,
+
                 "GameNumber":                   form.GameNumber,
                 "GameDivision":                 form.GameDivisionAgeGroup,
                 "GameAssociation":              form.GameAssociationLeague,
-                "GameDate":                     form.GameDate,
+                "GameDate":                     form.GameTime,
+
                 "RefereeName":                  form.RefereeName,
                 "RefereeGrade":                 form.RefereeGrade,
                 "AssistantReferee1Name":        form.AssistantReferee1Name,
@@ -43,32 +44,32 @@ func addtoDB(form *refereeReport) {
                 "AssistantReferee2Grade":       form.AssistantReferee2Grade,
                 "FourthOfficialName":           form.FourthOfficialName,
                 "FourthOfficialGrade":          form.FourthOfficialGrade,
-        
 
+                                
                 "CautionPlayerName":            form.CautionPlayerName,
                 "CautionPlayerID":              form.CautionPlayerID,
                 "CautionTeam":                  form.CautionTeam,
                 "CautionCode":                  form.CautionCode,
                 
+                "RedPlayerName":                form.RedPlayerName,
+                "RedPlayerID":                  form.RedPlayerID,
+                "RedTeam":                      form.RedTeam,
+                "RedCode":                      form.RedCode,
+                
+                "SupplementalStatement":        form.SupplementalStatement,
+                "SupplementalLocationX":        form.SupplementalLocationX,
+                "SupplementalLocationY":        form.SupplementalLocationY,
+                "SupplementalLocation":         form.SupplementalLocation,
+
+                "SendToEmail":                  form.SendToEmail,
+                "Name":                         form.Name,   
+                "USSFID":                       form.USSFID,
+                "ContactNumber":                form.ContactNumber,
+                "ContactEmail":                 form.ContactEmail,    
+                
+                "ipaddr":                       form.ipaddr,
                 "SubmittedTime":                form.SubmittedTime,
-/*
-        RedPlayerName  
-        RedPlayerID   
-        RedTeam     
-        RedCode  
-
-        SupplementalStatement
-        SupplementalLocationX 
-        SupplementalLocationY
-        SupplementalLocation
-
-        SendToEmail   
-        Name   
-        USSFID   
-        ContactNumber 
-        ContactEmail    
-        ReportID  */  
-
+                "ReportID":                     form.ReportID,
 
         })
         if err != nil {
