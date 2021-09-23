@@ -1,34 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
+        "fmt"
+        "log"
+        "net/http"
 
-    "github.com/gorilla/schema"
-    "github.com/leebenson/conform"
+        "github.com/gorilla/schema"
+        "github.com/leebenson/conform"
 )
 
+func PostForm(w http.ResponseWriter, r *http.Request) {
 
-
-
-//  need to revisit this code
-//  probably good to check out some web resources
-func site(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.Error(w, "lol 404", http.StatusNotFound)
-		return
-	}
-
-	switch r.Method {
-	case "GET":
-		http.ServeFile(w, r, "static/index.html")
-	case "POST":
-		if err := r.ParseForm(); err != nil {
-			fmt.Fprintf(w, "ParseForm() err: %v", err)
-			return
-		}
-
+        if r.Method != "POST" {
+                fmt.Fprintf(w, "this api endpoint is for POST data only")
+                return
+        } 
+        
+        err := r.ParseForm(); 
+        if err != nil {
+                log.Fatal(err)
+        }
 
         form := new(refereeReport)
         schema.NewDecoder().Decode(form, r.PostForm)
@@ -40,22 +31,15 @@ func site(w http.ResponseWriter, r *http.Request) {
         writePDF(form)
 
         fmt.Fprintf(w, "report: %T\n", form)
-		fmt.Fprintf(w, "report: %s\n", form)
+        fmt.Fprintf(w, "report: %s\n", form)
 
-    default:
-		fmt.Fprintf(w, "can only GET or POST")
-	}
 }
 
-//  probably need to revist this code later
-//  probably good to check out some web resources
 func main() {
 
+        http.Handle("/", http.FileServer(http.Dir("./static")))    
+        http.HandleFunc("/submit/", PostForm)
 
-	http.HandleFunc("/", site)
+        log.Fatal(http.ListenAndServe(":8080", nil))
 
-	fmt.Printf("Starting server for testing HTTP POST...\n")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		log.Fatal(err)
-	}
 }
