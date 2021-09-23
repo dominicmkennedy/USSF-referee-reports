@@ -15,17 +15,18 @@ func addtoDB(form *refereeReport) {
         sa := option.WithCredentialsFile("creds.json")
         app, err := firebase.NewApp(ctx, nil, sa)
         if err != nil {
-                log.Fatalln(err)
+                log.Fatal(err)
         }
 
         client, err := app.Firestore(ctx)
         if err != nil {
-                log.Fatalln(err)
+                log.Fatal(err)
         }
         defer client.Close()
 
 
-        _, _, err = client.Collection("users").Add(ctx, map[string]interface{}{
+        DocRef, _, err := client.Collection("reports").Add(ctx, map[string]interface{}{
+        //_, err = client.Collection("reports").Doc(form.ReportID).Set(ctx, map[string]interface{}{
                 "HomeTeamName":                 form.HomeTeamName,
                 "HomeTeamScore":                form.HomeTeamScore,
                 "AwayTeamName":                 form.AwayTeamName,
@@ -73,5 +74,7 @@ func addtoDB(form *refereeReport) {
         if err != nil {
                 log.Fatalf("Failed adding to database: %v", err)
         }
+
+        form.ReportID = DocRef.ID
 
 }
