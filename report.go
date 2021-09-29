@@ -10,21 +10,30 @@ import (
 type refereeReport struct {
 
         HomeTeamName            string                                  //  needs san
+        HomeTeamState           string                                  //  needs san
         HomeTeamScore           string      `conform:"num"`             
         AwayTeamName            string                                  //  needs san
+        AwayTeamState           string                                  //  needs san
         AwayTeamScore           string      `conform:"num"`
 
-        PlayerSex               string      `conform:"alpha"`
-        PlayerAgeOverUnder      string      `conform:"name"`            //  front end redo
-        PlayerAgeNumber         string      `conform:"num"`             //  front end redo
-        GameLeague              string      `conform:"name"`
-        GameDivision            string                                  //  needs san        
-        GameNumber              string                                  //  needs san
-        GameDate                string      `schema:"-"`                //  frontend redo
-        GameTime                time.Time   `schema:"-"`                
         GameAssociationLeague   string      `schema:"-"`
         GameDivisionAgeGroup    string      `schema:"-"`
+        GameNumber              string                                  //  needs san
+        GameDate                string      `schema:"-"`                //  frontend redo
+        
+        //  ass/league
+        GameAssociation         string      `conform:"name"`
+        GameLeague              string      `conform:"name"`
+        
+        //  division/age
+        GameDivision            string                                  //  needs san        
+        PlayerSex               string      `conform:"alpha"`
         PlayerAge               string      `schema:"-"`                //  front end redo
+        PlayerAgeOverUnder      string      `conform:"name"`            //  front end redo
+        PlayerAgeNumber         string      `conform:"num"`             //  front end redo
+        
+        //  date
+        GameTime                time.Time   `schema:"-"`                
 
         RefereeName             string      `conform:"name"`            
         RefereeGrade            string      `conform:"name"`
@@ -35,11 +44,13 @@ type refereeReport struct {
         FourthOfficialName      string      `conform:"name"`
         FourthOfficialGrade     string      `conform:"name"`
 
+        CautionPlayerRole       []string    `conform:"name"`            //  struct for YC/RC too?? same as with refs we'll see
         CautionPlayerName       []string    `conform:"name"`            //  struct for YC/RC too?? same as with refs we'll see
         CautionPlayerID         []string    `conform:"num"`             //  I belive that coaches and players are just ints but unsure tbh
         CautionTeam             []string    `conform:"name`             //  frontend redo
         CautionCode             []string    `conform:"name"`            
 
+        RedPlayerRole           []string    `conform:"name"`            //  link to supps??
         RedPlayerName           []string    `conform:"name"`            //  link to supps??
         RedPlayerID             []string    `conform:"num"`             //  tag for bench personel vs player
         RedTeam                 []string    `conform:"name"`
