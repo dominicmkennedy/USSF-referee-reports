@@ -110,7 +110,7 @@ func fillPg1(form refereeReport, page int) {
         }
         defer output.Close()
 
-        err = pdftk.FillForm(output, "templates/pg1.pdf", &b)
+        err = pdftk.FillForm(output, "templates/pg1.pdf", &b, pdftk.OptionFlatten())
         if err != nil {
                 log.Fatal(err)
                 os.Exit(1)
@@ -150,7 +150,7 @@ func fillPg2(form refereeReport, page int) {
         }
         defer output.Close()
 
-        err = pdftk.FillForm(output, "templates/pg2.pdf", &b)
+        err = pdftk.FillForm(output, "templates/pg2.pdf", &b, pdftk.OptionFlatten())
         if err != nil {
                 log.Fatal(err)
                 os.Exit(1)
