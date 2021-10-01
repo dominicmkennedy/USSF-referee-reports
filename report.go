@@ -120,12 +120,14 @@ func SanitizeSanctions (r *refereeReport) {
         //  and set nil//empty strings as needed
         size := 5
         size = Max(len(r.RedPlayerName), size)
+        size = Max(len(r.RedPlayerRole), size)
         size = Max(len(r.RedPlayerID), size)
         size = Max(len(r.RedTeam), size)
         size = Max(len(r.RedCode), size)
 
         size *= 2
         size = Max(len(r.CautionPlayerName), size)
+        size = Max(len(r.CautionPlayerRole), size)
         size = Max(len(r.CautionPlayerID), size)
         size = Max(len(r.CautionTeam), size)
         size = Max(len(r.CautionCode), size)
@@ -143,11 +145,13 @@ func SanitizeSanctions (r *refereeReport) {
         r.pageA = size / 10
 
         SanitizeSlice(&r.CautionPlayerName, size)
+        SanitizeSlice(&r.CautionPlayerRole, size)
         SanitizeSlice(&r.CautionPlayerID, size)                    
         SanitizeSlice(&r.CautionTeam, size)                    
         SanitizeSlice(&r.CautionCode, size)                    
 
         SanitizeSlice(&r.RedPlayerName, size/2)                    
+        SanitizeSlice(&r.RedPlayerRole, size/2)                    
         SanitizeSlice(&r.RedPlayerID, size/2)                    
         SanitizeSlice(&r.RedTeam, size/2)                    
         SanitizeSlice(&r.RedCode, size/2)                    
