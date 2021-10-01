@@ -3,6 +3,7 @@ package main
 import (
         "log"
         "context"
+        "time"
 
         firebase "firebase.google.com/go"
         "google.golang.org/api/option"
@@ -10,6 +11,39 @@ import (
         "google.golang.org/grpc/codes"
         "cloud.google.com/go/firestore"
 )
+
+type Sanction struct {
+
+        Role            string
+        PlayerID        string
+        GameDate        time.Time
+        SubmittedDate   time.Time
+        Sanction        string
+        SanctionCode    string
+        Reporter        string
+        ReportID        string
+
+}
+
+type Caution struct {
+
+        GameDate        time.Time
+        SubmittedDate   time.Time
+        SanctionCode    string
+        Reporter        string
+        ReportID        string
+
+}
+
+type SendOff struct {
+
+        GameDate        time.Time
+        SubmittedDate   time.Time
+        SanctionCode    string
+        Reporter        string
+        ReportID        string
+
+}
 
 func addtoDB(form *refereeReport) {
 
@@ -81,33 +115,96 @@ func addtoDB(form *refereeReport) {
 
         form.ReportID = DocRef.ID
 
-        PlayerID        := form.CautionPlayerID[0]
-        PlayerName      := form.CautionPlayerName[0]
-        PlayerCautions  := make([]interface {}, 0)
 
-        
-        dsnap, err := client.Collection("players").Doc(PlayerID).Get(ctx)
-        if status.Code(err) == codes.NotFound {
-                log.Printf("doc does not yet exist creating doc\n")
+
+
+        for i := 0; i<len(form.CautionPlayerID); i++ {
+                if form.CautionPlayerID[i] == "" {
+                        continue
+                }
+                PlayerID        := form.CautionPlayerID[i]
+                PlayerName      := form.CautionPlayerName[i]
+                PlayerRole      := form.CautionPlayerRole[i]
+                ReportCaution   := Caution{
+
+                        GameDate:       form.GameTime,
+                        SubmittedDate:  form.SubmittedTime,
+                        SanctionCode:   form.CautionCode[i],
+                        Reporter:       form.Name,
+                        ReportID:       form.ReportID,
+
+                }
+                PlayerCautions := make([]interface {}, 0)
+
+
+                dsnap, err := client.Collection("players").Doc(PlayerID).Get(ctx)
+                if status.Code(err) == codes.NotFound {
+                        _, err = client.Collection("players").Doc(PlayerID).Set(ctx, map[string]interface{}{
+                                "Name":         PlayerName,
+                                "Role":         PlayerRole,
+                                "PlayerID":     PlayerID,
+                        })
+                        dsnap, err = client.Collection("players").Doc(PlayerID).Get(ctx)
+
+                }  
+                if err != nil {
+                        log.Fatal(err)
+                } 
+
+                m := dsnap.Data()
+
+                if m["Cautions"] != nil {
+                        PlayerCautions = append(PlayerCautions, m["Cautions"].([]interface {})...) 
+                }
+                PlayerCautions = append(PlayerCautions, ReportCaution) 
+
                 _, err = client.Collection("players").Doc(PlayerID).Set(ctx, map[string]interface{}{
-                        "Name":     PlayerName,
-                        "Cautions": PlayerCautions,
-                })
-                dsnap, err = client.Collection("players").Doc(PlayerID).Get(ctx)
+                        "Cautions":         PlayerCautions, 
+                }, firestore.MergeAll)
+        }
 
-        }  
-        if err != nil {
-                log.Fatal(err)
-        } 
+        for i := 0; i<len(form.RedPlayerID); i++ {
+                if form.RedPlayerID[i] == "" {
+                        continue
+                }
+                PlayerID        := form.RedPlayerID[i]
+                PlayerName      := form.RedPlayerName[i]
+                PlayerRole      := form.RedPlayerRole[i]
+                ReportSendOff   := SendOff{
 
-        m := dsnap.Data()
-        log.Printf("Player data: %#v\n", m)
-        
-        PlayerCautions = append(PlayerCautions, m["Cautions"].([]interface {})...) 
-        PlayerCautions = append(PlayerCautions, form.CautionCode[0]) 
-       
-       _, err = client.Collection("players").Doc(PlayerID).Set(ctx, map[string]interface{}{
-                "Cautions":         PlayerCautions, 
-        }, firestore.MergeAll)
+                        GameDate:       form.GameTime,
+                        SubmittedDate:  form.SubmittedTime,
+                        SanctionCode:   form.RedCode[i],
+                        Reporter:       form.Name,
+                        ReportID:       form.ReportID,
+
+                }
+                PlayerSendOffs := make([]interface {}, 0)
+
+                dsnap, err := client.Collection("players").Doc(PlayerID).Get(ctx)
+                if status.Code(err) == codes.NotFound {
+                        _, err = client.Collection("players").Doc(PlayerID).Set(ctx, map[string]interface{}{
+                                "Name":         PlayerName,
+                                "Role":         PlayerRole,
+                                "PlayerID":     PlayerID,
+                        })
+                        dsnap, err = client.Collection("players").Doc(PlayerID).Get(ctx)
+
+                }  
+                if err != nil {
+                        log.Fatal(err)
+                } 
+
+                m := dsnap.Data()
+
+                if m["SendOffs"] != nil {
+                        PlayerSendOffs = append(PlayerSendOffs, m["SendOffs"].([]interface {})...) 
+                }
+                PlayerSendOffs = append(PlayerSendOffs, ReportSendOff) 
+
+                _, err = client.Collection("players").Doc(PlayerID).Set(ctx, map[string]interface{}{
+                        "SendOffs":         PlayerSendOffs, 
+                }, firestore.MergeAll)
+        }
 
 }
