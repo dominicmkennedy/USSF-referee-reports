@@ -22,7 +22,7 @@ type refereeReport struct {
         GameAssociationLeague   string      `schema:"-"`
         GameDivisionAgeGroup    string      `schema:"-"`
         GameNumber              string                                  //  needs san
-        GameDate                string      `schema:"-"`                //  frontend redo
+        GameDate                string      //`schema:"-"`                //  frontend redo
         GameAssociation         string      `conform:"name"`
         GameLeague              string      `conform:"name"`
         GameDivision            string                                  //  needs san        
@@ -75,21 +75,18 @@ type refereeReport struct {
 
 func (r *refereeReport) SanitizePostData() {
 
-        //  sanitize with regexp
-        //HomeTeamName            string                                  //  needs san
-        //AwayTeamName            string                                  //  needs san
-        //GameDivision            string                                  //  needs san        
-        //GameNumber              string                                  //  needs san
-        //SupplementalStatement   []string                                //  needs san
+        SanitizeSupplementalSlices(r)
+        SanitizeSanctionSlices(r)
+        SanitizeSendToEmailSlice(r)
 
-        SanitizeSupplementals(r)
-        SanitizeSanctions(r)
+        SanitizeStatement (r)
         SanitizeTeamStates(r)
         SanitizeTeamNames(r)
+        SanitizeContactEmail(r)
+        SanitizeSendToEmailAddress(r)
+        
         FormatSubmittedTime(r)
         FormatPlayerAge(r)
-        SanitizeContactEmail(r)
-        SanitizeSendToEmail(r)
         FormatAssociationLeague(r)
         FormatDivisionAgeGroup(r)
         FormatTeams(r)
@@ -97,8 +94,28 @@ func (r *refereeReport) SanitizePostData() {
         //  GameDate       
 }
 
+func SanitizeStatement (r *refereeReport) {
+
+        whitelist := "0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz,.\"'`!?*-"
+        //TODO does puncuation need to be cleaned??
+
+        InWhitelist := func (w string) func(rune) rune {
+                return func(r rune) rune {
+                        if strings.ContainsRune(w, r) {
+                                return r
+                        }
+                        return -1
+                }
+        }
+
+        for i := range r.SupplementalStatement {
+                r.SupplementalStatement[i] = strings.Map(InWhitelist(whitelist), r.SupplementalStatement[i])
+        }
+
+}
+
 func FormatTeams (r *refereeReport) {
-        
+
         r.HomeTeam = r.HomeTeamState + ": " + r.HomeTeamName
         r.AwayTeam = r.AwayTeamState + ": " + r.AwayTeamName
 
@@ -188,7 +205,7 @@ func SanitizeTeamNames (r *refereeReport) {
 
 }
 
-func SanitizeSanctions (r *refereeReport) {
+func SanitizeSanctionSlices (r *refereeReport) {
 
         Max := func (x, y int) int {
                 if x < y {
@@ -249,7 +266,7 @@ func SanitizeSanctions (r *refereeReport) {
 
 }
 
-func SanitizeSupplementals (r *refereeReport) {
+func SanitizeSupplementalSlices (r *refereeReport) {
 
         Max := func (x, y int) int {
                 if x < y {
@@ -314,16 +331,20 @@ func SanitizeContactEmail (r *refereeReport) {
         }
 }
 
-func SanitizeSendToEmail (r *refereeReport) {
+func SanitizeSendToEmailSlice (r *refereeReport) {
 
         SanitizeSlice := func (slice *[]string, size int) {
                 if size < len(*slice) {
                         *slice = (*slice)[:size]
                 }
         }
-
+        
         SanitizeSlice(&r.SendToEmail, 25)
 
+}
+
+func SanitizeSendToEmailAddress (r *refereeReport) {
+        
         for i := range r.SendToEmail {
                 e, err := mail.ParseAddress(r.SendToEmail[i]);
                 if err != nil { 
@@ -332,6 +353,7 @@ func SanitizeSendToEmail (r *refereeReport) {
                         r.SendToEmail[i] = e.Address 
                 }
         }
+
 }
 
 func FormatAssociationLeague(r *refereeReport) {
