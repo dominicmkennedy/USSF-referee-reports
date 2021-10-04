@@ -4,7 +4,6 @@
                 <meta charset="utf-8">
                 <title> US Soccer Referee Report </title>
 
-                <script type="text/javascript" src="script.js"></script>
 
         </head>
         <body>
@@ -58,7 +57,7 @@
                                 <div class="row pt-1">
                                         <div class="form-floating">
                                                 <select class="form-select" id="PlayerSex" name="PlayerSex">
-                                                        <option selected> </option>
+                                                        <option value="" selected> </option>
                                                         <option value="Men">Men</option>
                                                         <option value="Women">Women</option>
                                                         <option value="Co-ed">Co-ed</option>
@@ -70,7 +69,7 @@
                                 <div class="row pt-1">
                                         <div class="form-floating">
                                                 <select class="form-select" id="PlayerAgeOverUnder" name="PlayerAgeOverUnder">
-                                                        <option selected> </option>
+                                                        <option value="" selected> </option>
                                                         <option value="Over">Over</option>
                                                         <option value="Under">Under</option>
                                                         <option value="Open">Open</option>
@@ -82,11 +81,18 @@
                                                 <label for="PlayerAgeNumber">Age Number</label>
                                         </div>
                                 </div>
+                                
+                                <div class="row pt-1">
+                                        <div class="form-floating">
+                                                <input type="text" class="form-control" id="GameAssociation" name="GameAssociation">
+                                                <label for="Association">Association</label>
+                                        </div>
+                                </div>
 
                                 <div class="row pt-1">
                                         <div class="form-floating">
                                                 <select class="form-select" id="GameLeague" name="GameLeague">
-                                                        <option value=" " selected> </option>
+                                                        <option value="" selected> </option>
                                                         <option value="Youth recreational">Youth recreational</option>
                                                         <option value="Youth competitive">Youth competitive</option>
                                                         <option value="Youth tournament">Youth tournament</option>
@@ -115,6 +121,56 @@
                                         <div class="form-floating">
                                                 <input type="date" class="form-control" id="GameDate" name="GameDate">
                                                 <label for="GameDate">Game Date</label>
+                                        </div>
+                                </div>
+
+                                <div class="nativeDateTimePicker">
+                                        <label for="party">Choose a date and time for your party:</label>
+                                        <input type="datetime-local" id="party" name="bday">
+                                        <span class="validity"></span>
+                                </div>
+                                <p class="fallbackLabel">Choose a date and time for your party:</p>
+                                <div class="fallbackDateTimePicker">
+                                        <div>
+                                                <span>
+                                                        <label for="day">Day:</label>
+                                                        <select id="day" name="day">
+                                                        </select>
+                                                </span>
+                                                <span>
+                                                        <label for="month">Month:</label>
+                                                        <select id="month" name="month">
+                                                                <option selected>January</option>
+                                                                <option>February</option>
+                                                                <option>March</option>
+                                                                <option>April</option>
+                                                                <option>May</option>
+                                                                <option>June</option>
+                                                                <option>July</option>
+                                                                <option>August</option>
+                                                                <option>September</option>
+                                                                <option>October</option>
+                                                                <option>November</option>
+                                                                <option>December</option>
+                                                        </select>
+                                                </span>
+                                                <span>
+                                                        <label for="year">Year:</label>
+                                                        <select id="year" name="year">
+                                                        </select>
+                                                </span>
+                                        </div>
+                                        <div>
+                                                <span>
+                                                        <label for="hour">Hour:</label>
+                                                        <select id="hour" name="hour">
+                                                        </select>
+                                                </span>
+                                                <span>
+                                                        <label for="minute">Minute:</label>
+                                                        <select id="minute" name="minute">
+                                                        </select>
+                                                </span>
                                         </div>
                                 </div>
 
@@ -394,4 +450,5 @@
 
 
         </body>
+                <script type="text/javascript" src="script.js"></script>
 </html>
