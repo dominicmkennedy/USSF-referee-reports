@@ -84,7 +84,8 @@ func (r *refereeReport) SanitizePostData() {
         SanitizeTeamNames(r)
         SanitizeContactEmail(r)
         SanitizeSendToEmailAddress(r)
-        
+        SanitizeRefereeGrades (r)
+
         FormatSubmittedTime(r)
         FormatPlayerAge(r)
         FormatAssociationLeague(r)
@@ -92,6 +93,37 @@ func (r *refereeReport) SanitizePostData() {
         FormatTeams(r)
 
         //  GameDate       
+}
+
+func SanitizeRefereeGrades (r *refereeReport) {
+        
+        grades := make(map[string]struct{})
+        var exists struct{}
+
+        grades["Grassroots"] = exists
+        grades["Regional"] = exists
+        grades["Regional Emeritus"] = exists
+        grades["National"] = exists
+        grades["National Emeritus"] = exists
+        grades["PRO"] = exists
+        grades["FIFA"] = exists
+        
+        _, in := grades[r.RefereeGrade]
+        if !in {
+                r.RefereeGrade = ""
+        }
+        _, in = grades[r.AssistantReferee1Grade]
+        if !in {
+                r.AssistantReferee1Grade = ""
+        }
+        _, in = grades[r.AssistantReferee2Grade]
+        if !in {
+                r.AssistantReferee2Grade = ""
+        }
+        _, in = grades[r.FourthOfficialGrade]
+        if !in {
+                r.FourthOfficialGrade = ""
+        }
 }
 
 func SanitizeStatement (r *refereeReport) {
@@ -338,13 +370,13 @@ func SanitizeSendToEmailSlice (r *refereeReport) {
                         *slice = (*slice)[:size]
                 }
         }
-        
+
         SanitizeSlice(&r.SendToEmail, 25)
 
 }
 
 func SanitizeSendToEmailAddress (r *refereeReport) {
-        
+
         for i := range r.SendToEmail {
                 e, err := mail.ParseAddress(r.SendToEmail[i]);
                 if err != nil { 
