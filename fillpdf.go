@@ -5,11 +5,13 @@ import (
         "bytes"
         "strconv"
         "log"
+        //"io"
 
         "github.com/patiek/go-pdftools/pdftk"
         "github.com/patiek/go-pdftools/fdf"
 )
 
+//func fillPg1(form refereeReport, page int) (output io.Writer) {
 func fillPg1(form refereeReport, page int) {
 
         var b bytes.Buffer
@@ -113,11 +115,15 @@ func fillPg1(form refereeReport, page int) {
         }
         defer output.Close()
 
+        //output = new(bytes.Buffer)
+
         err = pdftk.FillForm(output, "templates/pg1.pdf", &b, pdftk.OptionFlatten())
         if err != nil {
                 log.Fatal(err)
                 os.Exit(1)
         }
+
+        //return output
 
 }
 
