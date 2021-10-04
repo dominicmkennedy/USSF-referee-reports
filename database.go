@@ -12,19 +12,6 @@ import (
         "cloud.google.com/go/firestore"
 )
 
-type Sanction struct {
-
-        Role            string
-        PlayerID        string
-        GameDate        time.Time
-        SubmittedDate   time.Time
-        Sanction        string
-        SanctionCode    string
-        Reporter        string
-        ReportID        string
-
-}
-
 type Caution struct {
 
         GameDate        time.Time
@@ -144,6 +131,9 @@ func addtoDB(form *refereeReport) {
                                 "Role":         PlayerRole,
                                 "PlayerID":     PlayerID,
                         })
+                        if err != nil {
+                                log.Fatal(err)
+                        } 
                         dsnap, err = client.Collection("players").Doc(PlayerID).Get(ctx)
 
                 }  
@@ -161,6 +151,9 @@ func addtoDB(form *refereeReport) {
                 _, err = client.Collection("players").Doc(PlayerID).Set(ctx, map[string]interface{}{
                         "Cautions":         PlayerCautions, 
                 }, firestore.MergeAll)
+                if err != nil {
+                        log.Fatal(err)
+                } 
         }
 
         for i := 0; i<len(form.RedPlayerID); i++ {
@@ -188,6 +181,9 @@ func addtoDB(form *refereeReport) {
                                 "Role":         PlayerRole,
                                 "PlayerID":     PlayerID,
                         })
+                        if err != nil {
+                                log.Fatal(err)
+                        } 
                         dsnap, err = client.Collection("players").Doc(PlayerID).Get(ctx)
 
                 }  
@@ -205,6 +201,9 @@ func addtoDB(form *refereeReport) {
                 _, err = client.Collection("players").Doc(PlayerID).Set(ctx, map[string]interface{}{
                         "SendOffs":         PlayerSendOffs, 
                 }, firestore.MergeAll)
+                if err != nil {
+                        log.Fatal(err)
+                } 
         }
 
 }
