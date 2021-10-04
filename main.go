@@ -10,6 +10,17 @@ import (
         "github.com/leebenson/conform"
 )
 
+func ReadUserIP(r *http.Request) string {
+    IPAddress := r.Header.Get("X-Real-Ip")
+    if IPAddress == "" {
+        IPAddress = r.Header.Get("X-Forwarded-For")
+    }
+    if IPAddress == "" {
+        IPAddress = r.RemoteAddr
+    }
+    return IPAddress
+}
+
 func PostForm(w http.ResponseWriter, r *http.Request) {
 
         if r.Method != "POST" {
@@ -38,9 +49,9 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
         writePDF(form)
         StorePDF(form)
 
-        ip := r.Header.Get("X-FORWARDED-FOR")
+        ip := ReadUserIP(r)
         fmt.Fprintf(w, "IP: %T\n", ip)
-        fmt.Fprintf(w, "IP: %s\n", ip)
+        fmt.Fprintf(w, "IP: %v\n", ip)
 
         fmt.Fprintf(w, "report: %T\n", form)
         fmt.Fprintf(w, "report: %v\n", form)
