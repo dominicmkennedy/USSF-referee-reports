@@ -105,13 +105,12 @@ func fillPg1(form refereeReport, page int) {
                 "SubmittedDate":                form.SubmittedTimeString,
         });
         if err != nil {
-                log.Fatal(err)
+                log.Println(err)
         } 
 
         output, err := os.Create("tmp/" + form.ReportID + "-pg1-" + strconv.Itoa(page) + ".pdf")
         if err != nil {
-                log.Fatal(err)
-                os.Exit(1)
+                log.Println(err)
         }
         defer output.Close()
 
@@ -119,8 +118,7 @@ func fillPg1(form refereeReport, page int) {
 
         err = pdftk.FillForm(output, "templates/pg1.pdf", &b, pdftk.OptionFlatten())
         if err != nil {
-                log.Fatal(err)
-                os.Exit(1)
+                log.Println(err)
         }
 
         //return output
@@ -152,19 +150,18 @@ func fillPg2(form refereeReport, page int) {
                 "SubmittedDate":                form.SubmittedTimeString,
         });
         if err != nil {
-                log.Fatal(err)
+                log.Println(err)
         } 
 
         output, err := os.Create("tmp/" + form.ReportID + "-pg2-" + strconv.Itoa(page) + ".pdf")
         if err != nil {
-                log.Fatal(err)
-                os.Exit(1)
+                log.Println(err)
         }
         defer output.Close()
 
         err = pdftk.FillForm(output, "templates/pg2.pdf", &b, pdftk.OptionFlatten())
         if err != nil {
-                log.Fatal(err)
+                log.Println(err)
                 os.Exit(1)
         }
 }
@@ -185,14 +182,12 @@ func writePDF(form *refereeReport) {
 
         output, err := os.Create("reports/" + form.ReportID + ".pdf")
         if err != nil {
-                log.Fatal(err)
-                os.Exit(1)
+                log.Println(err)
         }
         defer output.Close()
 
         err = pdftk.Cat(output, outfiles, []pdftk.PageRange{}, pdftk.OptionFlatten())
         if err != nil {
-                log.Fatal(err)
-                os.Exit(1)
+                log.Println(err)
         }
 }
