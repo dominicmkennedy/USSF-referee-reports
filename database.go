@@ -38,12 +38,12 @@ func addtoDB(form *refereeReport) {
         sa := option.WithCredentialsFile("creds.json")
         app, err := firebase.NewApp(ctx, nil, sa)
         if err != nil {
-                log.Fatal(err)
+                log.Println(err)
         }
 
         client, err := app.Firestore(ctx)
         if err != nil {
-                log.Fatal(err)
+                log.Println(err)
         }
         defer client.Close()
 
@@ -97,7 +97,7 @@ func addtoDB(form *refereeReport) {
 
         })
         if err != nil {
-                log.Fatalf("Failed adding to database: %v", err)
+                log.Println("Failed adding to database: %v", err)
         }
 
         form.ReportID = DocRef.ID
@@ -132,13 +132,13 @@ func addtoDB(form *refereeReport) {
                                 "PlayerID":     PlayerID,
                         })
                         if err != nil {
-                                log.Fatal(err)
+                                log.Println(err)
                         } 
                         dsnap, err = client.Collection("players").Doc(PlayerID).Get(ctx)
 
                 }  
                 if err != nil {
-                        log.Fatal(err)
+                        log.Println(err)
                 } 
 
                 m := dsnap.Data()
@@ -152,7 +152,7 @@ func addtoDB(form *refereeReport) {
                         "Cautions":         PlayerCautions, 
                 }, firestore.MergeAll)
                 if err != nil {
-                        log.Fatal(err)
+                        log.Println(err)
                 } 
         }
 
@@ -182,13 +182,13 @@ func addtoDB(form *refereeReport) {
                                 "PlayerID":     PlayerID,
                         })
                         if err != nil {
-                                log.Fatal(err)
+                                log.Println(err)
                         } 
                         dsnap, err = client.Collection("players").Doc(PlayerID).Get(ctx)
 
                 }  
                 if err != nil {
-                        log.Fatal(err)
+                        log.Println(err)
                 } 
 
                 m := dsnap.Data()
@@ -202,7 +202,7 @@ func addtoDB(form *refereeReport) {
                         "SendOffs":         PlayerSendOffs, 
                 }, firestore.MergeAll)
                 if err != nil {
-                        log.Fatal(err)
+                        log.Println(err)
                 } 
         }
 
