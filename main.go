@@ -1,6 +1,8 @@
 package main
 
 import (
+        "os"
+        "io"
         "fmt"
         "log"
         "net/http"
@@ -30,17 +32,19 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
         
         err := r.ParseForm(); 
         if err != nil {
-                log.Fatal(err)
+                log.Println(err)
         }
 
         form := new(refereeReport)
-        err = schema.NewDecoder().Decode(form, r.PostForm)
+        decoder := schema.NewDecoder()
+        //decoder.IgnoreUnknownKeys(true)
+        err = decoder.Decode(form, r.PostForm)
         if err != nil {
-                log.Fatal(err)
+                log.Println(err)
         }
         err = conform.Strings(form)
         if err != nil {
-                log.Fatal(err)
+                log.Println(err)
         }
 
         form.SanitizePostData()
@@ -63,11 +67,26 @@ func index(w http.ResponseWriter, r *http.Request) {
         tmpl := template.Must(template.ParseFiles("./static/index.html")) 
         err := tmpl.Execute(w, nil)
         if err != nil {
-                log.Fatal(err)
+                log.Println(err)
         }
 }
 
+func StartLogger() {
+        LogFile, err := os.OpenFile("logs.txt", os.O_CREATE | os.O_APPEND | os.O_RDWR, 0666)
+        if err != nil {
+                panic(err)
+        }
+
+        LogWriter := io.MultiWriter(os.Stdout, LogFile)
+
+        log.SetOutput(LogWriter)
+
+        log.SetFlags(log.Ldate | log.Ltime | log.Llongfile)
+}
+
 func main() {
+
+        StartLogger()
 
         //http.Handle("/", http.FileServer(http.Dir("./static")))    
         http.Handle("/script.js", http.FileServer(http.Dir("./static")))    
