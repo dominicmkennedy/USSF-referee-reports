@@ -49,6 +49,6 @@ func uploadFile(bucket, object string) error {
 func StorePDF(form *refereeReport) {
         err := uploadFile ( "tnsoccerreports-testing.appspot.com", form.ReportID)
         if err != nil {
-                log.Fatal(err)
+                log.Println(err)
         }
 }
