@@ -25,7 +25,7 @@ func fillPg1(form refereeReport, page int) {
         "GameNumber":                   form.GameNumber,
         "GameDivision":                 form.GameDivisionAgeGroup,
         "GameAssociation":              form.GameAssociationLeague,
-        "GameDate":                     form.GameDate,
+        "GameDate":                     form.GameTimeString,
 
         "RefereeName":                  form.RefereeName,
         "RefereeGrade":                 form.RefereeGrade,
@@ -138,7 +138,7 @@ func fillPg2(form refereeReport, page int) {
         "GameDivision":                 form.GameDivisionAgeGroup,
         "GameAssociation":              form.GameAssociationLeague,
         "GameNumber":                   form.GameNumber,
-        "GameDate":                     form.GameDate,
+        "GameDate":                     form.GameTimeString,
 
         "SupplementalStatement":        form.SupplementalStatement[page],
         "SupplementalLocation":         form.SupplementalLocation[page],

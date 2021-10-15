@@ -32,6 +32,13 @@ type SendOff struct {
 
 }
 
+type ReportData struct {
+
+    ReportID            string
+    ReportDate          time.Time
+
+}
+
 func addtoDB(form *refereeReport) {
 
     ctx := context.Background()
@@ -105,7 +112,49 @@ func addtoDB(form *refereeReport) {
     form.ReportID = DocRef.ID
     //form.ReportID = form.SubmittedTime.String()
 
+    if form.USSFID != "" {
+        
+        RefereeReports := make([]interface {}, 0)
+        
+        dsnap, err := client.Collection("Referees").Doc(form.USSFID).Get(ctx)
+        if status.Code(err) == codes.NotFound {
+            _, err = client.Collection("Referees").Doc(form.USSFID).Set(ctx, map[string]interface{}{
+                "RefereeName":     form.Name,
+                "RefereeID":       form.USSFID,
+                "Email":           form.ContactEmail,
+                "PhoneNumber":     form.ContactNumber,
+            })
+            if err != nil {
+                log.Println(err)
+            } 
+            dsnap, err = client.Collection("Referees").Doc(form.USSFID).Get(ctx)
 
+        }  
+        if err != nil {
+            log.Println(err)
+        } 
+        
+        m := dsnap.Data()
+
+        if m["Reports"] != nil {
+            RefereeReports = append(RefereeReports, m["Reports"].([]interface {})...) 
+        }
+        
+        RefereeReport := ReportData{
+            ReportID:       form.ReportID,
+            ReportDate:     form.SubmittedTime,
+        }
+
+        RefereeReports = append(RefereeReports, RefereeReport) 
+        
+
+        _, err = client.Collection("Referees").Doc(form.USSFID).Set(ctx, map[string]interface{}{
+            "Reports":         RefereeReports, 
+        }, firestore.MergeAll)
+        if err != nil {
+            log.Println(err)
+        } 
+    }
 
 
     for i := 0; i<len(form.CautionPlayerID); i++ {

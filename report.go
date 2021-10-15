@@ -22,8 +22,7 @@ type refereeReport struct {
     /**************************NEEDS ATTENTION**********************************/
     GameAssociationLeague   string      `schema:"-"`
     GameDivisionAgeGroup    string      `schema:"-"`
-    GameNumber              string      `conform:"upper,trim`       //  TODO san
-    GameDate                string      //`schema:"-"`              //  frontend redo
+    GameNumber              string      `conform:"upper,trim"`      //  TODO san
     GameAssociation         string      `conform:"name"`
     GameLeague              string      `conform:"name"`
     GameDivision            string                                  //  TODO san        
@@ -31,6 +30,8 @@ type refereeReport struct {
     PlayerAge               string      `schema:"-"`                //  front end redo
     PlayerAgeOverUnder      string      `conform:"name"`            //  front end redo
     PlayerAgeNumber         string      `conform:"num"`             //  front end redo
+    
+    GameTimeString          string      //`schema:"-"`              //  frontend redo
     GameTime                time.Time   `schema:"-"`                
     /**************************NEEDS ATTENTION**********************************/
 
@@ -49,16 +50,18 @@ type refereeReport struct {
     CautionTeam             []string                                //  frontend redo
     CautionCode             []string
 
-    RedPlayerRole           []string    `conform:"name"`            //  link to supps??
-    RedPlayerName           []string    `conform:"name"`            //  link to supps??
+    RedPlayerRole           []string                                //  link to supps??
+    RedPlayerName           []string    `conform:"name"`
     RedPlayerID             []string    `conform:"num"`             //  tag for bench personel vs player
-    RedTeam                 []string    `conform:"name"`
-    RedCode                 []string    `conform:"name"`
+    RedTeam                 []string
+    RedCode                 []string
 
+    /**************************NEEDS ATTENTION**********************************/
     SupplementalStatement   []string                                //  needs san
     SupplementalLocationX   []string    `conform:"num"`
     SupplementalLocationY   []string    `conform:"num"`
     SupplementalLocation    []string    `schema:"-"`
+    /**************************NEEDS ATTENTION**********************************/
 
     SendToEmail             []string                                
     Name                    string      `conform:"name"`
