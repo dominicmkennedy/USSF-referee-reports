@@ -95,10 +95,10 @@ func addtoDB(form *refereeReport) {
         "SupplementalLocation":         form.SupplementalLocation,
 
         "SendToEmail":                  form.SendToEmail,
-        "Name":                         form.Name,   
+        "Name":                         form.Name,
         "USSFID":                       form.USSFID,
         "ContactNumber":                form.ContactNumber,
-        "ContactEmail":                 form.ContactEmail,    
+        "ContactEmail":                 form.ContactEmail,
 
         "ipaddr":                       form.ipaddr,
         "SubmittedTime":                form.SubmittedTime,
@@ -113,9 +113,9 @@ func addtoDB(form *refereeReport) {
     //form.ReportID = form.SubmittedTime.String()
 
     if form.USSFID != "" {
-        
+
         RefereeReports := make([]interface {}, 0)
-        
+
         dsnap, err := client.Collection("Referees").Doc(form.USSFID).Get(ctx)
         if status.Code(err) == codes.NotFound {
             _, err = client.Collection("Referees").Doc(form.USSFID).Set(ctx, map[string]interface{}{
@@ -126,34 +126,34 @@ func addtoDB(form *refereeReport) {
             })
             if err != nil {
                 log.Println(err)
-            } 
+            }
             dsnap, err = client.Collection("Referees").Doc(form.USSFID).Get(ctx)
 
-        }  
+        }
         if err != nil {
             log.Println(err)
-        } 
-        
+        }
+
         m := dsnap.Data()
 
         if m["Reports"] != nil {
-            RefereeReports = append(RefereeReports, m["Reports"].([]interface {})...) 
+            RefereeReports = append(RefereeReports, m["Reports"].([]interface {})...)
         }
-        
+
         RefereeReport := ReportData{
             ReportID:       form.ReportID,
             ReportDate:     form.SubmittedTime,
         }
 
-        RefereeReports = append(RefereeReports, RefereeReport) 
-        
+        RefereeReports = append(RefereeReports, RefereeReport)
+
 
         _, err = client.Collection("Referees").Doc(form.USSFID).Set(ctx, map[string]interface{}{
-            "Reports":         RefereeReports, 
+            "Reports":         RefereeReports,
         }, firestore.MergeAll)
         if err != nil {
             log.Println(err)
-        } 
+        }
     }
 
 
@@ -185,27 +185,27 @@ func addtoDB(form *refereeReport) {
             })
             if err != nil {
                 log.Println(err)
-            } 
+            }
             dsnap, err = client.Collection("players").Doc(PlayerID).Get(ctx)
 
-        }  
+        }
         if err != nil {
             log.Println(err)
-        } 
+        }
 
         m := dsnap.Data()
 
         if m["Cautions"] != nil {
-            PlayerCautions = append(PlayerCautions, m["Cautions"].([]interface {})...) 
+            PlayerCautions = append(PlayerCautions, m["Cautions"].([]interface {})...)
         }
-        PlayerCautions = append(PlayerCautions, ReportCaution) 
+        PlayerCautions = append(PlayerCautions, ReportCaution)
 
         _, err = client.Collection("players").Doc(PlayerID).Set(ctx, map[string]interface{}{
-            "Cautions":         PlayerCautions, 
+            "Cautions":         PlayerCautions,
         }, firestore.MergeAll)
         if err != nil {
             log.Println(err)
-        } 
+        }
     }
 
     for i := 0; i<len(form.RedPlayerID); i++ {
@@ -235,27 +235,27 @@ func addtoDB(form *refereeReport) {
             })
             if err != nil {
                 log.Println(err)
-            } 
+            }
             dsnap, err = client.Collection("players").Doc(PlayerID).Get(ctx)
 
-        }  
+        }
         if err != nil {
             log.Println(err)
-        } 
+        }
 
         m := dsnap.Data()
 
         if m["SendOffs"] != nil {
-            PlayerSendOffs = append(PlayerSendOffs, m["SendOffs"].([]interface {})...) 
+            PlayerSendOffs = append(PlayerSendOffs, m["SendOffs"].([]interface {})...)
         }
-        PlayerSendOffs = append(PlayerSendOffs, ReportSendOff) 
+        PlayerSendOffs = append(PlayerSendOffs, ReportSendOff)
 
         _, err = client.Collection("players").Doc(PlayerID).Set(ctx, map[string]interface{}{
-            "SendOffs":         PlayerSendOffs, 
+            "SendOffs":         PlayerSendOffs,
         }, firestore.MergeAll)
         if err != nil {
             log.Println(err)
-        } 
+        }
     }
 
 }
