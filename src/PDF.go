@@ -14,12 +14,15 @@ import (
 type PDFReport struct {
     Pg1Reports  []Pg1Report
     Pg2Reports  []Pg2Report
+    ReportID    string
 }
 
 type Pg1Report map[string]interface{}
 type Pg2Report map[string]interface{}
 
 func (PDF *PDFReport) FillPDF(POST POSTReport) {
+
+    PDF.ReportID = POST.ReportID
 
     pg1 := 0
     if ((len(POST.Cautions) + 9) / 10) > pg1 { pg1 = ((len(POST.Cautions) + 9) / 10) }
@@ -123,7 +126,8 @@ func (PDF *PDFReport) WriteToPDF() {
             continue
         }
 
-        output, err := os.Create("../tmp/" + "testing" + "-pg1-" + strconv.Itoa(i) + ".pdf")
+        FileName := "../tmp/" + PDF.ReportID + "-pg1-" + strconv.Itoa(i) + ".pdf"
+        output, err := os.Create(FileName)
         if err != nil {
             log.Println(err)
         }
@@ -133,7 +137,7 @@ func (PDF *PDFReport) WriteToPDF() {
             log.Println(err)
         }
 
-        outfiles[pdftk.InputHandleNameFromInt(i)] = ("../tmp/" + "testing" + "-pg1-" + strconv.Itoa(i) + ".pdf")
+        outfiles[pdftk.InputHandleNameFromInt(i)] = (FileName)
 
     }
 
@@ -146,7 +150,8 @@ func (PDF *PDFReport) WriteToPDF() {
             continue
         }
 
-        output, err := os.Create("../tmp/" + "testing" + "-pg2-" + strconv.Itoa(i) + ".pdf")
+        FileName := "../tmp/" + PDF.ReportID + "-pg2-" + strconv.Itoa(i) + ".pdf"
+        output, err := os.Create(FileName)
         if err != nil {
             log.Println(err)
         }
@@ -156,11 +161,11 @@ func (PDF *PDFReport) WriteToPDF() {
             log.Println(err)
         }
 
-        outfiles[pdftk.InputHandleNameFromInt(i+len((*PDF).Pg1Reports))] = ("../tmp/" + "testing" + "-pg2-" + strconv.Itoa(i) + ".pdf")
+        outfiles[pdftk.InputHandleNameFromInt(i+len((*PDF).Pg1Reports))] = (FileName)
 
     }
 
-    output, err := os.Create("../reports/" + "testing-report" + ".pdf")
+    output, err := os.Create("../reports/" + PDF.ReportID + ".pdf")
     if err != nil {
         log.Println(err)
     }
