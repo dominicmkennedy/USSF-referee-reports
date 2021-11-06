@@ -63,19 +63,12 @@ type POSTReport struct {
     ReporterPhone           string
     ReporterEmail           string
 
-}
-
-type DBMatchReport struct {
+    ReportID                string
 
 }
 
-type DBPlayerReport struct {
-
-}
-
-type DBRefereeReport struct {
-
-}
+//TODO
+type DBRefereeReport struct {}
 
 //TODO the rest of this function
 func (r *POSTReport) SanitizePostData() {
@@ -91,6 +84,8 @@ func (r *POSTReport) SanitizePostData() {
     if  len(r.Supplementals) > 5 {
         r.Supplementals = r.Supplementals[:5]
     }
+
+    r.ReportID = "testing7890"
 
 }
 
