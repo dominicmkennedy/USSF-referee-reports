@@ -13,11 +13,15 @@ import (
 
 func PostForm(w http.ResponseWriter, r *http.Request) {
 
+    //  parse http POST request
     err := r.ParseForm();
     if err != nil {
         log.Println(err)
     }
 
+    //  create a new POSTReport struct
+    //  put POST data into struct
+    //  then sanitize data
     form := new(POSTReport)
     decoder := schema.NewDecoder()
     decoder.RegisterConverter(time.Now(), DateConverter)
@@ -27,9 +31,17 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
     }
     form.SanitizePostData()
 
+    //  put POST data into the database
+    form.AddToDatabase()
+
+    //  create new PDF struct
+    //  fill in data from the POSTReport
+    //  write the PDF to disk
+    //  then store it in cloud
     PDF := new(PDFReport)
     PDF.FillPDF(*form)
     PDF.WriteToPDF()
+    PDF.StorePDF()
 
     fmt.Fprintf(w, "report: %T\n", form)
     fmt.Fprintf(w, "report: %v\n", form)
