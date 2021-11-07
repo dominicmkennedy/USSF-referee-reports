@@ -67,9 +67,6 @@ type POSTReport struct {
 
 }
 
-//TODO
-type DBRefereeReport struct {}
-
 //TODO the rest of this function
 func (r *POSTReport) SanitizePostData() {
 
