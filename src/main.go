@@ -8,7 +8,6 @@ import (
     "html/template"
 
     "github.com/gorilla/schema"
-    //"github.com/leebenson/conform"
 )
 
 func PostForm(w http.ResponseWriter, r *http.Request) {
@@ -49,7 +48,6 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-    //http.ServeFile(w, r, "./static/")
     tmpl := template.Must(template.ParseFiles("../static/index.html"))
     err := tmpl.Execute(w, nil)
     if err != nil {
@@ -61,7 +59,6 @@ func main() {
 
     StartLogger()
 
-    //http.Handle("/", http.FileServer(http.Dir("./static")))    
     http.Handle("/script.js", http.FileServer(http.Dir("../static")))
     http.HandleFunc("/", index)
     http.HandleFunc("/submit/", PostForm)
