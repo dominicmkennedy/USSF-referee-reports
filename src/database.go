@@ -55,6 +55,13 @@ type DBPlayerReport struct {
     SendOffs            []interface{}
 }
 
+type DBRefereeReport struct {
+    Names               map[string]struct{}
+    Emails              map[string]struct{}
+    PhoneNumbers        map[string]struct{}
+    Reports             map[string]interface{}
+}
+
 func (POST *POSTReport) AddToDatabase() {
     ctx := context.Background()
     sa := option.WithCredentialsFile("../creds.json")
@@ -78,7 +85,7 @@ func (POST *POSTReport) AddToDatabase() {
 
     for PlayerID, PlayerReport := range PlayerReports {
         if PlayerID == "" {
-            PlayerID = "00000000"
+            PlayerID = "000000"
         }
         dsnap, err := client.Collection("Players").Doc(PlayerID).Get(ctx)
         if status.Code(err) == codes.NotFound {
@@ -109,6 +116,67 @@ func (POST *POSTReport) AddToDatabase() {
 
         }
     }
+
+    RefereeUSSFID := POST.ReporterUSSFID
+    RefereeReport := POST.GetRefereeReport()
+    if RefereeUSSFID == "" {
+        RefereeUSSFID = "0000000000000000"
+    }
+    dsnap, err := client.Collection("Referees").Doc(RefereeUSSFID).Get(ctx)
+    if status.Code(err) == codes.NotFound {
+        _, err = client.Collection("Referees").Doc(RefereeUSSFID).Set(ctx, RefereeReport)
+        if err != nil {
+            log.Println(err)
+        }
+    } else if err != nil {
+        log.Println(err)
+    } else {
+        DocData := dsnap.Data()
+
+        if Names, ok := DocData["Names"]; ok {
+            for Name := range Names.(map[string]interface{}) {
+                RefereeReport.Names[Name] = struct{}{}
+            }
+        }
+        if Emails, ok := DocData["Emails"]; ok {
+            for Email := range Emails.(map[string]interface{}) {
+                RefereeReport.Emails[Email] = struct{}{}
+            }
+        }
+        if PhoneNumbers, ok := DocData["PhoneNumbers"]; ok {
+            for PhoneNumber := range PhoneNumbers.(map[string]interface{}) {
+                RefereeReport.PhoneNumbers[PhoneNumber] = struct{}{}
+            }
+        }
+
+        if Reports, ok := DocData["Reports"]; ok {
+            for ReportID, Report := range Reports.(map[string]interface{}) {
+                RefereeReport.Reports[ReportID] = Report
+            }
+        }
+
+        _, err = client.Collection("Referees").Doc(RefereeUSSFID).Set(ctx, RefereeReport)
+        if err != nil {
+            log.Println(err)
+        }
+
+    }
+}
+
+func (POST *POSTReport) GetRefereeReport() (DBRefereeReport) {
+    return DBRefereeReport{
+        Emails:         map[string]struct{}   { POST.ReporterEmail: struct{}{} },
+        PhoneNumbers:   map[string]struct{}   { POST.ReporterPhone: struct{}{} },
+        Names:          map[string]struct{}   { POST.ReporterName:  struct{}{} },
+        Reports:        map[string]interface{}{ POST.ReportID:      struct{
+            GameDate        time.Time
+            SubmittedDate   time.Time
+        } {
+            GameDate:       POST.GameDate,
+            SubmittedDate:  POST.SubmittedDate,
+        },
+    },
+}
 }
 
 func (POST *POSTReport) GetPlayerReports() (map[string]DBPlayerReport) {
