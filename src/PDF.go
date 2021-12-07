@@ -27,6 +27,7 @@ func (PDF *PDFReport) FillPDF(POST POSTReport) {
     pg1 := 0
     if ((len(POST.Cautions) + 9) / 10) > pg1 { pg1 = ((len(POST.Cautions) + 9) / 10) }
     if ((len(POST.SendOffs) + 4) / 5) > pg1 { pg1 = ((len(POST.SendOffs) + 4) / 5) }
+    if pg1 == 0 { pg1 = 1 }
 
     PDF.Pg1Reports = make([]Pg1Report, pg1)
     for i := 0; i < pg1; i++ {
