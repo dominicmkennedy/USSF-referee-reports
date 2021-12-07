@@ -48,7 +48,7 @@ func (POST *POSTReport) AddToDatabase() {
     }
     defer client.Close()
 
-    _, _, err = client.Collection("testing").Add(ctx, POST)
+    _, _, err = client.Collection("Reports").Add(ctx, POST)
     if err != nil {
         log.Println(err)
     }
@@ -136,19 +136,37 @@ func (POST *POSTReport) AddToDatabase() {
 }
 
 func (POST *POSTReport) GetRefereeReport() (DBRefereeReport) {
+
+    var Email map[string]struct{}
+    if len(POST.ReporterEmail) == 0 { Email = make(map[string]struct{})
+    } else { Email = map[string]struct{}{POST.ReporterEmail: struct{}{}} }
+
+    var PhoneNumber map[string]struct{}
+    if len(POST.ReporterPhone) == 0 { PhoneNumber = make(map[string]struct{})
+    } else { PhoneNumber = map[string]struct{}{POST.ReporterPhone: struct{}{}} }
+
+    var Name map[string]struct{}
+    if len(POST.ReporterName) == 0 { Name = make(map[string]struct{})
+    } else { Name = map[string]struct{}{POST.ReporterName: struct{}{}} }
+
+    var Report map[string]interface{}
+    if len(POST.ReportID) == 0 { Report = make(map[string]interface{})
+    } else { Report = map[string]interface{}{ POST.ReportID: struct{
+                GameDate        time.Time
+                SubmittedDate   time.Time
+            } {
+                GameDate:       POST.GameDate,
+                SubmittedDate:  POST.SubmittedDate,
+            },
+        }
+    }
+
     return DBRefereeReport{
-        Emails:         map[string]struct{}   { POST.ReporterEmail: struct{}{} },
-        PhoneNumbers:   map[string]struct{}   { POST.ReporterPhone: struct{}{} },
-        Names:          map[string]struct{}   { POST.ReporterName:  struct{}{} },
-        Reports:        map[string]interface{}{ POST.ReportID:      struct{
-            GameDate        time.Time
-            SubmittedDate   time.Time
-        } {
-            GameDate:       POST.GameDate,
-            SubmittedDate:  POST.SubmittedDate,
-        },
-    },
-}
+        Emails:         Email,
+        PhoneNumbers:   PhoneNumber,
+        Names:          Name,
+        Reports:        Report,
+    }
 }
 
 func (POST *POSTReport) GetPlayerReports() (map[string]DBPlayerReport) {
