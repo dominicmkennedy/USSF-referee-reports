@@ -66,6 +66,8 @@ type POSTReport struct {
 //TODO the rest of this function
 func (r *POSTReport) SanitizePostData() {
 
+    r.ReportID = GetReportID()
+
     if  len(r.Cautions) > 30 {
         r.Cautions = r.Cautions[:30]
     }
@@ -77,8 +79,6 @@ func (r *POSTReport) SanitizePostData() {
     if  len(r.Supplementals) > 5 {
         r.Supplementals = r.Supplementals[:5]
     }
-
-    r.ReportID = "testing7890"
 
 }
 

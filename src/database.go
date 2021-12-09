@@ -34,6 +34,29 @@ type DBRefereeReport struct {
     Reports             map[string]interface{}
 }
 
+func GetReportID() (string) {
+
+    ctx := context.Background()
+    sa := option.WithCredentialsFile("../creds.json")
+    app, err := firebase.NewApp(ctx, nil, sa)
+    if err != nil {
+        log.Println(err)
+    }
+
+    client, err := app.Firestore(ctx)
+    if err != nil {
+        log.Println(err)
+    }
+    defer client.Close()
+
+    DocRef, _, err := client.Collection("Reports").Add(ctx, struct{}{})
+    if err != nil {
+        log.Println(err)
+    }
+
+    return DocRef.ID;
+}
+
 func (POST *POSTReport) AddToDatabase() {
     ctx := context.Background()
     sa := option.WithCredentialsFile("../creds.json")
@@ -48,7 +71,7 @@ func (POST *POSTReport) AddToDatabase() {
     }
     defer client.Close()
 
-    _, _, err = client.Collection("Reports").Add(ctx, POST)
+    _, err = client.Collection("Reports").Doc(POST.ReportID).Set(ctx, POST)
     if err != nil {
         log.Println(err)
     }
