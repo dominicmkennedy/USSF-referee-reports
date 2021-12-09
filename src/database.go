@@ -162,15 +162,15 @@ func (POST *POSTReport) GetRefereeReport() (DBRefereeReport) {
 
     var Email map[string]struct{}
     if len(POST.ReporterEmail) == 0 { Email = make(map[string]struct{})
-    } else { Email = map[string]struct{}{POST.ReporterEmail: struct{}{}} }
+    } else { Email = map[string]struct{}{POST.ReporterEmail: {}} }
 
     var PhoneNumber map[string]struct{}
     if len(POST.ReporterPhone) == 0 { PhoneNumber = make(map[string]struct{})
-    } else { PhoneNumber = map[string]struct{}{POST.ReporterPhone: struct{}{}} }
+    } else { PhoneNumber = map[string]struct{}{POST.ReporterPhone: {}} }
 
     var Name map[string]struct{}
     if len(POST.ReporterName) == 0 { Name = make(map[string]struct{})
-    } else { Name = map[string]struct{}{POST.ReporterName: struct{}{}} }
+    } else { Name = map[string]struct{}{POST.ReporterName: {}} }
 
     var Report map[string]interface{}
     if len(POST.ReportID) == 0 { Report = make(map[string]interface{})
@@ -216,7 +216,7 @@ func (POST *POSTReport) GetPlayerReports() (map[string]DBPlayerReport) {
             PlayerReports[PlayerID] = DBPlayerReport {
 
                 PlayerName:             map[string]struct{}{
-                    Caution.PlayerName: struct{}{},
+                    Caution.PlayerName: {},
                 },
                 Cautions:               []interface{}{DBSanction{
                     SanctionCode:       Caution.Code,
@@ -253,7 +253,7 @@ func (POST *POSTReport) GetPlayerReports() (map[string]DBPlayerReport) {
             PlayerReports[PlayerID] = DBPlayerReport {
 
                 PlayerName:             map[string]struct{}{
-                    SendOff.PlayerName: struct{}{},
+                    SendOff.PlayerName: {},
                 },
                 Cautions:               []interface{}{},
                 SendOffs:               []interface{}{DBSanction{
