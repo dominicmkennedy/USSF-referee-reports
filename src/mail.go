@@ -1,56 +1,23 @@
 package main
 
 import (
-    //"errors"
-    "fmt"
-    "net/smtp"
+    "log"
+
+    "gopkg.in/gomail.v2"
 )
 
-var emailAuth smtp.Auth
+func SendReport(form *POSTReport) {
 
-/*
-func parseTemplate(templateFileName string, data interface{}) (string, error) {
-   templatePath, err := filepath.Abs(fmt.Sprintf("gomail/email_templates/%s", templateFileName))
-   if err != nil {
-      return "", errors.New("invalid template name")
-   }
-   t, err := template.ParseFiles(templatePath)
-   if err != nil {
-      return "", err
-   }
-   buf := new(bytes.Buffer)
-   if err = t.Execute(buf, data); err != nil {
-      return "", err
-   }
-   body := buf.String()
-   return body, nil
-}
-*/
+    m := gomail.NewMessage()
+    m.SetHeader("From", "automated@referee.report")
+    m.SetHeader("To", append(form.SendToEmail, form.ReporterEmail)...)
+    m.SetHeader("Subject", "New referee report from " + form.ReporterName)
+    m.SetBody("text/html", "A referee report was submitted by " + form.ReporterName + " on " + form.SubmittedDate.Format("2006-01-02 15:04:05")+ ". The completed report is attached as a PDF.")
+    m.Attach("../reports/" + form.ReportID + ".pdf")
 
-func SendEmailSMTP(to []string) (bool, error) {
-    emailHost := "smtp.gmail.com"
-    emailFrom := "automated@referee.report"
-    emailPassword := "testing7890!"
-    emailPort := 587
-    emailAuth = smtp.PlainAuth("", emailFrom, emailPassword, emailHost)
-    //emailBody, err := parseTemplate(template, data)
-    emailBody := "aaaaaaaaaaaaaaaaaaaaaa"
+    d := gomail.NewDialer("smtp.gmail.com", 587, "automated@referee.report", "testing7890!")
 
-    mime := "MIME-version: 1.0;\nContent-Type: text/plain; charset=\"UTF-8\";\n\n"
-    subject := "Subject: " + "Test Email" + "!\n"
-    msg := []byte(subject + mime + "\n" + emailBody)
-    addr := fmt.Sprintf("%s:%d", emailHost, emailPort)
-    if err := smtp.SendMail(addr, emailAuth, emailFrom, to, msg); err != nil {
-        return false, err
+    if err := d.DialAndSend(m); err != nil {
+        log.Println(err)
     }
-    return true, nil
-}
-
-func notmain() {
-
-    _, err := SendEmailSMTP([]string{"dominicmkennedy@gmail.com"})
-    if err != nil {
-        fmt.Println(err)
-    }
-
 }
