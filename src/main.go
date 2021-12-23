@@ -42,6 +42,8 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
     PDF.WriteToPDF()
     PDF.StorePDF()
 
+    SendReport(form)
+
     fmt.Fprintf(w, "report: %T\n", form)
     fmt.Fprintf(w, "report: %v\n", form)
 
