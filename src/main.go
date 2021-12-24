@@ -11,6 +11,7 @@ import (
 )
 
 const PATH_TO_FIREBASE_CREDS = "../FirebaseSA.json"
+const PATH_TO_GOOGLE_WORKSPACE_PASSWORD = "../GoogleWorkspacePassword.txt"
 
 func PostForm(w http.ResponseWriter, r *http.Request) {
 
