@@ -14,7 +14,7 @@ import (
 func uploadFile(bucket, object string) error {
 
     ctx := context.Background()
-    opt := option.WithCredentialsFile("../creds.json")
+    opt := option.WithCredentialsFile(PATH_TO_FIREBASE_CREDS)
 
     client, err := storage.NewClient(context.Background(), opt)
     if err != nil {

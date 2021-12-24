@@ -10,6 +10,8 @@ import (
     "github.com/gorilla/schema"
 )
 
+const PATH_TO_FIREBASE_CREDS = "../FirebaseSA.json"
+
 func PostForm(w http.ResponseWriter, r *http.Request) {
 
     //  parse http POST request

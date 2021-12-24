@@ -37,7 +37,7 @@ type DBRefereeReport struct {
 func GetReportID() (string) {
 
     ctx := context.Background()
-    sa := option.WithCredentialsFile("../creds.json")
+    sa := option.WithCredentialsFile(PATH_TO_FIREBASE_CREDS)
     app, err := firebase.NewApp(ctx, nil, sa)
     if err != nil {
         log.Println(err)
@@ -59,7 +59,7 @@ func GetReportID() (string) {
 
 func (POST *POSTReport) AddToDatabase() {
     ctx := context.Background()
-    sa := option.WithCredentialsFile("../creds.json")
+    sa := option.WithCredentialsFile(PATH_TO_FIREBASE_CREDS)
     app, err := firebase.NewApp(ctx, nil, sa)
     if err != nil {
         log.Println(err)
