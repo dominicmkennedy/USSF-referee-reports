@@ -2,3 +2,5 @@ FirebaseSA.json
 logs.txt
 
 *.pdf
+!templates/pg1.pdf
+!templates/pg2.pdf
