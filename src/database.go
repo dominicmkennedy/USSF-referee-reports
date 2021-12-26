@@ -173,15 +173,10 @@ func (POST *POSTReport) GetRefereeReport() (DBRefereeReport) {
     } else { Name = map[string]struct{}{POST.ReporterName: {}} }
 
     var Report map[string]interface{}
-    if len(POST.ReportID) == 0 { Report = make(map[string]interface{})
-    } else { Report = map[string]interface{}{ POST.ReportID: struct{
-                GameDate        time.Time
-                SubmittedDate   time.Time
-            } {
-                GameDate:       POST.GameDate,
-                SubmittedDate:  POST.SubmittedDate,
-            },
-        }
+    if len(POST.ReportID) == 0 {
+        Report = make(map[string]interface{})
+    } else {
+        Report = map[string]interface{}{ POST.ReportID: POST.SubmittedDate }
     }
 
     return DBRefereeReport{
