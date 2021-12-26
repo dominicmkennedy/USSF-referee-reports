@@ -12,13 +12,15 @@ import (
 )
 
 type DBSanction struct {
+
     GameDate        time.Time
-    SubmittedDate   time.Time
-    ReportID        string
+    MisconductCode  string
+    ReporterID      string
     Reporter        string
-    ReporterUSSFID  string
-    SanctionCode    string
-    PlayerRole      string
+    ReportID        string
+    Team            string
+    Role            string
+
 }
 
 type DBPlayerReport struct {
@@ -196,14 +198,15 @@ func (POST *POSTReport) GetPlayerReports() (map[string]DBPlayerReport) {
         PlayerID := Caution.PlayerID
         if PlayerReport, ok := PlayerReports[PlayerID]; ok {
             //append
+            PlayerReport.PlayerName[Caution.PlayerName] = struct{}{}
             PlayerReport.Cautions = append(PlayerReports[PlayerID].Cautions, DBSanction{
-                SanctionCode:       Caution.Code,
-                PlayerRole:         Caution.PlayerRole,
                 GameDate:           POST.GameDate,
-                SubmittedDate:      POST.SubmittedDate,
-                ReportID:           POST.ReportID,
+                MisconductCode:     Caution.Code,
+                ReporterID:         POST.ReporterUSSFID,
                 Reporter:           POST.ReporterName,
-                ReporterUSSFID:     POST.ReporterUSSFID,
+                ReportID:           POST.ReportID,
+                Team:               Caution.Team,
+                Role:               Caution.PlayerRole,
             })
             PlayerReports[PlayerID] = PlayerReport
         } else {
@@ -214,13 +217,13 @@ func (POST *POSTReport) GetPlayerReports() (map[string]DBPlayerReport) {
                     Caution.PlayerName: {},
                 },
                 Cautions:               []interface{}{DBSanction{
-                    SanctionCode:       Caution.Code,
-                    PlayerRole:         Caution.PlayerRole,
                     GameDate:           POST.GameDate,
-                    SubmittedDate:      POST.SubmittedDate,
-                    ReportID:           POST.ReportID,
+                    MisconductCode:     Caution.Code,
+                    ReporterID:         POST.ReporterUSSFID,
                     Reporter:           POST.ReporterName,
-                    ReporterUSSFID:     POST.ReporterUSSFID,
+                    ReportID:           POST.ReportID,
+                    Team:               Caution.Team,
+                    Role:               Caution.PlayerRole,
                 }},
                 SendOffs:               []interface{}{},
             }
@@ -233,14 +236,15 @@ func (POST *POSTReport) GetPlayerReports() (map[string]DBPlayerReport) {
         PlayerID := SendOff.PlayerID
         if PlayerReport, ok := PlayerReports[PlayerID]; ok {
             //append
+            PlayerReport.PlayerName[SendOff.PlayerName] = struct{}{}
             PlayerReport.SendOffs = append(PlayerReports[PlayerID].SendOffs, DBSanction{
-                SanctionCode:       SendOff.Code,
-                PlayerRole:         SendOff.PlayerRole,
                 GameDate:           POST.GameDate,
-                SubmittedDate:      POST.SubmittedDate,
-                ReportID:           POST.ReportID,
+                MisconductCode:     SendOff.Code,
+                ReporterID:         POST.ReporterUSSFID,
                 Reporter:           POST.ReporterName,
-                ReporterUSSFID:     POST.ReporterUSSFID,
+                ReportID:           POST.ReportID,
+                Team:               SendOff.Team,
+                Role:               SendOff.PlayerRole,
             })
             PlayerReports[PlayerID] = PlayerReport
         } else {
@@ -252,13 +256,13 @@ func (POST *POSTReport) GetPlayerReports() (map[string]DBPlayerReport) {
                 },
                 Cautions:               []interface{}{},
                 SendOffs:               []interface{}{DBSanction{
-                    SanctionCode:       SendOff.Code,
-                    PlayerRole:         SendOff.PlayerRole,
                     GameDate:           POST.GameDate,
-                    SubmittedDate:      POST.SubmittedDate,
-                    ReportID:           POST.ReportID,
+                    MisconductCode:     SendOff.Code,
+                    ReporterID:         POST.ReporterUSSFID,
                     Reporter:           POST.ReporterName,
-                    ReporterUSSFID:     POST.ReporterUSSFID,
+                    ReportID:           POST.ReportID,
+                    Team:               SendOff.Team,
+                    Role:               SendOff.PlayerRole,
                 }},
             }
         }
