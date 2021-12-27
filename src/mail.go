@@ -16,9 +16,24 @@ func SendReport(form *POSTReport) {
 
     m := gomail.NewMessage()
     m.SetHeader("From", "automated@referee.report")
-    m.SetHeader("To", append(form.SendToEmail, form.ReporterEmail)...)
+
+    SendTo := make([]string, 0)
+    
+    if form.ReporterEmail != "" {
+        SendTo = append(SendTo, form.ReporterEmail)
+    }
+    
+    for _, Email := range form.SendToEmail {
+        if Email != "" {
+            SendTo = append(SendTo, Email) 
+        }
+    }
+    
+    if len(SendTo) == 0 { return }
+    
+    m.SetHeader("To", SendTo...)
     m.SetHeader("Subject", "New referee report from " + form.ReporterName)
-    m.SetBody("text/html", "A referee report was submitted by " + form.ReporterName + " on " + form.SubmittedDate.Format("2006-01-02 15:04:05")+ ". The completed report is attached as a PDF.")
+    m.SetBody("text/html", "A referee report was submitted by " + form.ReporterName + " on " + form.SubmittedDate.Format("2006-01-02 15:04:05") + ". The completed report is attached as a PDF.")
     m.Attach("../reports/" + form.ReportID + ".pdf")
 
     d := gomail.NewDialer("smtp.gmail.com", 587, "automated@referee.report", string(GoogleWorkspacePassword))
