@@ -2,23 +2,28 @@ package main
 
 import (
     "time"
+    "strings"
     "reflect"
     "strconv"
     "net/mail"
 )
 
 type Sanction struct {
+
     PlayerRole       string
     PlayerName       string
     PlayerID         string
     Team             string
     Code             string
+
 }
 
 type Supplemental struct {
+
     Statement   string
     LocationX   string
     LocationY   string
+
 }
 
 type POSTReport struct {
@@ -66,6 +71,8 @@ type POSTReport struct {
 
 func (r *POSTReport) SanitizePostData() {
 
+    //TODO consider string lengths
+
     // set the reportID to whatever firestore generates
     r.ReportID = GetReportID()
 
@@ -75,54 +82,32 @@ func (r *POSTReport) SanitizePostData() {
     if len(r.Supplementals) > 5 { r.Supplementals = r.Supplementals[:5] }
     if len(r.SendToEmail) > 30 { r.SendToEmail = r.SendToEmail[:30] }
 
-    /*
-    // name shouldn't have an issue except maybe length
-    HomeTeamName            string
-    //score should convert to an int w/o error
-    HomeTeamScore           string
-    AwayTeamName            string
-    AwayTeamScore           string
+    strings.ToUpper(r.HomeTeamName)
+    strings.ToUpper(r.AwayTeamName)
 
-    // conform w/ map
-    // if else blocks would be quicker than a map
-    PlayerSex               string
-    // honestly maybe regex idrk
-    PlayerAge               string
+    // makes sure the user has actually put in ints
+    // even though this is internally stored as a string
+    SanitizeInt(&r.HomeTeamScore)
+    SanitizeInt(&r.AwayTeamScore)
 
-    GameAssociation         string
-    GameDivision            string
-    GameLeague              string
-    GameNumber              string
-    GameDate                time.Time
-    SubmittedDate           time.Time
+    if r.PlayerSex != "Men" && r.PlayerSex != "Women" && r.PlayerSex != "Co-ed" { r.PlayerSex = "" }
 
-    RefereeName             string
-    RefereeGrade            string
-    AssistantReferee1Name   string
-    AssistantReferee1Grade  string
-    AssistantReferee2Name   string
-    AssistantReferee2Grade  string
-    FourthOfficialName      string
-    FourthOfficialGrade     string
+    SanitizeRefGrade(&r.RefereeGrade)
+    SanitizeRefGrade(&r.AssistantReferee1Grade)
+    SanitizeRefGrade(&r.AssistantReferee2Grade)
+    SanitizeRefGrade(&r.FourthOfficialGrade)
 
-    Cautions                []Sanction
-    SendOffs                []Sanction
-    PlayerRole       string
-    PlayerName       string
-    PlayerID         string
-    Team             string
-    Code             string
+    strings.ToUpper(r.RefereeName)
+    strings.ToUpper(r.AssistantReferee1Name)
+    strings.ToUpper(r.AssistantReferee2Name)
+    strings.ToUpper(r.FourthOfficialName)
 
-    Supplementals           []Supplemental
-    Statement   string
-    LocationX   string
-    LocationY   string
-
-    ReporterName            string
-    ReporterUSSFID          string
-    ReporterPhone           string
-
-    */
+    for i := range r.Cautions {
+        SanitizeSanction(&r.Cautions[i])
+    }
+    for i := range r.SendOffs {
+        SanitizeSanction(&r.SendOffs[i])
+    }
 
     SanitizeEmail(&r.ReporterEmail)
 
@@ -190,6 +175,80 @@ func (r *POSTReport) SanitizePostData() {
 
     IsStringInMap(&r.AwayTeamState, &States)
     IsStringInMap(&r.HomeTeamState, &States)
+    
+    /*
+
+    // honestly maybe regex idrk
+    PlayerAge               string
+
+    GameAssociation         string
+    GameDivision            string
+    GameLeague              string
+    GameNumber              string
+
+    Cautions                []Sanction
+    SendOffs                []Sanction
+    Team             string
+    Code             string
+
+    Supplementals           []Supplemental
+    Statement   string
+
+    */
+    
+
+    strings.ToUpper(r.ReporterName)
+
+    SanitizeInt(&r.ReporterUSSFID)
+    SanitizeInt(&r.ReporterPhone)
+
+}
+
+func SanitizeSupplemental(S *Supplemental) () {
+
+    //TODO sanitize Supplemental statment
+
+    //TODO ranges for these numbers based on math
+    SanitizeInt(&S.LocationX)
+    SanitizeInt(&S.LocationY)
+
+}
+
+func SanitizeInt(s *string) () {
+    
+    if _, err := strconv.Atoi(*s); err != nil {
+        *s = ""
+    }
+
+}
+
+func SanitizeSanction(S *Sanction) () {
+
+    strings.ToUpper(S.PlayerName)
+    
+    if S.PlayerRole != "Player" && S.PlayerRole != "Bench Personnoel" {
+        S.PlayerRole = ""
+    }
+   
+    SanitizeInt(&S.PlayerID)
+
+    //TODO sanitize the sanctions misconduct code
+    //TODO sanitize the sanctions Team
+
+}
+
+func SanitizeRefGrade(Grade *string) () {
+
+    if
+    *Grade != "Grassroots" &&
+    *Grade != "Regional" &&
+    *Grade != "Regional Emeritus" &&
+    *Grade != "National" &&
+    *Grade != "National Emeritus" &&
+    *Grade != "PRO" &&
+    *Grade != "FIFA" {
+        *Grade = ""
+    }
 
 }
 
