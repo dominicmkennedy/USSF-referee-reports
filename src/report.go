@@ -82,8 +82,8 @@ func (r *POSTReport) SanitizePostData() {
     if len(r.Supplementals) > 5 { r.Supplementals = r.Supplementals[:5] }
     if len(r.SendToEmail) > 30 { r.SendToEmail = r.SendToEmail[:30] }
 
-    strings.ToUpper(r.HomeTeamName)
-    strings.ToUpper(r.AwayTeamName)
+    r.HomeTeamName = strings.ToUpper(r.HomeTeamName)
+    r.AwayTeamName = strings.ToUpper(r.AwayTeamName)
 
     // makes sure the user has actually put in ints
     // even though this is internally stored as a string
@@ -97,10 +97,10 @@ func (r *POSTReport) SanitizePostData() {
     SanitizeRefGrade(&r.AssistantReferee2Grade)
     SanitizeRefGrade(&r.FourthOfficialGrade)
 
-    strings.ToUpper(r.RefereeName)
-    strings.ToUpper(r.AssistantReferee1Name)
-    strings.ToUpper(r.AssistantReferee2Name)
-    strings.ToUpper(r.FourthOfficialName)
+    r.RefereeName = strings.ToUpper(r.RefereeName)
+    r.AssistantReferee1Name = strings.ToUpper(r.AssistantReferee1Name)
+    r.AssistantReferee2Name = strings.ToUpper(r.AssistantReferee2Name)
+    r.FourthOfficialName = strings.ToUpper(r.FourthOfficialName)
 
     for i := range r.Cautions {
         SanitizeSanction(&r.Cautions[i])
@@ -197,7 +197,7 @@ func (r *POSTReport) SanitizePostData() {
     */
     
 
-    strings.ToUpper(r.ReporterName)
+    r.ReporterName = strings.ToUpper(r.ReporterName)
 
     SanitizeInt(&r.ReporterUSSFID)
     SanitizeInt(&r.ReporterPhone)
@@ -224,7 +224,7 @@ func SanitizeInt(s *string) () {
 
 func SanitizeSanction(S *Sanction) () {
 
-    strings.ToUpper(S.PlayerName)
+    S.PlayerName = strings.ToUpper(S.PlayerName)
     
     if S.PlayerRole != "Player" && S.PlayerRole != "Bench Personnoel" {
         S.PlayerRole = ""
