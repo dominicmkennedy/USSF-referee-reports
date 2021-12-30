@@ -45,9 +45,9 @@ func (PDF *PDFReport) FillPDF(POST POSTReport) {
 func (PDF *Pg1Report) FillPDF(POST POSTReport, Page int) {
 
     *PDF = map[string]interface{}{
-        "HomeTeamName":                 POST.HomeTeamState + " " + POST.HomeTeamName,
+        "HomeTeamName":                 POST.HomeTeamState + ": " + POST.HomeTeamName,
         "HomeTeamScore":                POST.HomeTeamScore,
-        "AwayTeamName":                 POST.AwayTeamState + " " + POST.AwayTeamName,
+        "AwayTeamName":                 POST.AwayTeamState + ": " + POST.AwayTeamName,
         "AwayTeamScore":                POST.AwayTeamScore,
 
         "GameDivision":                 "Division: " + POST.GameDivision + " Sex: " + POST.PlayerSex + " Age: " + POST.PlayerAge,
@@ -92,9 +92,9 @@ func (PDF *Pg1Report) FillPDF(POST POSTReport, Page int) {
 func (PDF *Pg2Report) FillPDF(POST POSTReport, Page int) {
 
     *PDF = map[string]interface{}{
-        "HomeTeamName":                 POST.HomeTeamState + " " + POST.HomeTeamName,
+        "HomeTeamName":                 POST.HomeTeamState + ": " + POST.HomeTeamName,
         "HomeTeamScore":                POST.HomeTeamScore,
-        "AwayTeamName":                 POST.AwayTeamState + " " + POST.AwayTeamName,
+        "AwayTeamName":                 POST.AwayTeamState + ": " + POST.AwayTeamName,
         "AwayTeamScore":                POST.AwayTeamScore,
 
         "GameDivision":                 "Division: " + POST.GameDivision + " Sex: " + POST.PlayerSex + " Age: " + POST.PlayerAge,
@@ -133,12 +133,11 @@ func (PDF *PDFReport) WriteToPDF() {
             log.Println(err)
         }
 
-        err = pdftk.FillForm(output, "../templates/pg1.pdf", &b, pdftk.OptionFlatten())
-        if err != nil {
+        if err := pdftk.FillForm(output, "../templates/pg1.pdf", &b, pdftk.OptionFlatten()); err != nil {
             log.Println(err)
         }
 
-        outfiles[pdftk.InputHandleNameFromInt(i)] = (FileName)
+        outfiles[pdftk.InputHandleNameFromInt(i)] = FileName
 
     }
 
@@ -157,12 +156,11 @@ func (PDF *PDFReport) WriteToPDF() {
             log.Println(err)
         }
 
-        err = pdftk.FillForm(output, "../templates/pg2.pdf", &b, pdftk.OptionFlatten())
-        if err != nil {
+        if err := pdftk.FillForm(output, "../templates/pg2.pdf", &b, pdftk.OptionFlatten()); err != nil {
             log.Println(err)
         }
 
-        outfiles[pdftk.InputHandleNameFromInt(i+len((*PDF).Pg1Reports))] = (FileName)
+        outfiles[pdftk.InputHandleNameFromInt(i+len((*PDF).Pg1Reports))] = FileName
 
     }
 
@@ -172,8 +170,7 @@ func (PDF *PDFReport) WriteToPDF() {
     }
     defer output.Close()
 
-    err = pdftk.Cat(output, outfiles, []pdftk.PageRange{}, pdftk.OptionFlatten())
-    if err != nil {
+    if err := pdftk.Cat(output, outfiles, []pdftk.PageRange{}, pdftk.OptionFlatten()); err != nil {
         log.Println(err)
     }
 
