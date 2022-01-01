@@ -16,8 +16,7 @@ const PATH_TO_GOOGLE_WORKSPACE_PASSWORD = "../GoogleWorkspacePassword.txt"
 func PostForm(w http.ResponseWriter, r *http.Request) {
 
     //  parse http POST request
-    err := r.ParseForm();
-    if err != nil {
+    if err := r.ParseForm(); err != nil {
         log.Println(err)
     }
 
@@ -27,8 +26,7 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
     form := new(POSTReport)
     decoder := schema.NewDecoder()
     decoder.RegisterConverter(time.Now(), DateConverter)
-    err = decoder.Decode(form, r.PostForm)
-    if err != nil {
+    if err := decoder.Decode(form, r.PostForm); err != nil {
         log.Println(err)
     }
     form.SanitizePostData()
@@ -54,8 +52,7 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
 
 func index(w http.ResponseWriter, r *http.Request) {
     tmpl := template.Must(template.ParseFiles("../static/index.html"))
-    err := tmpl.Execute(w, nil)
-    if err != nil {
+    if err := tmpl.Execute(w, nil); err != nil {
         log.Println(err)
     }
 }

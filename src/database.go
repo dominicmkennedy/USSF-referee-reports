@@ -73,8 +73,7 @@ func (POST *POSTReport) AddToDatabase() {
     }
     defer client.Close()
 
-    _, err = client.Collection("Reports").Doc(POST.ReportID).Set(ctx, POST)
-    if err != nil {
+    if _, err = client.Collection("Reports").Doc(POST.ReportID).Set(ctx, POST); err != nil {
         log.Println(err)
     }
 
@@ -86,8 +85,7 @@ func (POST *POSTReport) AddToDatabase() {
         }
         dsnap, err := client.Collection("Players").Doc(PlayerID).Get(ctx)
         if status.Code(err) == codes.NotFound {
-            _, err = client.Collection("Players").Doc(PlayerID).Set(ctx, PlayerReport)
-            if err != nil {
+            if _, err = client.Collection("Players").Doc(PlayerID).Set(ctx, PlayerReport); err != nil {
                 log.Println(err)
             }
         } else if err != nil {
@@ -106,8 +104,7 @@ func (POST *POSTReport) AddToDatabase() {
                 }
             }
 
-            _, err = client.Collection("Players").Doc(PlayerID).Set(ctx, PlayerReport)
-            if err != nil {
+            if _, err = client.Collection("Players").Doc(PlayerID).Set(ctx, PlayerReport); err != nil {
                 log.Println(err)
             }
 
@@ -121,8 +118,7 @@ func (POST *POSTReport) AddToDatabase() {
     }
     dsnap, err := client.Collection("Referees").Doc(RefereeUSSFID).Get(ctx)
     if status.Code(err) == codes.NotFound {
-        _, err = client.Collection("Referees").Doc(RefereeUSSFID).Set(ctx, RefereeReport)
-        if err != nil {
+        if _, err = client.Collection("Referees").Doc(RefereeUSSFID).Set(ctx, RefereeReport); err != nil {
             log.Println(err)
         }
     } else if err != nil {
@@ -152,8 +148,7 @@ func (POST *POSTReport) AddToDatabase() {
             }
         }
 
-        _, err = client.Collection("Referees").Doc(RefereeUSSFID).Set(ctx, RefereeReport)
-        if err != nil {
+        if _, err = client.Collection("Referees").Doc(RefereeUSSFID).Set(ctx, RefereeReport); err != nil {
             log.Println(err)
         }
 

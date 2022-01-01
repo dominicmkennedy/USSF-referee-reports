@@ -45,8 +45,7 @@ func uploadFile(bucket, object string) error {
 }
 
 func (PDF *PDFReport) StorePDF() {
-    err := uploadFile ( "tnsoccerreports-testing.appspot.com", PDF.ReportID)
-    if err != nil {
+    if err := uploadFile ( "tnsoccerreports-testing.appspot.com", PDF.ReportID); err != nil {
         log.Println(err)
     }
 }

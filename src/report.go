@@ -259,8 +259,7 @@ func IsStringInMap(str * string, m * map[string]struct{}) {
 }
 
 func SanitizeEmail(Email * string) {
-    _, err := mail.ParseAddress(*Email)
-    if err != nil {
+    if _, err := mail.ParseAddress(*Email); err != nil {
         *Email = ""
     }
 }
