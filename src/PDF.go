@@ -1,15 +1,84 @@
 package main
 
 import (
-	"bytes"
-	"log"
-	"os"
-	"strconv"
+    "os"
+    "fmt"
+    "log"
     "time"
+    "bytes"
+    "strconv"
+    "io/ioutil"
 
-	"github.com/patiek/go-pdftools/fdf"
-	"github.com/patiek/go-pdftools/pdftk"
+    "golang.org/x/sys/unix"
+    "github.com/patiek/go-pdftools/fdf"
+    "github.com/patiek/go-pdftools/pdftk"
 )
+
+var Page1TemplatePath string
+var Page2TemplatePath string
+
+func CreateMemFile(name string, b []byte) (int, error) {
+
+    fd, err := unix.MemfdCreate(name, 0)
+    if err != nil {
+        return 0, fmt.Errorf("MemfdCreate: %v", err)
+    }
+
+    if err := unix.Ftruncate(fd, int64(len(b))); err != nil {
+        return 0, fmt.Errorf("Ftruncate: %v", err)
+    } 
+
+    if len(b) > 0 {
+
+        data, err := unix.Mmap(fd, 0, len(b), unix.PROT_READ|unix.PROT_WRITE, unix.MAP_SHARED)
+        if err != nil {
+            return 0, fmt.Errorf("Mmap: %v", err)
+        }
+
+        copy(data, b)
+
+        if err = unix.Munmap(data); err != nil {
+            return 0, fmt.Errorf("Munmap: %v", err)
+        }
+
+    }
+
+    return fd, nil
+
+}
+
+func PDFTempalteInit() () {
+
+    var fd int
+    var data []byte
+    var err error
+
+    data, err = ioutil.ReadFile("../templates/pg1.pdf")
+    if err != nil {
+        log.Println(err)
+    }
+    
+    fd, err = CreateMemFile("pg1.template", data)
+    if err != nil {
+        log.Println(err)
+    }
+    
+    Page1TemplatePath = fmt.Sprintf("/proc/self/fd/%d", fd)
+
+    data, err = ioutil.ReadFile("../templates/pg2.pdf")
+    if err != nil {
+        log.Println(err)
+    }
+
+
+    fd, err = CreateMemFile("pg2.template", data)
+    if err != nil {
+        log.Println(err)
+    }
+    
+    Page2TemplatePath = fmt.Sprintf("/proc/self/fd/%d", fd)
+
+}
 
 type PDFReport struct {
     Pg1Reports  []Pg1Report
@@ -73,7 +142,7 @@ func (PDF *Pg1Report) FillPDF(POST POSTReport, Page int) {
 
     for iPDF, iPOST := 0, Page*10; iPDF < 10 && iPOST < len(POST.Cautions); iPDF, iPOST = iPDF+1, iPOST+1 {
         (*PDF)["CautionPlayerName"+strconv.Itoa(iPDF)] = POST.Cautions[iPOST].PlayerRole +
-                                                  ": " + POST.Cautions[iPOST].PlayerName
+        ": " + POST.Cautions[iPOST].PlayerName
         (*PDF)["CautionPlayerID"+strconv.Itoa(iPDF)]   = POST.Cautions[iPOST].PlayerID
         (*PDF)["CautionTeam"+strconv.Itoa(iPDF)]       = POST.Cautions[iPOST].Team
         (*PDF)["CautionCode"+strconv.Itoa(iPDF)]       = POST.Cautions[iPOST].Code
@@ -81,7 +150,7 @@ func (PDF *Pg1Report) FillPDF(POST POSTReport, Page int) {
 
     for iPDF, iPOST := 0, Page*5; iPDF < 5 && iPOST < len(POST.SendOffs); iPDF, iPOST = iPDF+1, iPOST+1 {
         (*PDF)["RedPlayerName"+strconv.Itoa(iPDF)] = POST.SendOffs[iPOST].PlayerRole +
-                                              ": " + POST.SendOffs[iPOST].PlayerName
+        ": " + POST.SendOffs[iPOST].PlayerName
         (*PDF)["RedPlayerID"+strconv.Itoa(iPDF)]   = POST.SendOffs[iPOST].PlayerID
         (*PDF)["RedTeam"+strconv.Itoa(iPDF)]       = POST.SendOffs[iPOST].Team
         (*PDF)["RedCode"+strconv.Itoa(iPDF)]       = POST.SendOffs[iPOST].Code
@@ -114,7 +183,7 @@ func (PDF *Pg2Report) FillPDF(POST POSTReport, Page int) {
 
 }
 
-func (PDF *PDFReport) WriteToPDF() {
+func (PDF *PDFReport) WriteToPDF() (*bytes.Buffer) {
 
     outfiles := pdftk.NewInputFileMap()
 
@@ -127,17 +196,21 @@ func (PDF *PDFReport) WriteToPDF() {
             continue
         }
 
-        FileName := "../tmp/" + PDF.ReportID + "-pg1-" + strconv.Itoa(i) + ".pdf"
-        output, err := os.Create(FileName)
+        FileName := PDF.ReportID + ".1." + strconv.Itoa(i)
+        fd, err := CreateMemFile(FileName, make([]byte, 0))
         if err != nil {
             log.Println(err)
         }
 
-        if err := pdftk.FillForm(output, "../templates/pg1.pdf", &b, pdftk.OptionFlatten()); err != nil {
+        FilePath := fmt.Sprintf("/proc/self/fd/%d", fd)
+        File := os.NewFile(uintptr(fd), FilePath)
+        defer File.Close()
+
+        if err := pdftk.FillForm(File, Page1TemplatePath, &b, pdftk.OptionFlatten()); err != nil {
             log.Println(err)
         }
 
-        outfiles[pdftk.InputHandleNameFromInt(i)] = FileName
+        outfiles[pdftk.InputHandleNameFromInt(i)] = FilePath
 
     }
 
@@ -150,28 +223,30 @@ func (PDF *PDFReport) WriteToPDF() {
             continue
         }
 
-        FileName := "../tmp/" + PDF.ReportID + "-pg2-" + strconv.Itoa(i) + ".pdf"
-        output, err := os.Create(FileName)
+        FileName := PDF.ReportID + ".2." + strconv.Itoa(i)
+        fd, err := CreateMemFile(FileName, make([]byte, 0))
         if err != nil {
             log.Println(err)
         }
 
-        if err := pdftk.FillForm(output, "../templates/pg2.pdf", &b, pdftk.OptionFlatten()); err != nil {
+        FilePath := fmt.Sprintf("/proc/self/fd/%d", fd)
+        File := os.NewFile(uintptr(fd), FilePath)
+        defer File.Close()
+
+        if err := pdftk.FillForm(File, Page2TemplatePath, &b, pdftk.OptionFlatten()); err != nil {
             log.Println(err)
         }
 
-        outfiles[pdftk.InputHandleNameFromInt(i+len((*PDF).Pg1Reports))] = FileName
+        outfiles[pdftk.InputHandleNameFromInt(i+len((*PDF).Pg1Reports))] = FilePath
 
     }
 
-    output, err := os.Create("../reports/" + PDF.ReportID + ".pdf")
-    if err != nil {
+    Output := bytes.NewBuffer(nil)
+        
+    if err := pdftk.Cat(Output, outfiles, []pdftk.PageRange{}, pdftk.OptionFlatten()); err != nil {
         log.Println(err)
     }
-    defer output.Close()
 
-    if err := pdftk.Cat(output, outfiles, []pdftk.PageRange{}, pdftk.OptionFlatten()); err != nil {
-        log.Println(err)
-    }
+    return Output
 
 }

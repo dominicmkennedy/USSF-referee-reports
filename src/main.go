@@ -53,12 +53,12 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
     //  then store it in cloud
     PDF := new(PDFReport)
     PDF.FillPDF(*form)
-    PDF.WriteToPDF()
+    PDFfile := PDF.WriteToPDF()
 
     PDFTime := time.Since(PDFStart)
     PDFStoreStart := time.Now()
 
-    PDF.StorePDF()
+    PDF.StorePDF(PDFfile)
 
     PDFStoreTime := time.Since(PDFStoreStart)
     EmailStart := time.Now()
@@ -88,6 +88,8 @@ func index(w http.ResponseWriter, r *http.Request) {
 func main() {
 
     StartLogger()
+
+    PDFTempalteInit()
 
     http.Handle("/script.js", http.FileServer(http.Dir("../static")))
     http.HandleFunc("/", index)
