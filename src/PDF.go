@@ -159,6 +159,31 @@ func (PDF *Pg1Report) FillPDF(POST POSTReport, Page int) {
 }
 
 func (PDF *Pg2Report) FillPDF(POST POSTReport, Page int) {
+    
+    var SupplementalLocation string
+    Marker := "x"
+
+    // takes values 0-15 for width
+    SupplementalLocationY, err := strconv.Atoi(POST.Supplementals[Page].LocationY)
+    if err != nil {
+        Marker = " "
+    }
+    
+    // takes int values 0-46 for height
+    SupplementalLocationX, err := strconv.Atoi(POST.Supplementals[Page].LocationX)
+    if err != nil {
+        Marker = " "
+    }
+
+    for i := 0; i < SupplementalLocationY; i++ {
+        SupplementalLocation += "\n"
+    }
+
+    for i := 0; i < SupplementalLocationX; i++ {
+        SupplementalLocation += " "
+    }
+
+    SupplementalLocation += Marker
 
     *PDF = map[string]interface{}{
         "HomeTeamName":                 POST.HomeTeamState + ": " + POST.HomeTeamName,
@@ -172,7 +197,7 @@ func (PDF *Pg2Report) FillPDF(POST POSTReport, Page int) {
         "GameDate":                     POST.GameDate.Format(time.RFC1123),
 
         "SupplementalStatement":        POST.Supplementals[Page].Statement,
-        "SupplementalLocation":         POST.Supplementals[Page].LocationX + " somemath " + POST.Supplementals[Page].LocationY,
+        "SupplementalLocation":         SupplementalLocation,
 
         "Name":                         POST.ReporterName,
         "USSFID":                       POST.ReporterUSSFID,
