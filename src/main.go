@@ -1,17 +1,27 @@
 package main
 
 import (
+    "os"
     "fmt"
     "log"
     "time"
     "net/http"
     "html/template"
+    "encoding/base64"
 
     "github.com/gorilla/schema"
 )
 
 const PATH_TO_FIREBASE_CREDS = "../FirebaseSA.json"
 const PATH_TO_GOOGLE_WORKSPACE_PASSWORD = "../GoogleWorkspacePassword.txt"
+
+type Submission struct {
+
+    PDF             string
+    ReporterEmail   string
+    SendToEmails    []string
+
+}
 
 func PostForm(w http.ResponseWriter, r *http.Request) {
 
@@ -54,6 +64,7 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
     PDF := new(PDFReport)
     PDF.FillPDF(*form)
     PDFfile := PDF.WriteToPDF()
+    EncodedPDF := base64.StdEncoding.EncodeToString(PDFfile.Bytes())
 
     PDFTime := time.Since(PDFStart)
     PDFStoreStart := time.Now()
@@ -68,13 +79,24 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
     EmailTime := time.Since(EmailStart)
     Elapsed := time.Since(Start)
 
-    fmt.Fprintf(w, "HTML parsing took %v\n", ParseTime)
-    fmt.Fprintf(w, "Form Sanitzation took %v\n", SanTime)
-    fmt.Fprintf(w, "Adding to the Database took %v\n", DBTime)
-    fmt.Fprintf(w, "Creating the PDF took %v\n", PDFTime)
-    fmt.Fprintf(w, "Storing the PDF took %v\n", PDFStoreTime)
-    fmt.Fprintf(w, "Emailing the reports took %v\n", EmailTime)
-    fmt.Fprintf(w, "Total elapsed time was %v\n", Elapsed)
+    fmt.Fprintf(os.Stdout, "HTML parsing took %v\n", ParseTime)
+    fmt.Fprintf(os.Stdout, "Form Sanitzation took %v\n", SanTime)
+    fmt.Fprintf(os.Stdout, "Adding to the Database took %v\n", DBTime)
+    fmt.Fprintf(os.Stdout, "Creating the PDF took %v\n", PDFTime)
+    fmt.Fprintf(os.Stdout, "Storing the PDF took %v\n", PDFStoreTime)
+    fmt.Fprintf(os.Stdout, "Emailing the reports took %v\n", EmailTime)
+    fmt.Fprintf(os.Stdout, "Total elapsed time was %v\n", Elapsed)
+
+    SubmissionData := Submission {
+        PDF:            EncodedPDF,
+        ReporterEmail:  form.ReporterEmail,
+        SendToEmails:   form.SendToEmail,
+    }
+
+    tmpl := template.Must(template.ParseFiles("../static/submitted.html"))
+    if err := tmpl.Execute(w, SubmissionData); err != nil {
+        log.Println(err)
+    }
 
 }
 
