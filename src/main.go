@@ -67,16 +67,16 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
     EncodedPDF := base64.StdEncoding.EncodeToString(PDFfile.Bytes())
 
     PDFTime := time.Since(PDFStart)
+    EmailStart := time.Now()
+
+    SendReport(form, PDFfile)
+
+    EmailTime := time.Since(EmailStart)
     PDFStoreStart := time.Now()
 
     PDF.StorePDF(PDFfile)
 
     PDFStoreTime := time.Since(PDFStoreStart)
-    EmailStart := time.Now()
-
-    SendReport(form)
-
-    EmailTime := time.Since(EmailStart)
     Elapsed := time.Since(Start)
 
     fmt.Fprintf(os.Stdout, "HTML parsing took %v\n", ParseTime)
