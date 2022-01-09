@@ -1,20 +1,20 @@
 package main
 
-import(
-    "os"
-    "io"
-    "log"
+import (
+	"io"
+	"log"
+	"os"
 )
 
 func StartLogger() {
-    LogFile, err := os.OpenFile("../logs.txt", os.O_CREATE | os.O_APPEND | os.O_RDWR, 0666)
-    if err != nil {
-        panic(err)
-    }
+	LogFile, err := os.OpenFile("../logs.txt", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		panic(err)
+	}
 
-    LogWriter := io.MultiWriter(os.Stdout, LogFile)
+	LogWriter := io.MultiWriter(os.Stdout, LogFile)
 
-    log.SetOutput(LogWriter)
+	log.SetOutput(LogWriter)
 
-    log.SetFlags(log.Ldate | log.Ltime | log.Llongfile)
+	log.SetFlags(log.Ldate | log.Ltime | log.Llongfile)
 }

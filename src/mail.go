@@ -1,17 +1,16 @@
 package main
 
 import (
-	"log"
 	"bytes"
 	"io/ioutil"
+	"log"
 
-	"github.com/ainsleyclark/go-mail/mail"
 	"github.com/ainsleyclark/go-mail/drivers"
+	"github.com/ainsleyclark/go-mail/mail"
 )
 
 func SendReport(form *POSTReport, PDFfile *bytes.Buffer) {
-	
-    GoogleWorkspacePassword, err := ioutil.ReadFile(PATH_TO_GOOGLE_WORKSPACE_PASSWORD)
+	GoogleWorkspacePassword, err := ioutil.ReadFile(PATH_TO_GOOGLE_WORKSPACE_PASSWORD)
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -39,6 +38,7 @@ func SendReport(form *POSTReport, PDFfile *bytes.Buffer) {
 			SendTo = append(SendTo, Email)
 		}
 	}
+
 	if len(SendTo) == 0 {
 		return
 	}
@@ -63,5 +63,4 @@ func SendReport(form *POSTReport, PDFfile *bytes.Buffer) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-
 }
