@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -9,10 +10,10 @@ import (
 	"github.com/ainsleyclark/go-mail/mail"
 )
 
-func SendReport(form *POSTReport, PDFfile *bytes.Buffer) {
+func SendReport(form *POSTReport, PDFfile *bytes.Buffer) error {
 	GoogleWorkspacePassword, err := ioutil.ReadFile(PATH_TO_GOOGLE_WORKSPACE_PASSWORD)
 	if err != nil {
-		log.Panicln(err)
+		return fmt.Errorf("error could not log into email account: %v", err)
 	}
 
 	cfg := mail.Config{
@@ -25,7 +26,7 @@ func SendReport(form *POSTReport, PDFfile *bytes.Buffer) {
 
 	mailer, err := drivers.NewSMTP(cfg)
 	if err != nil {
-		log.Println(err)
+		return fmt.Errorf("error creating a mailer: %v", err)
 	}
 
 	SendTo := make([]string, 0)
@@ -40,7 +41,8 @@ func SendReport(form *POSTReport, PDFfile *bytes.Buffer) {
 	}
 
 	if len(SendTo) == 0 {
-		return
+		log.Printf("report was submitted but no emails were sent\n")
+		return nil
 	}
 
 	Subject := "New referee report from " + form.ReporterName
@@ -61,6 +63,8 @@ func SendReport(form *POSTReport, PDFfile *bytes.Buffer) {
 
 	_, err = mailer.Send(tx)
 	if err != nil {
-		log.Fatalln(err)
+		return fmt.Errorf("error sending email: %v", err)
 	}
+
+	return nil
 }

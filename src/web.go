@@ -18,6 +18,13 @@ type Submission struct {
 	SendToEmails  []string
 }
 
+func WebError(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("../static/error.html"))
+	if err := tmpl.Execute(w, nil); err != nil {
+		log.Println(err)
+	}
+}
+
 func PostForm(w http.ResponseWriter, r *http.Request) {
 	Start := time.Now()
 	ParseStart := time.Now()
@@ -25,6 +32,8 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
 	//  parse http POST request
 	if err := r.ParseForm(); err != nil {
 		log.Println(err)
+		WebError(w, r)
+		return
 	}
 
 	ParseTime := time.Since(ParseStart)
@@ -38,15 +47,31 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
 	decoder.RegisterConverter(time.Now(), DateConverter)
 	if err := decoder.Decode(form, r.PostForm); err != nil {
 		log.Println(err)
+		WebError(w, r)
+		return
 	}
-	form.SanitizePostData()
+
+	ReportID, err := GetReportID()
+	if err != nil {
+		log.Println(err)
+		WebError(w, r)
+		return
+	}
+	// I am curentlly of the mind that this function should never toss back an error
+	// if internally the form has some malformed data sanitize should first attempt to fix it
+	// if that's not posible than the data should be returned to the glang 0 value
+	// if referee reports gets a lot of griefers than I may later ammend this statment
+	form.SanitizePostData(ReportID)
 
 	SanTime := time.Since(SanStart)
-
 	DBStart := time.Now()
 
 	//  put POST data into the database
-	form.AddToDatabase()
+	if err := form.AddToDatabase(); err != nil {
+		log.Println(err)
+		WebError(w, r)
+		return
+	}
 
 	DBTime := time.Since(DBStart)
 	PDFStart := time.Now()
@@ -57,18 +82,31 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
 	//  then store it in cloud
 	PDF := new(PDFReport)
 	PDF.FillPDF(*form)
-	PDFfile := PDF.WriteToPDF()
+	PDFfile, err := PDF.WriteToPDF()
+	if err != nil {
+		log.Println(err)
+		WebError(w, r)
+		return
+	}
 	EncodedPDF := base64.StdEncoding.EncodeToString(PDFfile.Bytes())
 
 	PDFTime := time.Since(PDFStart)
 	EmailStart := time.Now()
 
-	SendReport(form, PDFfile)
+	if err := SendReport(form, PDFfile); err != nil {
+		log.Println(err)
+		WebError(w, r)
+		return
+	}
 
 	EmailTime := time.Since(EmailStart)
 	PDFStoreStart := time.Now()
 
-	PDF.StorePDF(PDFfile)
+	if err := PDF.StorePDF(PDFfile); err != nil {
+		log.Println(err)
+		WebError(w, r)
+		return
+	}
 
 	PDFStoreTime := time.Since(PDFStoreStart)
 	Elapsed := time.Since(Start)

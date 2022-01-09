@@ -63,14 +63,12 @@ type POSTReport struct {
 	ReportID string
 }
 
-func (r *POSTReport) SanitizePostData() {
+func (r *POSTReport) SanitizePostData(ReportID string) {
+	r.ReportID = ReportID
 	//TODO consider string lengths
 	//TODO Supplementals
 	//TODO speed
 	//TODO organize and comments
-
-	// set the reportID to whatever firestore generates
-	r.ReportID = GetReportID()
 
 	// trim slice lengths to reasonable amounts in the case of POST request tampering
 	if len(r.Cautions) > 30 {

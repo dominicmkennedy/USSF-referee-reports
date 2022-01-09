@@ -3,8 +3,8 @@ package main
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
-	"log"
 	"time"
 
 	"cloud.google.com/go/storage"
@@ -36,8 +36,10 @@ func UploadFile(bucket string, name string, object *bytes.Buffer) error {
 	return nil
 }
 
-func (PDF *PDFReport) StorePDF(object *bytes.Buffer) {
+func (PDF *PDFReport) StorePDF(object *bytes.Buffer) error {
 	if err := UploadFile("tnsoccerreports-testing.appspot.com", PDF.ReportID, object); err != nil {
-		log.Println(err)
+		return fmt.Errorf("error storing PDF report: %v", err)
 	}
+
+	return nil
 }

@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 	"time"
@@ -140,54 +139,52 @@ func (PDF *Pg2Report) FillPDF(POST POSTReport, Page int) {
 	}
 }
 
-func (PDF *PDFReport) WriteToPDF() *bytes.Buffer {
+func (PDF *PDFReport) WriteToPDF() (*bytes.Buffer, error) {
 	outfiles := pdftk.NewInputFileMap()
 
 	for i, elem := range (*PDF).Pg1Reports {
-		var b bytes.Buffer
+		fdfData := bytes.NewBuffer(nil)
 		var vals map[string]interface{} = elem
-		err := fdf.Write(&b, vals)
+		err := fdf.Write(fdfData, vals)
 		if err != nil {
-			log.Println(err)
-			continue
+			return nil, fmt.Errorf("error filling fdf: %v", err)
 		}
 
 		fd, err := CreateMemFile(make([]byte, 0))
 		if err != nil {
-			log.Println(err)
+			return nil, fmt.Errorf("error creating memfile: %v", err)
 		}
 
 		FilePath := fmt.Sprintf("/proc/self/fd/%d", fd)
 		File := os.NewFile(uintptr(fd), FilePath)
 		defer File.Close()
 
-		if err := pdftk.FillForm(File, Page1TemplatePath, &b, pdftk.OptionFlatten()); err != nil {
-			log.Println(err)
+		if err := pdftk.FillForm(File, Page1TemplatePath, fdfData, pdftk.OptionFlatten()); err != nil {
+			return nil, fmt.Errorf("error filling pg1 pdf: %v", err)
 		}
 
 		outfiles[pdftk.InputHandleNameFromInt(i)] = FilePath
 	}
 
 	for i, elem := range (*PDF).Pg2Reports {
-		var b bytes.Buffer
+		fdfData := bytes.NewBuffer(nil)
 		var vals map[string]interface{} = elem
-		err := fdf.Write(&b, vals)
+		err := fdf.Write(fdfData, vals)
 		if err != nil {
-			log.Println(err)
-			continue
+			return nil, fmt.Errorf("error filling fdf: %v", err)
 		}
 
 		fd, err := CreateMemFile(make([]byte, 0))
 		if err != nil {
-			log.Println(err)
+			return nil, fmt.Errorf("error creating memfile: %v", err)
 		}
 
 		FilePath := fmt.Sprintf("/proc/self/fd/%d", fd)
 		File := os.NewFile(uintptr(fd), FilePath)
 		defer File.Close()
 
-		if err := pdftk.FillForm(File, Page2TemplatePath, &b, pdftk.OptionFlatten()); err != nil {
-			log.Println(err)
+		if err := pdftk.FillForm(File, Page2TemplatePath, fdfData, pdftk.OptionFlatten()); err != nil {
+			return nil, fmt.Errorf("error filling pg2 pdf: %v", err)
 		}
 
 		outfiles[pdftk.InputHandleNameFromInt(i+len((*PDF).Pg1Reports))] = FilePath
@@ -196,8 +193,8 @@ func (PDF *PDFReport) WriteToPDF() *bytes.Buffer {
 	Output := bytes.NewBuffer(nil)
 
 	if err := pdftk.Cat(Output, outfiles, []pdftk.PageRange{}, pdftk.OptionFlatten()); err != nil {
-		log.Println(err)
+		return nil, fmt.Errorf("error concatonating final pdf: %v", err)
 	}
 
-	return Output
+	return Output, nil
 }
