@@ -2,11 +2,13 @@ package main
 
 import (
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
+	"syscall"
 	"time"
 
 	"github.com/gorilla/schema"
@@ -21,7 +23,11 @@ type Submission struct {
 func WebError(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("../static/error.html"))
 	if err := tmpl.Execute(w, nil); err != nil {
-		log.Println(err)
+		if errors.Is(err, syscall.EPIPE) {
+			return
+		} else {
+			log.Println(err)
+		}
 	}
 }
 
@@ -127,13 +133,21 @@ func PostForm(w http.ResponseWriter, r *http.Request) {
 
 	tmpl := template.Must(template.ParseFiles("../static/submitted.html"))
 	if err := tmpl.Execute(w, SubmissionData); err != nil {
-		log.Println(err)
+		if errors.Is(err, syscall.EPIPE) {
+			return
+		} else {
+			log.Println(err)
+		}
 	}
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("../static/index.html"))
 	if err := tmpl.Execute(w, nil); err != nil {
-		log.Println(err)
+		if errors.Is(err, syscall.EPIPE) {
+			return
+		} else {
+			log.Println(err)
+		}
 	}
 }
