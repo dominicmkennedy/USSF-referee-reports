@@ -39,18 +39,18 @@ func GetReportID() (string, error) {
 	sa := option.WithCredentialsFile(PATH_TO_FIREBASE_CREDS)
 	app, err := firebase.NewApp(ctx, nil, sa)
 	if err != nil {
-		return "", fmt.Errorf("Error getting a firebase app: %s", err)
+		return "", fmt.Errorf("Error getting a firebase app: %v", err)
 	}
 
 	client, err := app.Firestore(ctx)
 	if err != nil {
-		return "", fmt.Errorf("Error getting a firebase client: %s", err)
+		return "", fmt.Errorf("Error getting a firebase client: %v", err)
 	}
 	defer client.Close()
 
 	DocRef, _, err := client.Collection("Reports").Add(ctx, struct{}{})
 	if err != nil {
-		return "", fmt.Errorf("Error creating a report: %s", err)
+		return "", fmt.Errorf("Error creating a report: %v", err)
 	}
 
 	return DocRef.ID, nil
@@ -61,17 +61,17 @@ func (POST *POSTReport) AddToDatabase() error {
 	sa := option.WithCredentialsFile(PATH_TO_FIREBASE_CREDS)
 	app, err := firebase.NewApp(ctx, nil, sa)
 	if err != nil {
-		return fmt.Errorf("Error getting a firebase app: %s", err)
+		return fmt.Errorf("Error getting a firebase app: %v", err)
 	}
 
 	client, err := app.Firestore(ctx)
 	if err != nil {
-		return fmt.Errorf("Error getting a firebase client: %s", err)
+		return fmt.Errorf("Error getting a firebase client: %v", err)
 	}
 	defer client.Close()
 
 	if _, err = client.Collection("Reports").Doc(POST.ReportID).Set(ctx, POST); err != nil {
-		return fmt.Errorf("Error uploading report data: %s", err)
+		return fmt.Errorf("Error uploading report data: %v", err)
 	}
 
 	PlayerReports := POST.GetPlayerReports()
@@ -83,10 +83,10 @@ func (POST *POSTReport) AddToDatabase() error {
 		dsnap, err := client.Collection("Players").Doc(PlayerID).Get(ctx)
 		if status.Code(err) == codes.NotFound {
 			if _, err = client.Collection("Players").Doc(PlayerID).Set(ctx, PlayerReport); err != nil {
-				return fmt.Errorf("Error uploading new player report: %s", err)
+				return fmt.Errorf("Error uploading new player report: %v", err)
 			}
 		} else if err != nil {
-			return fmt.Errorf("Error retriving player report: %s", err)
+			return fmt.Errorf("Error retriving player report: %v", err)
 		} else {
 			DocData := dsnap.Data()
 			if Cautions, ok := DocData["Cautions"]; ok {
@@ -102,7 +102,7 @@ func (POST *POSTReport) AddToDatabase() error {
 			}
 
 			if _, err = client.Collection("Players").Doc(PlayerID).Set(ctx, PlayerReport); err != nil {
-				return fmt.Errorf("Error uploading player report: %s", err)
+				return fmt.Errorf("Error uploading player report: %v", err)
 			}
 		}
 	}
@@ -115,10 +115,10 @@ func (POST *POSTReport) AddToDatabase() error {
 	dsnap, err := client.Collection("Referees").Doc(RefereeUSSFID).Get(ctx)
 	if status.Code(err) == codes.NotFound {
 		if _, err = client.Collection("Referees").Doc(RefereeUSSFID).Set(ctx, RefereeReport); err != nil {
-			return fmt.Errorf("Error uploading new referee report: %s", err)
+			return fmt.Errorf("Error uploading new referee report: %v", err)
 		}
 	} else if err != nil {
-		return fmt.Errorf("Error retriving referee report: %s", err)
+		return fmt.Errorf("Error retriving referee report: %v", err)
 	} else {
 		DocData := dsnap.Data()
 
@@ -145,7 +145,7 @@ func (POST *POSTReport) AddToDatabase() error {
 		}
 
 		if _, err = client.Collection("Referees").Doc(RefereeUSSFID).Set(ctx, RefereeReport); err != nil {
-			return fmt.Errorf("Error uploading referee report: %s", err)
+			return fmt.Errorf("Error uploading referee report: %v", err)
 		}
 	}
 
