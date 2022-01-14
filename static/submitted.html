@@ -2,34 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <style>
-#PDFCanvas {
-    border: 1px solid black;
-    direction: ltr;
-}
-        </style>
-        
-        <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
     </head>
     <body>
 
-        <h1> Report preview </h1>
-        <hr>
-        <h3> Please review the report and ensure that all information is correct </h3>
-        <p>
-        Once submitted, this report will be sent to you at {{.ReporterEmail}} as well as {{.SendToEmails}}
-        </p>
-        <hr>
-        <div>
-            <button id="prev">Previous</button>
-            <button id="next">Next</button>
-            &nbsp; &nbsp;
-            <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
-        </div>
-        <canvas id="PDFCanvas"></canvas>
-        <hr>
+        <h1> Report Submitted! </h1>
 
-        <script>const PDF = {{.PDF}}</script>
-        <script src="/static/PDF.js"></script>
     </body>
 </html>

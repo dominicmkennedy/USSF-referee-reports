@@ -72,7 +72,8 @@ func init() {
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("../static"))))
 	http.HandleFunc("/", index)
-	http.HandleFunc("/submit/", PostForm)
+	http.HandleFunc("/review/", PostForm)
+	http.HandleFunc("/submit/", SubmitForm)
 }
 
 func InitStates() {
