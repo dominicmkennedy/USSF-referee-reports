@@ -31,7 +31,7 @@
 
         <hr>
 
-        <button>Edit report</button>
+        <button onclick="history.back()">Edit report</button>
 
         <form action="/submit/" method="POST" autocomplete="off">
             {{range $k, $v := .POSTForm}}  
