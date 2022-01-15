@@ -3,10 +3,10 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"os"
 	"strconv"
 	"time"
 
+	"github.com/dominicmkennedy/gobrr"
 	"github.com/patiek/go-pdftools/fdf"
 	"github.com/patiek/go-pdftools/pdftk"
 )
@@ -150,20 +150,17 @@ func (PDF *PDFReport) WriteToPDF() (*bytes.Buffer, error) {
 			return nil, fmt.Errorf("error filling fdf: %v", err)
 		}
 
-		fd, err := CreateMemFile(make([]byte, 0))
+		file, err := gobrr.CreateEmptyMemfile()
 		if err != nil {
 			return nil, fmt.Errorf("error creating memfile: %v", err)
 		}
+		defer file.Close()
 
-		FilePath := fmt.Sprintf("/proc/self/fd/%d", fd)
-		File := os.NewFile(uintptr(fd), FilePath)
-		defer File.Close()
-
-		if err := pdftk.FillForm(File, Page1TemplatePath, fdfData, pdftk.OptionFlatten()); err != nil {
+		if err := pdftk.FillForm(file, Page1TemplatePath, fdfData, pdftk.OptionFlatten()); err != nil {
 			return nil, fmt.Errorf("error filling pg1 pdf: %v", err)
 		}
 
-		outfiles[pdftk.InputHandleNameFromInt(i)] = FilePath
+		outfiles[pdftk.InputHandleNameFromInt(i)] = file.Name()
 	}
 
 	for i, elem := range (*PDF).Pg2Reports {
@@ -174,20 +171,17 @@ func (PDF *PDFReport) WriteToPDF() (*bytes.Buffer, error) {
 			return nil, fmt.Errorf("error filling fdf: %v", err)
 		}
 
-		fd, err := CreateMemFile(make([]byte, 0))
+		file, err := gobrr.CreateEmptyMemfile()
 		if err != nil {
 			return nil, fmt.Errorf("error creating memfile: %v", err)
 		}
+		defer file.Close()
 
-		FilePath := fmt.Sprintf("/proc/self/fd/%d", fd)
-		File := os.NewFile(uintptr(fd), FilePath)
-		defer File.Close()
-
-		if err := pdftk.FillForm(File, Page2TemplatePath, fdfData, pdftk.OptionFlatten()); err != nil {
+		if err := pdftk.FillForm(file, Page2TemplatePath, fdfData, pdftk.OptionFlatten()); err != nil {
 			return nil, fmt.Errorf("error filling pg2 pdf: %v", err)
 		}
 
-		outfiles[pdftk.InputHandleNameFromInt(i+len((*PDF).Pg1Reports))] = FilePath
+		outfiles[pdftk.InputHandleNameFromInt(i+len((*PDF).Pg1Reports))] = file.Name()
 	}
 
 	Output := bytes.NewBuffer(nil)
