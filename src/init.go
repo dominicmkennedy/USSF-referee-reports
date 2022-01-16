@@ -1,30 +1,48 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 
+	firebase "firebase.google.com/go"
 	"github.com/dominicmkennedy/gobrr"
+	"google.golang.org/api/option"
 )
 
 func PDFTempalteInit() {
 	if file, err := gobrr.CopyFilePathToMemfile(Page1TemplatePath); err != nil {
-		log.Println(err)
+        log.Panicln(err)
 	} else {
-		Page1TemplatePath = file.Name()
+        PAGE_1_TEMPLATE = file
 	}
 
 	if file, err := gobrr.CopyFilePathToMemfile(Page2TemplatePath); err != nil {
-		log.Println(err)
+        log.Panicln(err)
 	} else {
-		Page2TemplatePath = file.Name()
+        PAGE_2_TEMPLATE = file
+	}
+}
+
+func firebaseLoginInit() {
+	ctx := context.Background()
+	sa := option.WithCredentialsFile(PATH_TO_FIREBASE_CREDS)
+	app, err := firebase.NewApp(ctx, nil, sa)
+	if err != nil {
+        log.Panicln(err)
+	}
+
+	FIREBASE_CLIENT, err = app.Firestore(ctx)
+	if err != nil {
+        log.Panicln(err)
 	}
 }
 
 func init() {
 	StartLogger()
 	InitStates()
-	PDFTempalteInit()
+    PDFTempalteInit()
+    firebaseLoginInit()
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("../static"))))
 	http.HandleFunc("/", index)
