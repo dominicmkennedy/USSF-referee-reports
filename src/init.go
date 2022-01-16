@@ -11,13 +11,13 @@ import (
 )
 
 func PDFTempalteInit() {
-	if file, err := gobrr.CopyFilePathToMemfile(Page1TemplatePath); err != nil {
+	if file, err := gobrr.CopyFilePathToMemfile(PAGE_1_TEMPLATE_PATH); err != nil {
         log.Panicln(err)
 	} else {
         PAGE_1_TEMPLATE = file
 	}
 
-	if file, err := gobrr.CopyFilePathToMemfile(Page2TemplatePath); err != nil {
+	if file, err := gobrr.CopyFilePathToMemfile(PAGE_2_TEMPLATE_PATH); err != nil {
         log.Panicln(err)
 	} else {
         PAGE_2_TEMPLATE = file

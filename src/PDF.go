@@ -156,7 +156,7 @@ func (PDF *PDFReport) WriteToPDF() (*bytes.Buffer, error) {
 		}
 		defer file.Close()
 
-		if err := pdftk.FillForm(file, Page1TemplatePath, fdfData, pdftk.OptionFlatten()); err != nil {
+		if err := pdftk.FillForm(file, PAGE_1_TEMPLATE.Name(), fdfData, pdftk.OptionFlatten()); err != nil {
 			return nil, fmt.Errorf("error filling pg1 pdf: %v", err)
 		}
 
@@ -177,7 +177,7 @@ func (PDF *PDFReport) WriteToPDF() (*bytes.Buffer, error) {
 		}
 		defer file.Close()
 
-		if err := pdftk.FillForm(file, Page2TemplatePath, fdfData, pdftk.OptionFlatten()); err != nil {
+		if err := pdftk.FillForm(file, PAGE_1_TEMPLATE.Name(), fdfData, pdftk.OptionFlatten()); err != nil {
 			return nil, fmt.Errorf("error filling pg2 pdf: %v", err)
 		}
 
