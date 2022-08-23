@@ -1,40 +1,18 @@
 package main
 
 import (
-	"encoding/base64"
-	"errors"
-	"html/template"
 	"log"
 	"net/http"
-	"syscall"
 	"time"
 
 	"github.com/gorilla/schema"
 )
 
-type Submission struct {
-	PDF           string
-	ReporterEmail string
-	SendToEmails  []string
-	POSTForm      interface{}
-}
-
-func WebError(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("../static/error.html"))
-	if err := tmpl.Execute(w, nil); err != nil {
-		if errors.Is(err, syscall.EPIPE) {
-			return
-		} else {
-			log.Println(err)
-		}
-	}
-}
-
-func SubmitForm(w http.ResponseWriter, r *http.Request) {
+func PostForm(w http.ResponseWriter, r *http.Request) {
 	//  parse http POST request
 	if err := r.ParseForm(); err != nil {
-		log.Println(err)
-		WebError(w, r)
+		log.Printf("error parsing http POST request: %v", err)
+		http.Redirect(w, r, "/error.html", http.StatusFound)
 		return
 	}
 
@@ -45,15 +23,14 @@ func SubmitForm(w http.ResponseWriter, r *http.Request) {
 	decoder := schema.NewDecoder()
 	decoder.RegisterConverter(time.Now(), DateConverter)
 	if err := decoder.Decode(form, r.PostForm); err != nil {
-		log.Println(err)
-		WebError(w, r)
+		log.Printf("error decoding POST data into form struct: %v", err)
+		http.Redirect(w, r, "/error.html", http.StatusFound)
 		return
 	}
 
-	ReportID, err := GetReportID()
-	if err != nil {
-		log.Println(err)
-		WebError(w, r)
+	if err := CAPTCHA.Verify(form.RecaptchaResponse); err != nil {
+		log.Printf("error verifying captcha: %v", err)
+		http.Redirect(w, r, "/error.html", http.StatusFound)
 		return
 	}
 
@@ -61,109 +38,38 @@ func SubmitForm(w http.ResponseWriter, r *http.Request) {
 	// if internally the form has some malformed data sanitize should first attempt to fix it
 	// if that's not posible than the data should be returned to the glang 0 value
 	// if referee reports gets a lot of griefers than I may later ammend this statment
-	form.SanitizePostData(ReportID)
+
+	// located in report.go
+	form.SanitizePostData()
 
 	//  put POST data into the database
+	// located in database.go
 	if err := form.AddToDatabase(); err != nil {
-		log.Println(err)
-		WebError(w, r)
+		log.Printf("error adding form to database: %v", err)
+		http.Redirect(w, r, "/error.html", http.StatusFound)
 		return
 	}
 
 	//  create new PDF struct
 	//  fill in data from the POSTReport
-	//  write the PDF to disk
+	//  write the PDF to RAM
 	//  then store it in cloud
+	//  located in pdf.go
 	PDF := new(PDFReport)
 	PDF.FillPDF(*form)
 	PDFfile, err := PDF.WriteToPDF()
 	if err != nil {
-		log.Println(err)
-		WebError(w, r)
+		log.Printf("error generating PDF file: %v", err)
+		http.Redirect(w, r, "/error.html", http.StatusFound)
 		return
 	}
 
-	if err := SendReport(form, PDFfile); err != nil {
-		log.Println(err)
-		WebError(w, r)
-		return
-	}
-
+	// located in storage.go
 	if err := PDF.StorePDF(PDFfile); err != nil {
-		log.Println(err)
-		WebError(w, r)
+		log.Printf("error storing report: %v", err)
+		http.Redirect(w, r, "/error.html", http.StatusFound)
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles("../static/submitted.html"))
-	if err := tmpl.Execute(w, nil); err != nil {
-		if errors.Is(err, syscall.EPIPE) {
-			return
-		} else {
-			log.Println(err)
-		}
-	}
-}
-
-func PostForm(w http.ResponseWriter, r *http.Request) {
-	//  parse http POST request
-	if err := r.ParseForm(); err != nil {
-		log.Println(err)
-		WebError(w, r)
-		return
-	}
-
-	//  create a new POSTReport struct
-	//  put POST data into struct
-	//  then sanitize data
-	form := new(POSTReport)
-	decoder := schema.NewDecoder()
-	decoder.RegisterConverter(time.Now(), DateConverter)
-	if err := decoder.Decode(form, r.PostForm); err != nil {
-		log.Println(err)
-		WebError(w, r)
-		return
-	}
-	form.SanitizePostData("tmp-report")
-
-	//  create new PDF struct
-	//  fill in data from the POSTReport
-	//  write the PDF to disk
-	//  then store it in cloud
-	PDF := new(PDFReport)
-	PDF.FillPDF(*form)
-	PDFfile, err := PDF.WriteToPDF()
-	if err != nil {
-		log.Println(err)
-		WebError(w, r)
-		return
-	}
-	EncodedPDF := base64.StdEncoding.EncodeToString(PDFfile.Bytes())
-
-	SubmissionData := Submission{
-		PDF:           EncodedPDF,
-		ReporterEmail: form.ReporterEmail,
-		SendToEmails:  form.SendToEmail,
-		POSTForm:      r.PostForm,
-	}
-
-	tmpl := template.Must(template.ParseFiles("../static/review.html"))
-	if err := tmpl.Execute(w, SubmissionData); err != nil {
-		if errors.Is(err, syscall.EPIPE) {
-			return
-		} else {
-			log.Println(err)
-		}
-	}
-}
-
-func index(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("../static/index.html"))
-	if err := tmpl.Execute(w, nil); err != nil {
-		if errors.Is(err, syscall.EPIPE) {
-			return
-		} else {
-			log.Println(err)
-		}
-	}
+	http.Redirect(w, r, "/success.html", http.StatusFound)
 }

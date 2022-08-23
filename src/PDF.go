@@ -3,6 +3,8 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"log"
+	"os"
 	"strconv"
 	"time"
 
@@ -12,13 +14,10 @@ import (
 )
 
 type PDFReport struct {
-	Pg1Reports []Pg1Report
-	Pg2Reports []Pg2Report
+	Pg1Reports []fdf.Inputs
+	Pg2Reports []fdf.Inputs
 	ReportID   string
 }
-
-type Pg1Report map[string]interface{}
-type Pg2Report map[string]interface{}
 
 func (PDF *PDFReport) FillPDF(POST POSTReport) {
 	PDF.ReportID = POST.ReportID
@@ -34,20 +33,20 @@ func (PDF *PDFReport) FillPDF(POST POSTReport) {
 		pg1 = 1
 	}
 
-	PDF.Pg1Reports = make([]Pg1Report, pg1)
+	PDF.Pg1Reports = make([]fdf.Inputs, pg1)
 	for i := 0; i < pg1; i++ {
-		PDF.Pg1Reports[i].FillPDF(POST, i)
+		PDF.FillPg1PDF(POST, i)
 	}
 
 	pg2 := len(POST.Supplementals)
-	PDF.Pg2Reports = make([]Pg2Report, pg2)
+	PDF.Pg2Reports = make([]fdf.Inputs, pg2)
 	for i := 0; i < pg2; i++ {
-		PDF.Pg2Reports[i].FillPDF(POST, i)
+		PDF.FillPg2PDF(POST, i)
 	}
 }
 
-func (PDF *Pg1Report) FillPDF(POST POSTReport, Page int) {
-	*PDF = map[string]interface{}{
+func (PDF PDFReport) FillPg1PDF(POST POSTReport, Page int) {
+	PDF.Pg1Reports[Page] = map[string]interface{}{
 		"HomeTeamName":  POST.HomeTeamState + ": " + POST.HomeTeamName,
 		"HomeTeamScore": POST.HomeTeamScore,
 		"AwayTeamName":  POST.AwayTeamState + ": " + POST.AwayTeamName,
@@ -74,50 +73,50 @@ func (PDF *Pg1Report) FillPDF(POST POSTReport, Page int) {
 		"SubmittedDate": POST.SubmittedDate.Format(time.RFC1123),
 	}
 
-	for iPDF, iPOST := 0, Page*10; iPDF < 10 && iPOST < len(POST.Cautions); iPDF, iPOST = iPDF+1, iPOST+1 {
-		(*PDF)["CautionPlayerName"+strconv.Itoa(iPDF)] = POST.Cautions[iPOST].PlayerRole +
-			": " + POST.Cautions[iPOST].PlayerName
-		(*PDF)["CautionPlayerID"+strconv.Itoa(iPDF)] = POST.Cautions[iPOST].PlayerID
-		(*PDF)["CautionTeam"+strconv.Itoa(iPDF)] = POST.Cautions[iPOST].Team
-		(*PDF)["CautionCode"+strconv.Itoa(iPDF)] = POST.Cautions[iPOST].Code
+	for PDFIndex, POSTIndex := 0, Page*10; PDFIndex < 10 && POSTIndex < len(POST.Cautions); PDFIndex, POSTIndex = PDFIndex+1, POSTIndex+1 {
+		PDF.Pg1Reports[Page]["CautionPlayerName"+strconv.Itoa(PDFIndex)] = POST.Cautions[POSTIndex].PlayerName
+		PDF.Pg1Reports[Page]["CautionPlayerID"+strconv.Itoa(PDFIndex)] = POST.Cautions[POSTIndex].PlayerID
+		PDF.Pg1Reports[Page]["CautionTeam"+strconv.Itoa(PDFIndex)] = POST.Cautions[POSTIndex].Team
+		PDF.Pg1Reports[Page]["CautionCode"+strconv.Itoa(PDFIndex)] = POST.Cautions[POSTIndex].Code
 	}
 
-	for iPDF, iPOST := 0, Page*5; iPDF < 5 && iPOST < len(POST.SendOffs); iPDF, iPOST = iPDF+1, iPOST+1 {
-		(*PDF)["RedPlayerName"+strconv.Itoa(iPDF)] = POST.SendOffs[iPOST].PlayerRole +
-			": " + POST.SendOffs[iPOST].PlayerName
-		(*PDF)["RedPlayerID"+strconv.Itoa(iPDF)] = POST.SendOffs[iPOST].PlayerID
-		(*PDF)["RedTeam"+strconv.Itoa(iPDF)] = POST.SendOffs[iPOST].Team
-		(*PDF)["RedCode"+strconv.Itoa(iPDF)] = POST.SendOffs[iPOST].Code
+	for PDFIndex, POSTIndex := 0, Page*5; PDFIndex < 5 && POSTIndex < len(POST.SendOffs); PDFIndex, POSTIndex = PDFIndex+1, POSTIndex+1 {
+		PDF.Pg1Reports[Page]["RedPlayerName"+strconv.Itoa(PDFIndex)] = POST.SendOffs[POSTIndex].PlayerName
+		PDF.Pg1Reports[Page]["RedPlayerID"+strconv.Itoa(PDFIndex)] = POST.SendOffs[POSTIndex].PlayerID
+		PDF.Pg1Reports[Page]["RedTeam"+strconv.Itoa(PDFIndex)] = POST.SendOffs[POSTIndex].Team
+		PDF.Pg1Reports[Page]["RedCode"+strconv.Itoa(PDFIndex)] = POST.SendOffs[POSTIndex].Code
 	}
 }
 
-func (PDF *Pg2Report) FillPDF(POST POSTReport, Page int) {
+func (PDF PDFReport) FillPg2PDF(POST POSTReport, Page int) {
 	var SupplementalLocation string
 	Marker := "x"
 
 	// takes values 0-15 for width
-	SupplementalLocationY, err := strconv.Atoi(POST.Supplementals[Page].LocationY)
+	SupplementalLocationY, err := strconv.ParseFloat(POST.Supplementals[Page].LocationY, 64)
 	if err != nil {
 		Marker = " "
 	}
 
 	// takes int values 0-46 for height
-	SupplementalLocationX, err := strconv.Atoi(POST.Supplementals[Page].LocationX)
+	SupplementalLocationX, err := strconv.ParseFloat(POST.Supplementals[Page].LocationX, 64)
 	if err != nil {
 		Marker = " "
 	}
 
-	for i := 0; i < SupplementalLocationY; i++ {
+	for i := 0; i < int(SupplementalLocationY); i++ {
 		SupplementalLocation += "\n"
 	}
+	log.Println((int(SupplementalLocationY)))
+	log.Println((int(SupplementalLocationX)))
 
-	for i := 0; i < SupplementalLocationX; i++ {
+	for i := 0; i < int(SupplementalLocationX); i++ {
 		SupplementalLocation += " "
 	}
 
 	SupplementalLocation += Marker
 
-	*PDF = map[string]interface{}{
+	PDF.Pg2Reports[Page] = map[string]interface{}{
 		"HomeTeamName":  POST.HomeTeamState + ": " + POST.HomeTeamName,
 		"HomeTeamScore": POST.HomeTeamScore,
 		"AwayTeamName":  POST.AwayTeamState + ": " + POST.AwayTeamName,
@@ -139,49 +138,43 @@ func (PDF *Pg2Report) FillPDF(POST POSTReport, Page int) {
 	}
 }
 
-func (PDF *PDFReport) WriteToPDF() (*bytes.Buffer, error) {
-	outfiles := pdftk.NewInputFileMap()
-
-	for i, elem := range (*PDF).Pg1Reports {
-		fdfData := bytes.NewBuffer(nil)
-		var vals map[string]interface{} = elem
-		err := fdf.Write(fdfData, vals)
-		if err != nil {
-			return nil, fmt.Errorf("error filling fdf: %v", err)
-		}
-
-		file, err := gobrr.CreateEmptyMemfile()
-		if err != nil {
-			return nil, fmt.Errorf("error creating memfile: %v", err)
-		}
-		defer file.Close()
-
-		if err := pdftk.FillForm(file, PAGE_1_TEMPLATE.Name(), fdfData, pdftk.OptionFlatten()); err != nil {
-			return nil, fmt.Errorf("error filling pg1 pdf: %v", err)
-		}
-
-		outfiles[pdftk.InputHandleNameFromInt(i)] = file.Name()
+func writePDFPage(pageData fdf.Inputs, pageTemplatePath string) (*os.File, error) {
+	fdfData := bytes.NewBuffer(nil)
+	if err := fdf.Write(fdfData, pageData); err != nil {
+		return nil, fmt.Errorf("error filling fdf: %v", err)
 	}
 
-	for i, elem := range (*PDF).Pg2Reports {
-		fdfData := bytes.NewBuffer(nil)
-		var vals map[string]interface{} = elem
-		err := fdf.Write(fdfData, vals)
-		if err != nil {
-			return nil, fmt.Errorf("error filling fdf: %v", err)
-		}
+	file, err := gobrr.CreateEmptyMemfile()
+	if err != nil {
+		return nil, fmt.Errorf("error creating memfile: %v", err)
+	}
 
-		file, err := gobrr.CreateEmptyMemfile()
+	if err := pdftk.FillForm(file, pageTemplatePath, fdfData, pdftk.OptionFlatten()); err != nil {
+		return nil, fmt.Errorf("error filling pdf: %v", err)
+	}
+
+	return file, nil
+}
+
+func (PDF PDFReport) WriteToPDF() (*bytes.Buffer, error) {
+	outfiles := pdftk.NewInputFileMap()
+
+	for i, pg1Data := range PDF.Pg1Reports {
+		file, err := writePDFPage(pg1Data, PAGE_1_TEMPLATE.Name())
 		if err != nil {
-			return nil, fmt.Errorf("error creating memfile: %v", err)
+			return nil, fmt.Errorf("error generating pdf pg1: %v", err)
 		}
+		outfiles[pdftk.InputHandleNameFromInt(i)] = file.Name()
 		defer file.Close()
+	}
 
-		if err := pdftk.FillForm(file, PAGE_1_TEMPLATE.Name(), fdfData, pdftk.OptionFlatten()); err != nil {
-			return nil, fmt.Errorf("error filling pg2 pdf: %v", err)
+	for i, pg2Data := range PDF.Pg2Reports {
+		file, err := writePDFPage(pg2Data, PAGE_2_TEMPLATE.Name())
+		if err != nil {
+			return nil, fmt.Errorf("error generating pdf pg1: %v", err)
 		}
-
-		outfiles[pdftk.InputHandleNameFromInt(i+len((*PDF).Pg1Reports))] = file.Name()
+		outfiles[pdftk.InputHandleNameFromInt(i+len(PDF.Pg1Reports))] = file.Name()
+		defer file.Close()
 	}
 
 	Output := bytes.NewBuffer(nil)

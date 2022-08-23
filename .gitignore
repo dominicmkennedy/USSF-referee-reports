@@ -2,6 +2,7 @@ FirebaseSA.json
 GoogleWorkspacePassword.txt
 logs.txt
 
+*.json
 *.pdf
 !templates/pg1.pdf
 !templates/pg2.pdf

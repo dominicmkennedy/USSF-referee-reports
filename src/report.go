@@ -3,13 +3,15 @@ package main
 import (
 	"net/mail"
 	"reflect"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 type Sanction struct {
-	PlayerRole string
 	PlayerName string
 	PlayerID   string
 	Team       string
@@ -30,9 +32,8 @@ type POSTReport struct {
 	AwayTeamName  string
 	AwayTeamScore string
 
-	PlayerSex string
-	PlayerAge string
-
+	PlayerSex       string
+	PlayerAge       string
 	GameAssociation string
 	GameDivision    string
 	GameLeague      string
@@ -53,7 +54,7 @@ type POSTReport struct {
 	SendOffs      []Sanction
 	Supplementals []Supplemental
 
-	SendToEmail []string
+	//SendToEmail []string
 
 	ReporterName   string
 	ReporterUSSFID string
@@ -61,16 +62,33 @@ type POSTReport struct {
 	ReporterEmail  string
 
 	ReportID string
+
+	RecaptchaResponse string `schema:"g-recaptcha-response"`
 }
 
-func (r *POSTReport) SanitizePostData(ReportID string) {
-	r.ReportID = ReportID
-	//TODO consider string lengths
-	//TODO Supplementals
-	//TODO speed
-	//TODO organize and comments
+func (r *POSTReport) SanitizePostData() {
+	r.ReportID = uuid.NewV4().String()
 
-	// trim slice lengths to reasonable amounts in the case of POST request tampering
+	intMatcher := regexp.MustCompile(`\D`)
+
+	r.HomeTeamName = strings.ToUpper(r.HomeTeamName)
+	r.AwayTeamName = strings.ToUpper(r.AwayTeamName)
+	r.HomeTeamScore = intMatcher.ReplaceAllString(r.HomeTeamScore, "")
+	r.AwayTeamScore = intMatcher.ReplaceAllString(r.AwayTeamScore, "")
+
+	r.PlayerAge = strings.ToUpper(r.PlayerAge)
+	r.GameDivision = strings.ToUpper(r.GameDivision)
+	r.GameNumber = r.ReportID
+
+	r.RefereeName = strings.ToUpper(r.RefereeName)
+	r.AssistantReferee1Name = strings.ToUpper(r.AssistantReferee1Name)
+	r.AssistantReferee2Name = strings.ToUpper(r.AssistantReferee2Name)
+	r.FourthOfficialName = strings.ToUpper(r.FourthOfficialName)
+	SanitizeRefGrade(&r.RefereeGrade)
+	SanitizeRefGrade(&r.AssistantReferee1Grade)
+	SanitizeRefGrade(&r.AssistantReferee2Grade)
+	SanitizeRefGrade(&r.FourthOfficialGrade)
+
 	if len(r.Cautions) > 30 {
 		r.Cautions = r.Cautions[:30]
 	}
@@ -80,99 +98,62 @@ func (r *POSTReport) SanitizePostData(ReportID string) {
 	if len(r.Supplementals) > 5 {
 		r.Supplementals = r.Supplementals[:5]
 	}
-	if len(r.SendToEmail) > 30 {
-		r.SendToEmail = r.SendToEmail[:30]
-	}
-
-	r.HomeTeamName = strings.ToUpper(r.HomeTeamName)
-	r.AwayTeamName = strings.ToUpper(r.AwayTeamName)
-
-	// makes sure the user has actually put in ints
-	// even though this is internally stored as a string
-	SanitizeInt(&r.HomeTeamScore)
-	SanitizeInt(&r.AwayTeamScore)
-
-	if r.PlayerSex != "Men" && r.PlayerSex != "Women" && r.PlayerSex != "Co-ed" {
-		r.PlayerSex = ""
-	}
-
-	SanitizeRefGrade(&r.RefereeGrade)
-	SanitizeRefGrade(&r.AssistantReferee1Grade)
-	SanitizeRefGrade(&r.AssistantReferee2Grade)
-	SanitizeRefGrade(&r.FourthOfficialGrade)
-
-	r.RefereeName = strings.ToUpper(r.RefereeName)
-	r.AssistantReferee1Name = strings.ToUpper(r.AssistantReferee1Name)
-	r.AssistantReferee2Name = strings.ToUpper(r.AssistantReferee2Name)
-	r.FourthOfficialName = strings.ToUpper(r.FourthOfficialName)
+	//if len(r.SendToEmail) > 30 {
+	//r.SendToEmail = r.SendToEmail[:30]
+	//}
 
 	for i := range r.Cautions {
-		SanitizeSanction(&r.Cautions[i])
+		r.Cautions[i] = r.SanitizeSanction(r.Cautions[i])
 	}
 	for i := range r.SendOffs {
-		SanitizeSanction(&r.SendOffs[i])
+		r.SendOffs[i] = r.SanitizeSanction(r.SendOffs[i])
 	}
-
-	SanitizeEmail(&r.ReporterEmail)
-
-	for i := range r.SendToEmail {
-		SanitizeEmail(&r.SendToEmail[i])
+	for i := range r.Supplementals {
+		r.Supplementals[i] = SanitizeSupplemental(r.Supplementals[i])
 	}
-
-	IsStringInMap(&r.AwayTeamState, &States)
-	IsStringInMap(&r.HomeTeamState, &States)
-
-	/*
-
-	   // honestly maybe regex idrk
-	   PlayerAge               string
-
-	   GameAssociation         string
-	   GameDivision            string
-	   GameLeague              string
-	   GameNumber              string
-
-	   Cautions                []Sanction
-	   SendOffs                []Sanction
-	   Team             string
-	   Code             string
-
-	   Supplementals           []Supplemental
-	   Statement   string
-
-	*/
+	//for i := range r.SendToEmail {
+	//SanitizeEmail(&r.SendToEmail[i])
+	//}
 
 	r.ReporterName = strings.ToUpper(r.ReporterName)
+	r.ReporterUSSFID = intMatcher.ReplaceAllString(r.ReporterUSSFID, "")
+	r.ReporterPhone = intMatcher.ReplaceAllString(r.ReporterPhone, "")
 
-	SanitizeInt(&r.ReporterUSSFID)
-	SanitizeInt(&r.ReporterPhone)
+	SanitizeEmail(&r.ReporterEmail)
 }
 
-func SanitizeSupplemental(S *Supplemental) {
-	//TODO sanitize Supplemental statment
+func SanitizeSupplemental(S Supplemental) Supplemental {
+	var newSupplemental Supplemental
 
-	//TODO ranges for these numbers based on math
-	SanitizeInt(&S.LocationX)
-	SanitizeInt(&S.LocationY)
-}
+	newSupplemental.Statement = regexp.MustCompile(`[\t\n\r]+`).ReplaceAllString(S.Statement, " ")
 
-func SanitizeInt(s *string) {
-	if _, err := strconv.Atoi(*s); err != nil {
-		*s = ""
-	}
-}
-
-func SanitizeSanction(S *Sanction) {
-	S.PlayerName = strings.ToUpper(S.PlayerName)
-
-	if S.PlayerRole != "Player" && S.PlayerRole != "Bench Personnoel" {
-		S.PlayerRole = ""
+	if len(newSupplemental.Statement) > 1500 {
+		newSupplemental.Statement = newSupplemental.Statement[:1500]
 	}
 
-	SanitizeInt(&S.PlayerID)
+	newSupplemental.LocationX = S.LocationX
+	newSupplemental.LocationY = S.LocationY
 
-	//TODO sanitize the sanctions misconduct code
-	//TODO sanitize the sanctions Team
+	return newSupplemental
+}
+
+func (r *POSTReport) SanitizeSanction(S Sanction) Sanction {
+	var newSanction Sanction
+
+	newSanction.PlayerName = strings.ToUpper(S.PlayerName)
+
+	if S.Team == "Home Team" {
+		S.Team = r.HomeTeamName
+	} else if S.Team == "Away Team" {
+		S.Team = r.AwayTeamName
+	}
+	newSanction.Team = strings.ToUpper(S.Team)
+
+	newSanction.PlayerID = regexp.MustCompile(`\D`).ReplaceAllString(S.PlayerID, "")
+
+	newSanction.Code = S.Code
+
+	return newSanction
 }
 
 func SanitizeRefGrade(Grade *string) {
@@ -184,12 +165,6 @@ func SanitizeRefGrade(Grade *string) {
 		*Grade != "PRO" &&
 		*Grade != "FIFA" {
 		*Grade = ""
-	}
-}
-
-func IsStringInMap(str *string, m *map[string]struct{}) {
-	if _, found := (*m)[*str]; !found {
-		*str = ""
 	}
 }
 

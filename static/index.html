@@ -2,216 +2,336 @@
 <html lang="en"> 
     <head>
         <meta charset="utf-8">
-        <title> US Soccer Referee Report </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Referee Reports</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     </head>
+
     <body>
-        <form action="/review/" method="POST" autocomplete="off">
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="logo.svg" width="50%">
+                </a>
+            </div>
+        </nav>
+
+        <form action="/post/" method="POST" autocomplete="off">
             <div class="container-lg pt-2 pb-2">
 
                 <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="HomeTeamState" name="HomeTeamState">
-                        <label for="HomeTeamState">Home State</label>
+                    <div class="col-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="HomeTeamState" name="HomeTeamState">
+                                <option value="" selected> </option>
+                                <option value="AL">AL</option>
+                                <option value="AK">AK</option>
+                                <option value="AZ">AZ</option>
+                                <option value="AR">AR</option>
+                                <option value="CA">CA</option>
+                                <option value="CO">CO</option>
+                                <option value="CT">CT</option>
+                                <option value="DE">DE</option>
+                                <option value="DC">DC</option>
+                                <option value="FL">FL</option>
+                                <option value="GA">GA</option>
+                                <option value="HI">HI</option>
+                                <option value="ID">ID</option>
+                                <option value="IL">IL</option>
+                                <option value="IN">IN</option>
+                                <option value="IA">IA</option>
+                                <option value="KS">KS</option>
+                                <option value="KY">KY</option>
+                                <option value="LA">LA</option>
+                                <option value="ME">ME</option>
+                                <option value="MD">MD</option>
+                                <option value="MA">MA</option>
+                                <option value="MI">MI</option>
+                                <option value="MN">MN</option>
+                                <option value="MS">MS</option>
+                                <option value="MO">MO</option>
+                                <option value="MT">MT</option>
+                                <option value="NE">NE</option>
+                                <option value="NV">NV</option>
+                                <option value="NH">NH</option>
+                                <option value="NJ">NJ</option>
+                                <option value="NM">NM</option>
+                                <option value="NY">NY</option>
+                                <option value="NC">NC</option>
+                                <option value="ND">ND</option>
+                                <option value="OH">OH</option>
+                                <option value="OK">OK</option>
+                                <option value="OR">OR</option>
+                                <option value="PA">PA</option>
+                                <option value="RI">RI</option>
+                                <option value="SC">SC</option>
+                                <option value="SD">SD</option>
+                                <option value="TN">TN</option>
+                                <option value="TX">TX</option>
+                                <option value="UT">UT</option>
+                                <option value="VT">VT</option>
+                                <option value="VA">VA</option>
+                                <option value="WA">WA</option>
+                                <option value="WV">WV</option>
+                                <option value="WI">WI</option>
+                                <option value="WY">WY</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                            <label for="HomeTeamState">Home Team State</label>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="HomeTeamName" name="HomeTeamName" required onchange="updateTeams()">
+                            <label for="HomeTeamName">Home Team Name</label>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="HomeTeamScore" name="HomeTeamScore">
+                            <label for="HomeTeamScore">Score</label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="HomeTeamName" name="HomeTeamName">
-                        <label for="HomeTeamName">Home Team</label>
+                    <div class="col-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="AwayTeamState" name="AwayTeamState">
+                                <option value="" selected> </option>
+                                <option value="AL">AL</option>
+                                <option value="AK">AK</option>
+                                <option value="AZ">AZ</option>
+                                <option value="AR">AR</option>
+                                <option value="CA">CA</option>
+                                <option value="CO">CO</option>
+                                <option value="CT">CT</option>
+                                <option value="DE">DE</option>
+                                <option value="DC">DC</option>
+                                <option value="FL">FL</option>
+                                <option value="GA">GA</option>
+                                <option value="HI">HI</option>
+                                <option value="ID">ID</option>
+                                <option value="IL">IL</option>
+                                <option value="IN">IN</option>
+                                <option value="IA">IA</option>
+                                <option value="KS">KS</option>
+                                <option value="KY">KY</option>
+                                <option value="LA">LA</option>
+                                <option value="ME">ME</option>
+                                <option value="MD">MD</option>
+                                <option value="MA">MA</option>
+                                <option value="MI">MI</option>
+                                <option value="MN">MN</option>
+                                <option value="MS">MS</option>
+                                <option value="MO">MO</option>
+                                <option value="MT">MT</option>
+                                <option value="NE">NE</option>
+                                <option value="NV">NV</option>
+                                <option value="NH">NH</option>
+                                <option value="NJ">NJ</option>
+                                <option value="NM">NM</option>
+                                <option value="NY">NY</option>
+                                <option value="NC">NC</option>
+                                <option value="ND">ND</option>
+                                <option value="OH">OH</option>
+                                <option value="OK">OK</option>
+                                <option value="OR">OR</option>
+                                <option value="PA">PA</option>
+                                <option value="RI">RI</option>
+                                <option value="SC">SC</option>
+                                <option value="SD">SD</option>
+                                <option value="TN">TN</option>
+                                <option value="TX">TX</option>
+                                <option value="UT">UT</option>
+                                <option value="VT">VT</option>
+                                <option value="VA">VA</option>
+                                <option value="WA">WA</option>
+                                <option value="WV">WV</option>
+                                <option value="WI">WI</option>
+                                <option value="WY">WY</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                            <label for="AwayTeamState">Away Team State</label>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="AwayTeamName" name="AwayTeamName" required onchange="updateTeams()">
+                            <label for="AwayTeamName">Away Team Name</label>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="AwayTeamScore" name="AwayTeamScore">
+                            <label for="AwayTeamScore">Score</label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="number" class="form-control" id="HomeTeamScore" name="HomeTeamScore">
-                        <label for="HomeTeamScore">Score</label>
+                    <div class="col-4">
+                        <div class="form-floating">
+                            <select class="form-select" id="PlayerSex" name="PlayerSex">
+                                <option value="" selected> </option>
+                                <option value="Men">Men</option>
+                                <option value="Women">Women</option>
+                                <option value="Co-ed">Co-ed</option>
+                            </select>
+                            <label for="PlayerSex">Sex</label>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="PlayerAge" name="PlayerAge">
+                            <label for="PlayerAge">Player Age</label>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-floating">
+                            <select class="form-select" id="GameLeague" name="GameLeague" required>
+                                <option value="" selected> </option>
+                                <option value="Youth recreational">Youth recreational</option>
+                                <option value="Youth competitive">Youth competitive</option>
+                                <option value="Tennessee State League">Tennessee State League</option>
+                                <option value="Amateur adult">Amateur adult</option>
+                                <option value="MLS Next">MLS Next</option>
+                                <option value="UPSL">UPSL</option>
+                                <option value="ECNL">ECNL</option>
+                            </select>
+                            <label for="GameLeague">League</label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="AwayTeamState" name="AwayTeamState">
-                        <label for="AwayTeamState">Away State</label>
-                    </div>
-                </div>
 
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="AwayTeamName" name="AwayTeamName">
-                        <label for="AwayTeamName">Away Team</label>
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="GameDivision" name="GameDivision">
+                            <label for="GameDivision">Division</label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="number" class="form-control" id="AwayTeamScore" name="AwayTeamScore">
-                        <label for="AwayTeamScore">Score</label>
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <input type="datetime-local" class="form-control" id="GameDate" name="GameDate">
+                            <label for="GameDate">Game Date</label>
+                            <input value="NULL" type="hidden" name="SubmittedDate" readonly>
+                        </div>
                     </div>
                 </div>
 
                 <hr>
 
                 <div class="row pt-1">
-                    <div class="form-floating">
-                        <select class="form-select" id="PlayerSex" name="PlayerSex">
-                            <option value="" selected> </option>
-                            <option value="Men">Men</option>
-                            <option value="Women">Women</option>
-                            <option value="Co-ed">Co-ed</option>
-                        </select>
-                        <label for="PlayerSex">Sex</label>
+                    <div class="col-9">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="RefereeName" name="RefereeName">
+                            <label for="RefereeName">Referee</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="RefereeGrade" name="RefereeGrade">
+                                <option selected> </option>
+                                <option value="Grassroots">Grassroots</option>
+                                <option value="Regional">Regional</option>
+                                <option value="Regional Emeritus">Regional Emeritus</option>
+                                <option value="National">National</option>
+                                <option value="National Emeritus">National Emeritus</option>
+                                <option value="PRO">PRO</option>
+                                <option value="FIFA">FIFA</option>
+                            </select>
+                            <label for="RefereeGrade">Grade</label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="PlayerAge" name="PlayerAge">
-                        <label for="PlayerAge">Player Age</label>
+                    <div class="col-9">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="AssistantReferee1Name" name="AssistantReferee1Name">
+                            <label for="AssistantReferee1Name">Assistant Referee 1</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="AssistantReferee1Grade" name="AssistantReferee1Grade">
+                                <option selected> </option>
+                                <option value="Grassroots">Grassroots</option>
+                                <option value="Regional">Regional</option>
+                                <option value="Regional Emeritus">Regional Emeritus</option>
+                                <option value="National">National</option>
+                                <option value="National Emeritus">National Emeritus</option>
+                                <option value="PRO">PRO</option>
+                                <option value="FIFA">FIFA</option>
+                            </select>
+                            <label for="AssistantReferee1Grade">Grade</label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="GameAssociation" name="GameAssociation">
-                        <label for="Association">Association</label>
+                    <div class="col-9">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="AssistantReferee2Name" name="AssistantReferee2Name">
+                            <label for="AssistantReferee2Name">Assistant Referee 2</label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="AssistantReferee2Grade" name="AssistantReferee2Grade">
+                                <option selected> </option>
+                                <option value="Grassroots">Grassroots</option>
+                                <option value="Regional">Regional</option>
+                                <option value="Regional Emeritus">Regional Emeritus</option>
+                                <option value="National">National</option>
+                                <option value="National Emeritus">National Emeritus</option>
+                                <option value="PRO">PRO</option>
+                                <option value="FIFA">FIFA</option>
+                            </select>
+                            <label for="AssistantReferee2Grade">Grade</label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row pt-1">
-                    <div class="form-floating">
-                        <select class="form-select" id="GameLeague" name="GameLeague">
-                            <option value="" selected> </option>
-                            <option value="Youth recreational">Youth recreational</option>
-                            <option value="Youth competitive">Youth competitive</option>
-                            <option value="Youth tournament">Youth tournament</option>
-                            <option value="Tennessee State League">Tennessee State League</option>
-                            <option value="Amateur adult">Amateur adult</option>
-                        </select>
-                        <label for="GameLeague">League</label>
+                    <div class="col-9">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="FourthOfficialName" name="FourthOfficialName">
+                            <label for="FourthOfficialName">Fourth Official</label>
+                        </div>
                     </div>
-                </div>
-
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="GameDivision" name="GameDivision">
-                        <label for="GameDivision">Division</label>
-                    </div>
-                </div>
-
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="GameNumber" name="GameNumber">
-                        <label for="GameNumber">Game Number</label>
-                    </div>
-                </div>
-
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="datetime-local" id="GameDate" name="GameDate">
-                        <input value="NULL" type="hidden" name="SubmittedDate" readonly>
-                        <label for="GameDate">Game Date</label>
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="RefereeName" name="RefereeName">
-                        <label for="RefereeName">Referee</label>
-                    </div>
-                </div>
-
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <select class="form-select" id="RefereeGrade" name="RefereeGrade">
-                            <option selected> </option>
-                            <option value="Grassroots">Grassroots</option>
-                            <option value="Regional">Regional</option>
-                            <option value="Regional Emeritus">Regional Emeritus</option>
-                            <option value="National">National</option>
-                            <option value="National Emeritus">National Emeritus</option>
-                            <option value="PRO">PRO</option>
-                            <option value="FIFA">FIFA</option>
-                        </select>
-                        <label for="RefereeGrade">Grade</label>
-                    </div>
-                </div>
-
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="AssistantReferee1Name" name="AssistantReferee1Name">
-                        <label for="AssistantReferee1Name">Assistant Referee 1</label>
-                    </div>
-                </div>
-
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <select class="form-select" id="AssistantReferee1Grade" name="AssistantReferee1Grade">
-                            <option selected> </option>
-                            <option value="Grassroots">Grassroots</option>
-                            <option value="Regional">Regional</option>
-                            <option value="Regional Emeritus">Regional Emeritus</option>
-                            <option value="National">National</option>
-                            <option value="National Emeritus">National Emeritus</option>
-                            <option value="PRO">PRO</option>
-                            <option value="FIFA">FIFA</option>
-                        </select>
-                        <label for="AssistantReferee1Grade">Grade</label>
-                    </div>
-                </div>
-
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="AssistantReferee2Name" name="AssistantReferee2Name">
-                        <label for="AssistantReferee2Name">Assistant Referee 2</label>
-                    </div>
-                </div>
-
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <select class="form-select" id="AssistantReferee2Grade" name="AssistantReferee2Grade">
-                            <option selected> </option>
-                            <option value="Grassroots">Grassroots</option>
-                            <option value="Regional">Regional</option>
-                            <option value="Regional Emeritus">Regional Emeritus</option>
-                            <option value="National">National</option>
-                            <option value="National Emeritus">National Emeritus</option>
-                            <option value="PRO">PRO</option>
-                            <option value="FIFA">FIFA</option>
-                        </select>
-                        <label for="AssistantReferee2Grade">Grade</label>
-                    </div>
-                </div>
-
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="FourthOfficialName" name="FourthOfficialName">
-                        <label for="FourthOfficialName">Fourth Official</label>
-                    </div>
-                </div>
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <select class="form-select" id="FourthOfficialGrade" name="FourthOfficialGrade">
-                            <option selected> </option>
-                            <option value="Grassroots">Grassroots</option>
-                            <option value="Regional">Regional</option>
-                            <option value="Regional Emeritus">Regional Emeritus</option>
-                            <option value="National">National</option>
-                            <option value="National Emeritus">National Emeritus</option>
-                            <option value="PRO">PRO</option>
-                            <option value="FIFA">FIFA</option>
-                        </select>
-                        <label for="FourthOfficialGrade">Grade</label>
+                    <div class="col-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="FourthOfficialGrade" name="FourthOfficialGrade">
+                                <option selected> </option>
+                                <option value="Grassroots">Grassroots</option>
+                                <option value="Regional">Regional</option>
+                                <option value="Regional Emeritus">Regional Emeritus</option>
+                                <option value="National">National</option>
+                                <option value="National Emeritus">National Emeritus</option>
+                                <option value="PRO">PRO</option>
+                                <option value="FIFA">FIFA</option>
+                            </select>
+                            <label for="FourthOfficialGrade">Grade</label>
+                        </div>
                     </div>
                 </div>
 
                 <hr>
 
                 <div id="cautions">
-                    <button type="button" onclick="addCaution()">add caution</button>
+                    <button type="button" class="btn btn-warning" onclick="addCaution()">Add cautions to this report</button>
                 </div>
 
                 <template id="caution">
@@ -223,22 +343,17 @@
                         </div>
                         <div class="col-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control" name="CautionPlayerID"><label>Player ID</label>
+                                <input type="text" pattern="[0-9]{11}|[0-9]{5}-[0-9]{6}" class="form-control" name="CautionPlayerID"><label>Player ID</label>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control" name="CautionTeam"><label>Team</label>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-floating">
-                                <select class="form-select" name="CautionPlayerRole">
+                                <select class="form-select" name="CautionTeam">
                                     <option selected> </option>
-                                    <option value="Player">Player</option>
-                                    <option value="Bench Personnel">Bench Personnel</option>
+                                    <option value="Home Team">Home Team</option>
+                                    <option value="Away Team">Away Team</option>
                                 </select>
-                                <label>Role: </label>
+                                <label>Team</label>
                             </div>
                         </div>
                         <div class="col-3">
@@ -263,7 +378,7 @@
                 <hr>
 
                 <div id="reds">
-                    <button type="button" onclick="addRed()">add red</button>
+                    <button type="button" class="btn btn-danger" onclick="addRed()">Add send offs to this report</button>
                 </div>
 
                 <template id="red">
@@ -275,22 +390,17 @@
                         </div>
                         <div class="col-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control" name="RedPlayerID"><label>Player ID</label>
+                                <input type="text" pattern="[0-9]{11}|[0-9]{5}-[0-9]{6}" class="form-control" name="RedPlayerID"><label>Player ID</label>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control" name="RedTeam"><label>Team</label>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-floating">
-                                <select class="form-select" name="RedPlayerRole">
+                                <select class="form-select" name="RedTeam">
                                     <option selected> </option>
-                                    <option value="Player">Player</option>
-                                    <option value="Bench Personnel">Bench Personnel</option>
+                                    <option value="Home Team">Home Team</option>
+                                    <option value="Away Team">Away Team</option>
                                 </select>
-                                <label>Role: </label>
+                                <label>Team</label>
                             </div>
                         </div>
                         <div class="col-3">
@@ -315,83 +425,136 @@
                 <hr>
 
                 <div id="supplementals">
-                    <button type="button" onclick="addSupplemental()">add supplemental</button>
                 </div>
+                <button type="button" class="btn btn-success" onclick="addSupplemental()">Add a supplemental statement to this report</button>
 
                 <template id="supplemental">
-                    <div class="row"> 
-                        <div class="col-6"> 
+                    <div class="row pt-1">
+                        <div class="col-6">
                             <div class="form-floating"> 
+                                <textarea class="form-control" maxlength="1500" type="text" name="SupplementalStatement" style="height:250px"></textarea>
                                 <label>Statement:</label>
-                                <textarea class="form-control" maxlength="1500" type="text" name="SupplementalStatement" style="height:250px;" ></textarea>
                             </div>
                         </div>
                         <div class="col-1">
                         </div>
                         <div class="col-5">
-
-                            <div style="position:relative">
-                                <div id="box"></div>
-                                <p><small>Please click the location where the incident took place.</small></p>
+                            <div class="card">
+                                <div style="position:relative">
+                                    <img src="field.jpg" name="SupplementalImg" class="card-img-top" onclick="GetCoordinates(this);">
+                                    <div name="SupplementalDiv"></div>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-texn">Please click the location where the incident took place.</p>
+                                    <input type="text" name="SupplementalLocationX" hidden readonly>
+                                    <input type="text" name="SupplementalLocationY" hidden readonly>
+                                </div>
                             </div>
-                            <input type="text" id="xcord" name="SupplementalLocationX">
-                            <input type="text" id="ycord" name="SupplementalLocationY">
                         </div>
-
                     </div>
+                    <hr>
                 </template>
+                <!--
+                    <hr>
 
-                <hr>
+                    <div id="emails">
+                    <button type="button" class="btn btn-secondary" onclick="addEmail()">add email</button>
+                    </div>
 
-                <div id="emails">
-                    <button type="button" onclick="addEmail()">add email</button>
-                </div>
-
-                <template id="email">
+                    <template id="email">
                     <div class="row pt-1">
-                        <div class="form-floating">
-                            <!--<input type="email" class="form-control" id="SendToEmail" name="SendToEmail">-->
-                            <input type="text" class="form-control" id="SendToEmail" name="SendToEmail">
-                            <label for="SendToEmail">Email Address</label>
-                        </div>
+                    <div class="col-9">
+                    <div class="form-floating">
+                    <input type="email" class="form-control" id="SendToEmail" name="SendToEmail">
+                    <label for="SendToEmail">Email Address</label>
                     </div>
-                </template>
+                    </div>
+                    </div>
+                    </template>
+                -->
 
                 <hr>
 
                 <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="ReporterName" name="ReporterName">
-                        <label for="ReporterName">Name</label>
+                    <div class="col-9">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="ReporterName" name="ReporterName" required>
+                            <label for="ReporterName">Name</label>
+                        </div>
                     </div>
                 </div>
                 <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="ReporterUSSFID" name="ReporterUSSFID">
-                        <label for="ReporterUSSFID">USSF ID Number</label>
-                    </div>
-                </div>
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="phone" class="form-control" id="ReporterPhone" name="ReporterPhone">
-                        <label for="ReporterPhone">Phone Number</label>
-                    </div>
-                </div>
-                <div class="row pt-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="ReporterEmail" name="ReporterEmail">
-                        <label for="ReporterEmail">Contact Email</label>
+                    <div class="col-9">
+                        <div class="form-floating">
+                            <input type="text" pattern="[0-9]{16}|[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}" class="form-control" id="ReporterUSSFID" name="ReporterUSSFID" required>
+                            <label for="ReporterUSSFID">USSF ID Number</label>
+                        </div>
                     </div>
                 </div>
 
-
-                <div class="container-lg pt-3 pb-4">
-                    <input value="Submit Report" class="btn btn-primary btn-lg" type="submit">
+                <div class="row pt-1">
+                    <div class="col-9">
+                        <div class="form-floating">
+                            <input type="tel" class="form-control" id="ReporterPhone" name="ReporterPhone">
+                            <label for="ReporterPhone">Phone Number</label>
+                        </div>
+                    </div>
                 </div>
+                <div class="row pt-1">
+                    <div class="col-9">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="ReporterEmail" name="ReporterEmail" required>
+                            <label for="ReporterEmail">Contact Email</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row pt-1 pb-1">
+                    <div class="g-recaptcha" data-sitekey="6LeI5J0hAAAAADdVI0VOMIk08gHrIZ6NZQ7saPA9"></div>
+                </div>
+                <div class="row pt-2 pb-4">
+                    <div class="col-2">
+                        <input value="Submit Report" class="btn btn-primary btn-lg" type="submit">
+                    </div>
+                </div>
+            </div>
         </form>
 
-
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script src="/static/script.js"></script>
+        <script>
+            config = {
+                            enableTime: true,
+                            disableMobile: "true",
+                            altInput: true,
+                            altFormat: "F j, Y h:i K",
+                            dateFormat: "U",
+                        }
+            flatpickr("input[type=datetime-local]", config)
+        </script>
+        <script src="js/script.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCiQap-KETUzlC_zrhMXK325tncULS0zi4",
+    authDomain: "refereereports.firebaseapp.com",
+    projectId: "refereereports",
+    storageBucket: "refereereports.appspot.com",
+    messagingSenderId: "657094550257",
+    appId: "1:657094550257:web:c52563f63152d2ac7f3f50",
+    measurementId: "G-CHGTBT1FLZ"
+  };
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+        </script>
     </body>
 </html>
