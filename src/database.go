@@ -74,6 +74,12 @@ func (POST *POSTReport) AddToDatabase() error {
                 Path: "NumSendOffs",
                 Value: firestore.FieldTransformIncrement(len(PlayerReport.SendOffs)),
             },
+            {
+                Path: "NumPoints",
+                Value: firestore.FieldTransformIncrement(
+                    len(PlayerReport.Cautions)+
+                    (2*len(PlayerReport.SendOffs))),
+            },
         })
 		if err != nil {
 			return fmt.Errorf("Error updating num sanctions: %v", err)
