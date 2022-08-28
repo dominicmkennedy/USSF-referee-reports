@@ -149,7 +149,8 @@ func (r *POSTReport) SanitizeSanction(S Sanction) Sanction {
 	}
 	newSanction.Team = strings.ToUpper(S.Team)
 
-	newSanction.PlayerID = regexp.MustCompile(`\D`).ReplaceAllString(S.PlayerID, "")
+	newSanction.PlayerID = regexp.MustCompile(`[^a-zA-Z0-9]+`).ReplaceAllString(S.PlayerID, "")
+    newSanction.PlayerID = strings.ToUpper(newSanction.PlayerID)
 
 	newSanction.Code = S.Code
 

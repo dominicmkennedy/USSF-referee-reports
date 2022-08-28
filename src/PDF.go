@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 	"time"
@@ -107,8 +106,6 @@ func (PDF PDFReport) FillPg2PDF(POST POSTReport, Page int) {
 	for i := 0; i < int(SupplementalLocationY); i++ {
 		SupplementalLocation += "\n"
 	}
-	log.Println((int(SupplementalLocationY)))
-	log.Println((int(SupplementalLocationX)))
 
 	for i := 0; i < int(SupplementalLocationX); i++ {
 		SupplementalLocation += " "
