@@ -63,6 +63,7 @@ type POSTReport struct {
 
 	ReportID string
 
+	Reviewed          bool
 	RecaptchaResponse string `schema:"g-recaptcha-response"`
 }
 
@@ -120,6 +121,8 @@ func (r *POSTReport) SanitizePostData() {
 	r.ReporterPhone = intMatcher.ReplaceAllString(r.ReporterPhone, "")
 
 	SanitizeEmail(&r.ReporterEmail)
+
+	r.Reviewed = false
 }
 
 func SanitizeSupplemental(S Supplemental) Supplemental {
@@ -173,6 +176,8 @@ func SanitizeEmail(Email *string) {
 	if _, err := mail.ParseAddress(*Email); err != nil {
 		*Email = ""
 	}
+
+	*Email = strings.ToLower(*Email)
 }
 
 func DateConverter(POSTString string) reflect.Value {
