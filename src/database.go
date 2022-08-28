@@ -15,7 +15,7 @@ type DBSanction struct {
 	ReportID       string
 	Reporter       string
 	Team           string
-    Index          int
+	Index          int
 }
 
 // This struct is cursed, but I can't think of a better way rn
@@ -65,22 +65,22 @@ func (POST *POSTReport) AddToDatabase() error {
 			return fmt.Errorf("Error updating player field: %v", err)
 		}
 
-        _, err := FIREBASE_CLIENT.Collection("Players").Doc(PlayerID).Update(ctx, []firestore.Update{
-            {
-                Path: "NumCautions",
-                Value: firestore.FieldTransformIncrement(len(PlayerReport.Cautions)),
-            },
-            {
-                Path: "NumSendOffs",
-                Value: firestore.FieldTransformIncrement(len(PlayerReport.SendOffs)),
-            },
-            {
-                Path: "NumPoints",
-                Value: firestore.FieldTransformIncrement(
-                    len(PlayerReport.Cautions)+
-                    (2*len(PlayerReport.SendOffs))),
-            },
-        })
+		_, err := FIREBASE_CLIENT.Collection("Players").Doc(PlayerID).Update(ctx, []firestore.Update{
+			{
+				Path:  "NumCautions",
+				Value: firestore.FieldTransformIncrement(len(PlayerReport.Cautions)),
+			},
+			{
+				Path:  "NumSendOffs",
+				Value: firestore.FieldTransformIncrement(len(PlayerReport.SendOffs)),
+			},
+			{
+				Path: "NumPoints",
+				Value: firestore.FieldTransformIncrement(
+					len(PlayerReport.Cautions) +
+						(2 * len(PlayerReport.SendOffs))),
+			},
+		})
 		if err != nil {
 			return fmt.Errorf("Error updating num sanctions: %v", err)
 		}
@@ -106,7 +106,7 @@ func (POST *POSTReport) GetPlayerReports() map[string]DBPlayerReport {
 				ReportID:       POST.ReportID,
 				Reporter:       POST.ReporterName,
 				Team:           Caution.Team,
-                Index:          i,
+				Index:          i,
 			})
 			PlayerReports[PlayerID] = PlayerReport
 		} else {
@@ -121,7 +121,7 @@ func (POST *POSTReport) GetPlayerReports() map[string]DBPlayerReport {
 					ReportID:       POST.ReportID,
 					Reporter:       POST.ReporterName,
 					Team:           Caution.Team,
-                    Index:          i,
+					Index:          i,
 				}},
 				SendOffs: []interface{}{},
 			}
@@ -140,7 +140,7 @@ func (POST *POSTReport) GetPlayerReports() map[string]DBPlayerReport {
 				ReportID:       POST.ReportID,
 				Reporter:       POST.ReporterName,
 				Team:           SendOff.Team,
-                Index:          i,
+				Index:          i,
 			})
 			PlayerReports[PlayerID] = PlayerReport
 		} else {
@@ -156,7 +156,7 @@ func (POST *POSTReport) GetPlayerReports() map[string]DBPlayerReport {
 					ReportID:       POST.ReportID,
 					Reporter:       POST.ReporterName,
 					Team:           SendOff.Team,
-                    Index:          i,
+					Index:          i,
 				}},
 			}
 		}
